@@ -9,7 +9,7 @@ def isImage(img):
   except UnidentifiedImageError:
     return False
   
-def extract_metadata(img):
+def get_date_from_metadata(img):
   with Image.open(img) as image:
     exifdata = image.getexif()
     for tag_id in exifdata:
@@ -19,4 +19,5 @@ def extract_metadata(img):
       # decode bytes 
       if isinstance(data, bytes):
           data = data.decode()
-      print(f"{tag:25}: {data}")
+      if(tag == 'DateTime'):
+        print(f"{tag:25}: {data}")

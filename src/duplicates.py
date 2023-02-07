@@ -3,23 +3,23 @@ from os import walk
 from hashlib import md5
 
 BUF_SIZE = 65536
+HASH_LIST = []
 
-def isDuplicate(file, path):
-  """Find if file is a duplicate on the specified path
+def isDuplicate(file):
+  """Find if file is a duplicate by the array contains al the hash previously seen
 
   Args:
       file (string): file to search duplicates
       path (string): path contains other files
   """
   file_hashed = hash_file(file)
-  for root, dirs, other_files in walk(path):
-    for other_file in other_files:
-      other_file_hash = hash_file(join(path, other_file))
-      if file_hashed == other_file_hash: 
-        return True
+  if file_hashed in HASH_LIST:
+    return True
+  HASH_LIST.append(file_hashed)
   return False
       
 def hash_file(file):
+  print(file)
   hash = md5()
   try:
     with open(file, 'rb') as f:
@@ -30,5 +30,4 @@ def hash_file(file):
         hash.update(data)
     return hash.hexdigest()
   except:
-    raise Exception (f"errore nell'hashing di {file}")
-  
+    raise Exception ("errore nell'hashing del file") 
