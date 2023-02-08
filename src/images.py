@@ -10,6 +10,15 @@ def isImage(img):
     return False
   
 def get_date_from_metadata(img):
+  """Prende un immagine e restituisce la data di creazione raccolta dai suoi metadati
+
+  Args:
+      img (str): full path dell'immagine
+
+  Returns:
+      data : data[0] = yy, data[1] = mm, data [2] = dd
+      se non è riuscito a estrapolare la data, ritorna None
+  """
   with Image.open(img) as image:
     exifdata = image.getexif()
     for tag_id in exifdata:
@@ -19,5 +28,10 @@ def get_date_from_metadata(img):
       # decode bytes 
       if isinstance(data, bytes):
           data = data.decode()
+      # tipo data str e valore = 2023:01:31 13:19:34
       if(tag == 'DateTime'):
-        print(f"{tag:25}: {data}")
+        yy = data[0:4]
+        mm = data[5:7]
+        dd = data[8:10]
+        return [yy, mm, dd]
+    return None
