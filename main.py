@@ -14,7 +14,7 @@ def main():
     for file in files:
       # move_file(root, file, new_path)
       # print(isDuplicate(join(root, file)))
-      r.check_regex(file)
+      print(r.check_regex(file))
   create_nested_dir(join(new_path, "a", "b"))
 
 if __name__ == '__main__':
