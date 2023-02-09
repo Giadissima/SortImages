@@ -2,6 +2,14 @@ from PIL import Image, UnidentifiedImageError
 from PIL.ExifTags import TAGS
 
 def isImage(img):
+  """return if file is an image and it can access on its
+
+  Args:
+      img (str): img path
+
+  Returns:
+      bool: True if is an image, otherwise False
+  """
   try:
     with Image.open(img) as image:
       image.verify()
