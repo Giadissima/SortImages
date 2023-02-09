@@ -9,16 +9,24 @@ class Regex:
     # esempio di match: photo_2023-02-08_18-40-32.jpg
     'photo' : '^photo_\d{4}-\d{2}-\d{2}.{1,}',
     # Screenshot_20221212_182847.png
-    'screen_shot' : '/^Screenshot_\d{8}.{1,}',
+    'screen_shot' : '^Screenshot_\d{8}.{1,}',
   }
   def __init__(self):
     pass
   def check_regex(self, text:str):
+    """Controlla i vari formati della stringa text
+
+    Args:
+        text (str): il testo da matchare (il filename)
+
+    Returns:
+        None | [int, int, int]: Returns None if any formats match, otherwise it returns the date extrapolated
+    """
     print(text)
     if re.search(Regex.formats['whatsapp'], text) or re.search(Regex.formats['telegram'], text):
       return [text[4:8], text[8:10], text[10:12]]
     elif re.search(Regex.formats['photo'], text):
       return [text[6:10], text[11:13], text[14:16]]
     elif re.search(Regex.formats['screen_shot'], text):
-      print("\tmatch con screen_shot")
+      return [text[11:15], text[15:17], text[17:19]]
     else: return None
