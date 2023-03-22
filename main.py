@@ -1,5 +1,5 @@
 from os.path import join
-from file_functions import move_file
+from src.file_functions import move_file
 from src.duplicates import isDuplicate
 from src.images import get_date_from_metadata, isImage
 from src.regex import Regex
