@@ -49,7 +49,7 @@ IMAGE_FORMATS = {
       'photo_10': '^photo\d{4}-\d{2}-\d{2}\.(?:jpg|jpeg|png|gif|bmp)', # photo2023-12-09.jpg
       'photo_11': '^photo-\d{2}-\d{2}-\d{2}-\d{6}\.(?:jpg|jpeg|png|gif|bmp)', # photo-12-09-23-150738.jpg
       
-      # Screenshot patters
+      # Screenshot patterns
       'screenshot_1': '^Screenshot_\d{8}\.(?:png|jpg|jpeg|gif|bmp)', # Screenshot_20231209.png
       'screenshot_2': '^ScreenCapture_\d{8}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # ScreenCapture_20231209_150738.png
       'screenshot_3': '^Screen_\d{2}-\d{2}-\d{2}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # Screen_12-09-23_150738.jpg
