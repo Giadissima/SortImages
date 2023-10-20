@@ -1,4 +1,4 @@
-aggiungere interfaccia per chidere le cartelle
+aggiungere interfaccia per chiedere le cartelle
 aggiungere il controllo che la path di destinazione può essere all'interno della path iniziale
 
 fixare errore di unicode decode
@@ -10,3 +10,4 @@ fb li mette in una cartella chiamata Facebook
 se le cartelle alla fine sono diventate vuote, chiedere se vuole cancellare le cartelle
 
 cercare se in una sub dir della current path c'è un formato data, se c'è, nei file contenenti fare una cartella unknown nell'anno corrente
+fixare l'hash
