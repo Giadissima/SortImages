@@ -1,5 +1,5 @@
 from os.path import join
-from src.regex import RegexImage
+from src.regex import RegexMedia
 from src.image import Image
 from src.file import File
 from os import walk
@@ -11,7 +11,7 @@ def main():
   new_path = "C:\\Users\\giada\\OneDrive\\Desktop\\new"
   DUPLICATED_PATH = join(new_path, "duplicated")
   UNKNOWN_PATH = join(new_path, "unknown")
-  regex = RegexImage()
+  regex = RegexMedia()
   image = Image()
   file = File()
   if(current_path == new_path): raise Exception("current path e new path non possono essere uguali!")

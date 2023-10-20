@@ -4,16 +4,16 @@ from src.file import File
 
 class Image(File):
   def __init__(self):
-    super(self)
+    super().__init__()
     
   def isImage(self, img):
     """return if file is an image and it can access on its
 
     Args:
-        img (str): img path
+      img (str): img path
 
     Returns:
-        bool: True if is an image, otherwise False
+      bool: True if is an image, otherwise False
     """
     try:
       with Image.open(img) as image:
@@ -26,11 +26,11 @@ class Image(File):
     """Prende un immagine e restituisce la data di creazione raccolta dai suoi metadati
 
     Args:
-        img (str): full path dell'immagine
+      img (str): full path dell'immagine
 
     Returns:
-        data : data[0] = yy, data[1] = mm, data [2] = dd
-        se non è riuscito a estrapolare la data, ritorna None
+      data : data[0] = yy, data[1] = mm, data [2] = dd
+      se non è riuscito a estrapolare la data, ritorna None
     """
     with Image.open(img) as image:
       exifdata = image.getexif()
