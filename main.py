@@ -1,7 +1,7 @@
 from os.path import join
 from src.regex import RegexMedia
 from src.image import ImageHelper
-from src.file import File
+from src.video import VideoHelper
 from os import walk
 
 def main():
@@ -13,7 +13,7 @@ def main():
   UNKNOWN_PATH = join(new_path, "unknown")
   regex = RegexMedia()
   image = ImageHelper()
-  fileObj = File()
+  video = VideoHelper()
   if(current_path == new_path): raise Exception("current path e new path non possono essere uguali!")
   # ciclo tutte le cartelle
   for root, dirs, files in walk(current_path):
@@ -21,13 +21,16 @@ def main():
     for file in files:
       file_path = join(root, file)
       # se non è un immagine, passa al file successivo
-      if(not image.isImage(file_path)): continue
+      if(not image.isImage(file_path) and not video.isVideo): continue
       # se è un duplicato, lo sposto nella cartella "duplicati" e passo all'immagine successiva
-      if(fileObj.isDuplicate(file_path)): 
-        fileObj.move_file(file_path, file, DUPLICATED_PATH)
+      if(image.isDuplicate(file_path)): 
+        image.move_file(file_path, file, DUPLICATED_PATH)
         continue
-      date = image.get_date_from_metadata(file_path)
-      # se la data non era contenuta nei metadati allora guardo se la trovo nel nome dell'immagine
+      if(image.isImage(file_path)): 
+        date = image.get_date_from_metadata(file_path)
+      else: 
+        date = video.get_date_from_metadata(file_path)
+      # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
       if(date == None):
         date = regex.check_regex(file)
       # se non l'ha ancora trovata la sposto nella cartella 'unknown'

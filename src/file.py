@@ -44,7 +44,7 @@ class File:
     return False
       
   def hash_file(self, file):
-    print(file)
+    # print(file)
     hash = md5()
     try:
       with open(file, 'rb') as f:
@@ -56,4 +56,3 @@ class File:
       return hash.hexdigest()
     except:
       raise Exception ("errore nell'hashing del file") 
-    return file

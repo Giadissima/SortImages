@@ -13,3 +13,5 @@ cercare se in una sub dir della current path c'è un formato data, se c'è, nei 
 fixare l'hash
 
 dato che le regex sono diventate molto generiche, controllare bene isImage e isVideo
+
+aggiungere nelle opzioni se mantenere i duplicati delle cartelle unknown, facebook e duplicates oppure tenerne una sola per tipo nella root principale
