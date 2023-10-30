@@ -11,3 +11,5 @@ se le cartelle alla fine sono diventate vuote, chiedere se vuole cancellare le c
 
 cercare se in una sub dir della current path c'è un formato data, se c'è, nei file contenenti fare una cartella unknown nell'anno corrente
 fixare l'hash
+
+dato che le regex sono diventate molto generiche, controllare bene isImage e isVideo

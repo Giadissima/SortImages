@@ -1,3 +1,4 @@
+from hashlib import md5
 from os.path import join, exists
 from os import rename
 from pathlib import Path
@@ -43,16 +44,16 @@ class File:
     return False
       
   def hash_file(self, file):
-    # print(file)
-    # hash = md5()
-    # try:
-    #   with open(file, 'rb') as f:
-    #     while True:
-    #       data = f.read(self.BUF_SIZE)
-    #       if not data:
-    #           break
-    #       hash.update(data)
-    #   return hash.hexdigest()
-    # except:
-    #   raise Exception ("errore nell'hashing del file") 
+    print(file)
+    hash = md5()
+    try:
+      with open(file, 'rb') as f:
+        while True:
+          data = f.read(self.BUF_SIZE)
+          if not data:
+              break
+          hash.update(data)
+      return hash.hexdigest()
+    except:
+      raise Exception ("errore nell'hashing del file") 
     return file
