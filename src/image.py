@@ -2,7 +2,7 @@ from PIL import Image, UnidentifiedImageError
 from PIL.ExifTags import TAGS
 from src.file import File
 
-class Image(File):
+class ImageHelper(File):
   def __init__(self):
     super().__init__()
     

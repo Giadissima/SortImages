@@ -5,11 +5,11 @@ IMAGE_FORMATS = {
       'img_3': '^img\d{8}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img20231209.jpeg
       'img_4': '^img_\d{4}_\d{2}_\d{2}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img_2023_12_09.jpg
       'img_5': '^img-\d{8}_\d{6}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img-20231209_150738.jpg
-      'img_6': '^img_\d{2}-\d{2}-\d{2}_\d{6}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img_12-09-23_150738.jpg
-      'img_9': '^img\d{8}_\d{6}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img20231209_150738.jpg
-      'img_10': '^img\d{4}-\d{2}-\d{2}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img2023-12-09.jpg
-      'img_11': '^img-\d{2}-\d{2}-\d{2}-\d{6}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img-12-09-23-150738.jpg
-      'img_12': '^img_\d{2}-\d{2}-\d{2}_\d{6}\.(?:jpg|jpeg|png|gif|bmp)', # img_12-09-23_150738.png
+      'img_6': '^img_\d{2}-\d{2}-\d{2}_\d{6}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img_23-09-12_150738.jpg
+      'img_7': '^img\d{8}_\d{6}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img20231209_150738.jpg
+      'img_8': '^img\d{4}-\d{2}-\d{2}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img2023-12-09.jpg
+      'img_9': '^img-\d{2}-\d{2}-\d{2}-\d{6}\.(?:jpg|jpeg|png|gif|bmp|webm)', # img-23-09-12-150738.jpg
+      'img_10': '^img_\d{2}-\d{2}-\d{2}_\d{6}\.(?:jpg|jpeg|png|gif|bmp)', # img_23-09-12_150738.png
       
       # image patterns with 'image' prefix
       'image_1': '^image-\d{4}-\d{2}-\d{2}\.(?:jpg|jpeg|png|gif|bmp)', # image-2023-12-09.jpg
@@ -50,14 +50,15 @@ IMAGE_FORMATS = {
       'photo_11': '^photo-\d{2}-\d{2}-\d{2}-\d{6}\.(?:jpg|jpeg|png|gif|bmp)', # photo-12-09-23-150738.jpg
       
       # Screenshot patterns
-      'screenshot_1': '^Screenshot_\d{8}\.(?:png|jpg|jpeg|gif|bmp)', # Screenshot_20231209.png
-      'screenshot_2': '^ScreenCapture_\d{8}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # ScreenCapture_20231209_150738.png
+      'screenshot_1': '^scrn-\d{4}-\d{2}-\d{2}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # scrn-2023-12-09_150738.png
+      'screenshot_2': '^scrnshot_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.(?:png|jpg|jpeg|gif|bmp)', # scrnshot_2023-12-09_15-07-38.png
       'screenshot_3': '^Screen_\d{2}-\d{2}-\d{2}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # Screen_12-09-23_150738.jpg
-      'screenshot_4': '^scrnshot_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.(?:png|jpg|jpeg|gif|bmp)', # scrnshot_2023-12-09_15-07-38.png
-      'screenshot_5': '^Desktop_\d{8}_screenshot\.(?:png|jpg|jpeg|gif|bmp)', # Desktop_20231209_screenshot.jpg
-      'screenshot_7': '^ScreenShot\d{8}\.(?:png|jpg|jpeg|gif|bmp)', # ScreenShot20231209.jpg
-      'screenshot_8': '^scrn-\d{4}-\d{2}-\d{2}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # scrn-2023-12-09_150738.png
-      'screenshot_9': '^Screenshot\d{2}_\d{2}-\d{2}-\d{2}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # Screenshot01_12-09-23_150738.gif
+      'screenshot_4': '^ScreenCapture_\d{8}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # ScreenCapture_20231209_150738.png
+      'screenshot_5': '^Screenshot_\d{8}\.(?:png|jpg|jpeg|gif|bmp)', # Screenshot_20231209.png
+      'screenshot_6': '^ScreenShot\d{8}\.(?:png|jpg|jpeg|gif|bmp)', # ScreenShot20231209.jpg
+      'screenshot_7': '^Screenshot\d{2}_\d{2}-\d{2}-\d{2}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # Screenshot01_12-09-23_150738.gif
+      'screenshot_8': '^Screenshot_\d{8}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # Screenshot_20221022_184131.png
+      'screenshot_9': '^Desktop_\d{8}_screenshot\.(?:png|jpg|jpeg|gif|bmp)', # Desktop_20231209_screenshot.jpg
       'screenshot_10': '^Capture_\d{8}_\d{6}\.(?:png|jpg|jpeg|gif|bmp)', # Capture_20231209_150738.bmp
       'screenshot_11': '^snapshot_\d{2}-\d{2}-\d{2}_\d{6}\.(?:jpg|jpeg|png|gif|bmp)' # snapshot_12-09-23_150738.png
     }

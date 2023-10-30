@@ -21,8 +21,10 @@ class RegexMedia:
 		"""
 		for key, pattern in self.image_formats.items():
 			if re.search(pattern, text):
+				print(text, "matched")
 				# Estrai la data da un formato di immagine
-				return self.extract_date(text)
+				print(self.extract_date(key, text))
+				return self.extract_date(key, text)
 
 		for key, pattern in self.video_formats.items():
 			if re.search(pattern, text):
@@ -31,11 +33,16 @@ class RegexMedia:
 
 		return None
 
-	def extract_date(self, text: str):
+	def extract_date(self, pattern_matched: str, text: str):
 		# Estrarre la data dalla stringa text
-		# Esempio: text = "IMG_20231209_150738.jpg"
-		match = re.search(r'(\d{4})-(\d{2})-(\d{2})_(\d{2})(\d{2})(\d{2})', text)
+		match = re.search(r'.*?(\d{4}).*?(\d{2}).*?(\d{2}).*', text)
 		if match:
-			year, month, day, hour, minute, second = map(int, match.groups())
-			return [year, month, day, hour, minute, second]
+			year, month, day = [group for group in match.groups()]
+			return [year, month, day]
+		
+		match = re.search(r'.*?(\d{2}).*?(\d{2}).*?(\d{2}).*', text)
+		if match:
+			year, month, day = [group for group in match.groups()]
+			year = '19' + year if int(year) > 70 else '20' + year
+			return [year, month, day]
 		return None
