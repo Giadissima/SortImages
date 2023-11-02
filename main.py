@@ -21,7 +21,7 @@ def main():
     for file in files:
       file_path = join(root, file)
       # se non è un immagine, passa al file successivo
-      if(not image.isImage(file_path) and not video.isVideo): continue
+      if(not image.isImage(file_path) and not video.isVideo(file_path)): continue
       # se è un duplicato, lo sposto nella cartella "duplicati" e passo all'immagine successiva
       if(image.isDuplicate(file_path)): 
         image.move_file(file_path, file, DUPLICATED_PATH)

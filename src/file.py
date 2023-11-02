@@ -27,8 +27,8 @@ class File:
       rename(file_path, join(new_path, file_name))
     except FileExistsError:
       print("file già esistente: ", file_name)
-    except Exception:
-      print("errore generico nello spostamento di ", file_name)
+    except Exception as e:
+      print(f"errore generico nello spostamento di {file_name}: \n{e}")
       
   def isDuplicate(self, file):
     """Find if file is a duplicate by the array contains al the hash previously seen

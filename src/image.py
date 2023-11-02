@@ -29,7 +29,7 @@ class ImageHelper(File):
       img (str): full path dell'immagine
 
     Returns:
-      data : data[0] = yy, data[1] = mm, data [2] = dd
+      data (str[]): data[0] = yy, data[1] = mm, data [2] = dd
       se non è riuscito a estrapolare la data, ritorna None
     """
     with Image.open(img) as image:

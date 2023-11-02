@@ -13,7 +13,6 @@ class RegexMedia:
 			it returns the date extrapolated ([YYYY, MM, DD]).
 		"""
 		# Estrae la data tramite regex
-		print(text, self.extract_date(text))
 		return self.extract_date(text)
 
 
