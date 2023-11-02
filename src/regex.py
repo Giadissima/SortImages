@@ -24,8 +24,10 @@ class RegexMedia:
 			return [year, month, day]
 		
 		match = re.search(r'.*?(\d{2}).*?(\d{2}).*?(\d{2}).*', text)
+		# TODO controllare la data se è valida (2 cifra + 2 opzionali)
 		if match:
 			year, month, day = [group for group in match.groups()]
 			year = '19' + year if int(year) > 70 else '20' + year
 			return [year, month, day]
+		# TODO togliere none e vedere come spostarle
 		return None

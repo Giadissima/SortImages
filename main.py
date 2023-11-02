@@ -6,6 +6,7 @@ from os import walk
 
 def main():
   # change this for selecting current image's path
+  # todo  VEDERE SE aggiungere o meno più caratteri strani nella regex
   current_path = "C:\\Users\\Giadissima\\Documents\\GitHub\\SortImage\\test\\current"
   # change this for selecting where move images
   new_path = "C:\\Users\\Giadissima\\Documents\\GitHub\\SortImage\\test\\new"
@@ -26,6 +27,7 @@ def main():
       if(image.isDuplicate(file_path)): 
         image.move_file(file_path, file, DUPLICATED_PATH)
         continue
+      # TODO elimina duplicati
       if(image.isImage(file_path)): 
         date = image.get_date_from_metadata(file_path)
       else: 
@@ -35,6 +37,7 @@ def main():
         date = regex.check_regex(file)
       # se non l'ha ancora trovata la sposto nella cartella 'unknown'
       if(date == None):
+      # TODO lascia doce stanno
         image.move_file(file_path, file, UNKNOWN_PATH)
       # se invece ha trovato la data la sposto nella cartella giusta
       else:
