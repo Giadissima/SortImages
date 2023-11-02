@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import filedialog
 from tkinter import ttk
 from PIL import Image
 
@@ -14,6 +15,7 @@ optionFrame = ttk.Frame(root, padding=10)
 
 print(ttk.Frame(root, padding=10).configure())
 
-btn = ttk.Button(root, text="Inizia", command=root.destroy)
+# due righe con a sinistra 
+btn = ttk.Button(root, text="Inizia", command=filedialog.askdirectory())
 btn.pack()
 root.mainloop()
