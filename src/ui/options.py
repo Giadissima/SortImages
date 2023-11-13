@@ -1,4 +1,4 @@
-from tkinter import W, Checkbutton, IntVar, Label, Text
+from tkinter import W, Checkbutton, IntVar, Label
 
 def create_opt_frame(frame, font=None):
     sub_title = Label(frame, text="Options", font='Noto 10 bold')
