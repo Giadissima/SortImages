@@ -1,11 +1,15 @@
-from tkinter import *
-master = Tk()
-var1 = IntVar()
-Checkbutton(master, text="Sposta file non identificati nella cartella \"Unknown\"", variable=var1).grid(row=0, sticky=W)
-var2 = IntVar()
-Checkbutton(master, text="Sposta file duplicati nella cartella \"Duplicates\"", variable=var2).grid(row=1, sticky=W)
-var4 = IntVar()
-Checkbutton(master, text="Cancella cartelle rimaste vuote", variable=var4).grid(row=2, sticky=W)
-var5 = IntVar()
-Checkbutton(master, text="Mantieni organizzazione parziale delle cartelle di input", variable=var5).grid(row=3, sticky=W)
-mainloop()
+from tkinter import W, Checkbutton, IntVar
+
+def create_opt_frame(frame, font=None):
+    options = [
+      "Sposta file non identificati nella cartella \"Unknown\"",
+      "Sposta file duplicati nella cartella \"Duplicates\"",
+      "Cancella cartelle rimaste vuote",
+      "Mantieni organizzazione parziale delle cartelle di input"
+    ]
+
+    choices = []
+    
+    for i in range(0, len(options)):
+      choices.append(IntVar())
+      Checkbutton(frame, text=options[i], variable=choices[-1], font=font).grid(row=i, sticky=W)
