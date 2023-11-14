@@ -1,4 +1,4 @@
-from tkinter import BOTH, Frame, Tk
+from tkinter import BOTH, Frame, Tk, messagebox
 from tkinter.ttk import Label, Button, Style
 
 from src.sort import start_sort
@@ -66,7 +66,8 @@ class Interface():
   def start_sort(self):
     self.config.set_input_folder(self.path_entry[0].get())
     self.config.set_output_folder(self.path_entry[1].get())
-    # TODO controllo se sono vuoti o meno, nel caso ritorna una msgbox
-    start_sort()
-    # TODO invece di distruggere fare una msgbox
-    self.root.destroy()
+    # TODO controllo se sono vuoti o meno, nel caso ritorna una msgbox, FArLO NELLA FUNZIONE Sort
+    # TODO fare ritornare true se ha finito con successo o msg se ha dato errore
+    result, msg = start_sort()
+    if result: messagebox.showinfo(title="Success", message="Sort completed")
+    else: messagebox.showerror(title="error", message=msg)
