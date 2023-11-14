@@ -4,6 +4,7 @@ colorama==0.4.6
 decorator==4.4.2
 distlib==0.3.6
 filelock==3.10.6
+hachoir==3.2.0
 idna==3.4
 imageio==2.31.6
 imageio-ffmpeg==0.4.9

@@ -1,4 +1,5 @@
 from os.path import join
+from src.config import Config
 from src.regex import RegexMedia
 from src.image import ImageHelper
 from src.video import VideoHelper
@@ -6,18 +7,18 @@ from os import walk
 
 def start_sort():
   # change this for selecting current image's path
+  # config = Config()
   # todo  VEDERE SE aggiungere o meno più caratteri strani nella regex
-  current_path = "C:\\Users\\Giadissima\\Documents\\GitHub\\SortImage\\test\\current"
   # change this for selecting where move images
-  new_path = "C:\\Users\\Giadissima\\Documents\\GitHub\\SortImage\\test\\new"
-  DUPLICATED_PATH = join(new_path, "duplicated")
-  UNKNOWN_PATH = join(new_path, "unknown")
+  DUPLICATED_PATH = join(Config.output_folder, "duplicated")
+  UNKNOWN_PATH = join(Config.output_folder, "unknown")
   regex = RegexMedia()
   image = ImageHelper()
   video = VideoHelper()
-  if(current_path == new_path): raise Exception("current path e new path non possono essere uguali!")
+  # TODO il controllo farlo in interface
+  if(Config.input_folder == Config.output_folder): raise Exception("current path e new path non possono essere uguali!")
   # ciclo tutte le cartelle
-  for root, dirs, files in walk(current_path):
+  for root, dirs, files in walk(Config.input_folder):
     # ciclo tutte le immagini
     for file in files:
       file_path = join(root, file)
@@ -41,5 +42,5 @@ def start_sort():
         image.move_file(file_path, file, UNKNOWN_PATH)
       # se invece ha trovato la data la sposto nella cartella giusta
       else:
-        date_path = join(new_path, date[0], date[1], date[2])
+        date_path = join(Config.output_folder, date[0], date[1], date[2])
         image.move_file(file_path, file, date_path)

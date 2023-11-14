@@ -5,7 +5,10 @@ from src.sort import start_sort
 from src.ui.options import create_opt_frame
 from src.ui.folder_selection import create_selection_folder_frame
 from src.ui.logs import Logs
+from src.config import Config
 
+# TODO implementa una conferma dell'utente prima di eseguire azioni irreversibili come l'eliminazione di cartelle
+# TODO msgbox con don't show me again
 class Interface():
   def __init__(self, title: str, size: str, icon_path: str, default_font = None, default_font_size = None):
     self.TITLE = title
@@ -13,15 +16,16 @@ class Interface():
     self.icon_path = icon_path
     self.default_font = default_font
     self.default_font_size = default_font_size
+    self.root: Tk = Tk()
+    self.config = Config()
     
     self.main_frame()
     
   def main_frame(self):
 
-    root = Tk()
-    root.title(self.TITLE)
-    root.geometry(self.SIZE)
-    root.iconbitmap(self.icon_path)
+    self.root.title(self.TITLE)
+    self.root.geometry(self.SIZE)
+    self.root.iconbitmap(self.icon_path)
     
     style = Style()
 
@@ -33,15 +37,15 @@ class Interface():
     font='Noto 10 bold'
     )
     
-    title = Label(root, text=self.TITLE, font='Noto 16 bold', padding=10)
+    title = Label(self.root, text=self.TITLE, font='Noto 16 bold', padding=10)
     title.pack()
     
-    form_frame = Frame(root)
+    form_frame = Frame(self.root)
     form_frame.pack(expand=True, fill=BOTH)
     
     selection_folder_frame = Frame(form_frame)
     selection_folder_frame.grid(row=0, column=0, padx=10, sticky="nsew")
-    create_selection_folder_frame(selection_folder_frame, self.icon_path, self.default_font)
+    self.path_entry = create_selection_folder_frame(selection_folder_frame, self.icon_path, self.default_font)
     
     option_frame = Frame(form_frame)
     create_opt_frame(option_frame, self.default_font)
@@ -50,10 +54,19 @@ class Interface():
     form_frame.columnconfigure(0, weight=1)  # Imposta il peso della colonna 0
     form_frame.columnconfigure(1, weight=1)  # Imposta il peso della colonna 1
     form_frame.rowconfigure(0, weight=1)     # Imposta il peso della riga 0
-    
-    btn = Button(root, text="Start", style="B.TButton", command=start_sort)
+ 
+    btn = Button(self.root, text="Start", style="B.TButton", command=self.start_sort)
     btn.pack(pady=10)
     
-    Logs(root)
+    self.config.set_logs_obj(Logs(self.root))
+    print(Config.logs_obj)
     
-    root.mainloop()
+    self.root.mainloop()
+    
+  def start_sort(self):
+    self.config.set_input_folder(self.path_entry[0].get())
+    self.config.set_output_folder(self.path_entry[1].get())
+    # TODO controllo se sono vuoti o meno, nel caso ritorna una msgbox
+    start_sort()
+    # TODO invece di distruggere fare una msgbox
+    self.root.destroy()

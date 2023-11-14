@@ -1,4 +1,4 @@
-from tkinter import BOTH, DISABLED, END, NORMAL, Y, Button, Entry, Text, colorchooser
+from tkinter import BOTH, DISABLED, END, NORMAL, Text
 
 class Logs():
   def __init__(self, frame) -> None:

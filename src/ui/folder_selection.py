@@ -1,8 +1,10 @@
 from tkinter import END, Button, Entry, Label, filedialog
 from PIL import Image, ImageTk
+from src.config import Config
 
 
 def create_selection_folder_frame(frame, folder_icon_path, font=None):
+    config = Config()
     sub_title = Label(frame, text="Select Folders", font='Noto 10 bold')
     sub_title.grid(row=0, sticky='w')
     
@@ -33,6 +35,7 @@ def create_selection_folder_frame(frame, folder_icon_path, font=None):
     frame.columnconfigure(1, weight=1)  # Imposta il peso della colonna 1
     frame.rowconfigure(1, weight=1)     # Imposta il peso della riga 0
     frame.rowconfigure(2, weight=1)     # Imposta il peso della riga 0
+    return [path_entry_1, path_entry_2]
     
 def resize_image(image_path, width, height):
   original_image = Image.open(image_path)
