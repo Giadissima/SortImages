@@ -2,9 +2,9 @@ from tkinter import BOTH, Frame, Tk, messagebox
 from tkinter.ttk import Label, Button, Style
 
 from src.sort import start_sort
-from src.ui.options import create_opt_frame
+from src.ui.option import create_opt_frame
 from src.ui.folder_selection import create_selection_folder_frame
-from src.ui.logs import Logs
+from src.ui.log import Logs
 from src.config import Config
 
 # TODO implementa una conferma dell'utente prima di eseguire azioni irreversibili come l'eliminazione di cartelle
@@ -59,8 +59,6 @@ class Interface():
     btn.pack(pady=10)
     
     self.config.set_logs_obj(Logs(self.root))
-    print(Config.logs_obj)
-    
     self.root.mainloop()
     
   def start_sort(self):

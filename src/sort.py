@@ -4,7 +4,7 @@ from src.regex import RegexMedia
 from src.image import ImageHelper
 from src.video import VideoHelper
 from src.file import File
-from os import walk, remove
+from os import walk
 
 
 def start_sort():
@@ -25,9 +25,7 @@ def start_sort():
   
   Config.logs_obj.delete_logs()
   # TODO il pulsante start deve diventare "pause"
-  # TODO cancellare tutti i log una volta che inizia il sorting
   # TODO fre un messaggio in cui si avverte che la cartella di partenza è vuota e non cancellare i log e non stampare "sorting completed"
-  # TODO fare scendere da sola la text_box
   # ciclo tutte le cartelle
   for root, dirs, files in walk(Config.input_folder):
     # ciclo tutte le immagini
@@ -56,8 +54,10 @@ def start_sort():
           date_path = join(Config.output_folder, date[0], date[1], date[2])
           image.move_file(file_path, file, date_path)
           Config.logs_obj.add_logs(f'{file_path} moved successfully.', 'default')
-      except Exception:
-        Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted.', 'error')
+      except Exception as e:
+        with open('error_logs.txt', 'a+') as file:
+          file.write(str(e) + '\n')
+        Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. See more information on error_logs.txt', 'error')
   Config.logs_obj.add_logs('sorting completed.', 'default')
   return True, None
   

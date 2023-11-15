@@ -1,5 +1,4 @@
-from src.ui.logs import Logs
-
+from src.ui.log import Logs
 
 class Config():
   logs_obj: Logs = None
