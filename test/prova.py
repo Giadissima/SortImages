@@ -1,15 +1,31 @@
-from pathlib import Path
-import os
+import tkinter as tk
 
-root = Path('/path/to/root')
-child = root / 'some' / 'child' / 'dir'
-other = Path('/path/to/root/a')
+def cambia_colore():
+    testo.delete(1.0, tk.END)  # Cancella il testo attuale nella casella di testo
 
-def path_is_parent(parent_path, child_path):
-    # Smooth out relative path names, note: if you are concerned about symbolic links, you should use os.path.realpath too
-    parent_path = os.path.abspath(parent_path)
-    child_path = os.path.abspath(child_path)
+    # Aggiungi la prima riga con il colore del font rosso
+    testo.insert(tk.END, "Questa è la prima riga\n", 'rosso')
 
-    # Compare the common path of the parent and child path with the common path of just the parent path. Using the commonpath method on just the parent path will regularise the path name in the same way as the comparison that deals with both paths, removing any trailing path separator
-    return os.path.commonpath([parent_path]) == os.path.commonpath([parent_path, child_path])
-print(path_is_parent(root, child))
+    # Aggiungi la seconda riga con il colore del font nero
+    testo.insert(tk.END, "Questa è la seconda riga", 'nero')
+
+# Crea la finestra principale
+root = tk.Tk()
+root.title("Esempio di cambio colore del testo")
+
+# Crea una casella di testo
+testo = tk.Text(root)
+testo.pack()
+
+# Configura il tag per il colore rosso
+testo.tag_configure('rosso', foreground='red')
+
+# Configura il tag per il colore nero
+testo.tag_configure('nero', foreground='black')
+
+# Crea un pulsante per cambiare il colore del testo
+pulsante = tk.Button(root, text="Cambia Colore", command=cambia_colore)
+pulsante.pack()
+
+# Avvia il loop principale
+root.mainloop()

@@ -1,5 +1,5 @@
 from hashlib import md5
-from os.path import join, exists
+from os.path import join, exists, abspath, commonpath
 from os import rename
 from pathlib import Path
 # from hashlib import md5s
@@ -16,6 +16,7 @@ class File:
     # print(current_path, file, new_path)
     self.create_nested_dir(new_path)
     # cambia il nome del file in modo univoco
+    # TODO riguardarlo
     try:
       file_dest_path = join(new_path, file_name)
       i = 0
@@ -56,3 +57,12 @@ class File:
       return hash.hexdigest()
     except:
       raise Exception ("errore nell'hashing del file") 
+
+  @staticmethod
+  def path_is_parent(parent_path, child_path):
+    # Smooth out relative path names, note: if you are concerned about symbolic links, you should use os.path.realpath too
+    parent_path = abspath(parent_path)
+    child_path = abspath(child_path)
+
+    # Compare the common path of the parent and child path with the common path of just the parent path. Using the commonpath method on just the parent path will regularise the path name in the same way as the comparison that deals with both paths, removing any trailing path separator
+    return commonpath([parent_path]) == commonpath([parent_path, child_path])

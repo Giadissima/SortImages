@@ -66,8 +66,6 @@ class Interface():
   def start_sort(self):
     self.config.set_input_folder(self.path_entry[0].get())
     self.config.set_output_folder(self.path_entry[1].get())
-    # TODO controllo se sono vuoti o meno, nel caso ritorna una msgbox, FArLO NELLA FUNZIONE Sort
-    # TODO fare ritornare true se ha finito con successo o msg se ha dato errore
     result, msg = start_sort()
     if result: messagebox.showinfo(title="Success", message="Sort completed")
     else: messagebox.showerror(title="error", message=msg)
