@@ -1,8 +1,11 @@
+from src.ui.logs import Logs
+
+
 class Config():
-  logs_obj = None
+  logs_obj: Logs = None
   checkbox_choises = None
-  input_folder = None
-  output_folder = None
+  input_folder: str = None
+  output_folder: str = None
 
   def set_logs_obj(self, obj): Config.logs_obj = obj
   def set_input_folder(self, path): Config.input_folder = path
