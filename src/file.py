@@ -4,7 +4,6 @@ from os import rename
 
 from src.folder import Folder
 # from hashlib import md5s
-# TODO chiedere se mettere il plurale nel nome del file
 class File:
   def __init__(self):
     self.BUF_SIZE = 65536
