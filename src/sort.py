@@ -4,14 +4,13 @@ from src.config import Config
 from src.regex import RegexMedia
 from src.image import ImageHelper
 from src.video import VideoHelper
-from src.file import File
-from os import walk
+from os import remove, walk, listdir
+from datetime import datetime
 
 
 def start_sort():
   # change this for selecting current image's path
   # config = Config()
-  # todo  VEDERE SE aggiungere o meno più caratteri strani nella regex
   regex = RegexMedia()
   image = ImageHelper()
   video = VideoHelper()
@@ -27,6 +26,9 @@ def start_sort():
   Config.logs_obj.delete_logs()
   # TODO il pulsante start deve diventare "pause"
   # TODO fre un messaggio in cui si avverte che la cartella di partenza è vuota e non cancellare i log e non stampare "sorting completed"
+  if not listdir(Config.input_folder) :
+    return False, "Start folder doesn't contain files. Process aborted."
+  
   # ciclo tutte le cartelle
   for root, dirs, files in walk(Config.input_folder):
     date = regex.extract_date_from_folder(root)
@@ -36,26 +38,33 @@ def start_sort():
         file_path = join(root, file).replace('\\', '/')
         # se non è un immagine o un video, passa al file successivo
         if(not image.isImage(file_path) and not video.isVideo(file_path)): continue
+        
+        time = datetime.now()
+        hour = time.hour
+        minute = time.minute
+        second = time.second
+        
         # se è un duplicato, lo sposto nella cartella "duplicati" e passo all'immagine successiva
         if(image.isDuplicate(file_path)): 
-          # TODO rimuoverlo
-          # remove(file_path)
-          Config.logs_obj.add_logs(f'{file_path} Duplicated detected: successfully deleted.', 'info')
+          remove(file_path)
+          Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: successfully deleted.', 'info')
           continue
         if(image.isImage(file_path)): 
           date = image.get_date_from_metadata(file_path)
         else: 
           date = video.get_date_from_metadata(file_path)
         # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
-        if(date == None):
-          date = regex.extract_date_from_img(file, date)
+        if(date == None): #TODO
+          pass
+          # date = regex.extract_date_from_img(file, date)
         # se non l'ha ancora trovata la sposto nella cartella 'unknown'
+        # TODO vedere se il timestamp cambia con più dati
         if(date == None):
-          Config.logs_obj.add_logs(f'{file_path} No date found in the file: file not moved.', 'error')
+          Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} No date found in the file: file not moved.', 'error')
         else:
           date_path = join(Config.output_folder, date[0], date[1], date[2])
           image.move_file(file_path, file, date_path)
-          Config.logs_obj.add_logs(f'{file_path} moved successfully.', 'default')
+          Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} moved successfully.', 'default')
       # except Exception as e:
       #   with open('error_logs.txt', 'a+') as file:
       #     file.write(str(e) + '\n')

@@ -19,5 +19,5 @@ class Folder():
     return commonpath([parent_path]) == commonpath([parent_path, child_path])
   
   @staticmethod
-  def create_nested_dir(self, path_to_create):
+  def create_nested_dir(path_to_create):
     Path(path_to_create).mkdir(parents=True, exist_ok=True)

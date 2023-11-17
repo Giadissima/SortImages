@@ -13,7 +13,7 @@ class RegexMedia:
 
   def extract_date_from_img(self, img_name: str, date):
     # Estrarre la data dalla stringa img_name
-    match = re.search(r'.?{}.?{}.?{}.*'.format(self.year_pattern, self.month_pattern, self.day_pattern), img_name, re.IGNORECASE)
+    match = re.search(r'{}.?{}.?{}.*'.format(self.year_pattern, self.month_pattern, self.day_pattern), img_name, re.IGNORECASE)
     if match:
       print(len(match.group()))
       year, month, day = [group for group in match.groups()]
@@ -25,7 +25,8 @@ class RegexMedia:
   def extract_date_from_folder(self, folder_name: str):
     # TODO farla funzionare anche in caso di "2023/mare/08"
     # ? Caso in cui trova sia anno che mese che giorno
-    match = re.search(r'.*?/{}/.*?{}/.*?{}.*?'.format(self.year_pattern, self.month_pattern, self.day_pattern), folder_name, re.IGNORECASE)
+    # TODO this
+    match = re.search(r'/{}/.*?{}/.*?{}'.format(self.year_pattern, self.month_pattern, self.day_pattern), folder_name, re.IGNORECASE)
     if match:
       year, month, day = [group for group in match.groups()]
       if int(year) < 100:
@@ -33,7 +34,7 @@ class RegexMedia:
       return [year, month, day]
 
     # ? Caso in cui trova sia anno che mese
-    match = re.search(r'.*?/{}/.*?{}.*?'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
+    match = re.search(r'.*?/{}/.*?{}'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
     if match:
       year, month= [group for group in match.groups()]
       return [year, month, None]
