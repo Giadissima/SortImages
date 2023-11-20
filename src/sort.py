@@ -37,7 +37,6 @@ def start_sort():
   
   Config.logs_obj.delete_logs()
   # TODO il pulsante start deve diventare "pause"
-  # TODO fre un messaggio in cui si avverte che la cartella di partenza è vuota e non cancellare i log e non stampare "sorting completed"
   if not listdir(Config.input_folder) :
     return False, "Start folder doesn't contain files. Process aborted."
   

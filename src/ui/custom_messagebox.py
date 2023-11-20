@@ -2,7 +2,7 @@ import tkinter as tk
 class CustomMessageBox(tk.Toplevel):
   # TODO mettere style in configuration
   # TODO rivedere l'intera grafica e aggiungere il pulsante di warning
-  def __init__(self, parent, title, message, checkbox_text, icon=None, style=None):
+  def __init__(self, parent, title, message, icon=None):
     super().__init__(parent)
     self.title(title)
 
@@ -15,7 +15,7 @@ class CustomMessageBox(tk.Toplevel):
     self.message_label.pack()
 
     self.checkbox_var = tk.BooleanVar()
-    self.checkbox = tk.Checkbutton(self, text=checkbox_text, variable=self.checkbox_var)
+    self.checkbox = tk.Checkbutton(self, text="Don't show again", variable=self.checkbox_var)
     self.checkbox.pack()
 
     self.ok_button = tk.Button(self, text="OK", command=self.ok_pressed, highlightthickness=0)
@@ -27,10 +27,8 @@ class CustomMessageBox(tk.Toplevel):
 
   def ok_pressed(self):
     self.ok = True
-    self.checkbox_var.set(True)  # Imposta la variabile della checkbox su False
     self.destroy()
 
   def cancel_pressed(self):
     self.ok = False
-    self.checkbox_var.set(False)  # Imposta la variabile della checkbox su False
     self.destroy()

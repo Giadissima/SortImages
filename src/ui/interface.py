@@ -63,24 +63,32 @@ class Interface():
     self.root.mainloop()
     
   def start_sort(self):
-    if(Config.checkbox_choises[1].get() == 1):
-      custom_message_box = CustomMessageBox(
-        self.root,
-        "Warning",
-        "This operation will delete empty folders. Continue?",
-        "Don't show again",
-        icon=self.icon_path,
-        style=self.style
-      )
-      self.root.wait_window(custom_message_box)  # Attendi che la finestra di dialogo venga chiusa
-
-      print(custom_message_box)
-      if custom_message_box.checkbox_var.get():
-        print("Checkbox selezionata. Salva la preferenza qui.")
-        #TODO
-      
+    # TODO mettere messaggi diversi
+    custom_message_box_1 = self.ask_to_custom_msgbox("Are you sure you want to delete empty folders\nfrom the starting folder?")
+    if not custom_message_box_1: return
+    custom_message_box_2 = self.ask_to_custom_msgbox("The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?")
+    if not custom_message_box_2: return
+   
     self.config.set_input_folder(self.path_entry[0].get())
     self.config.set_output_folder(self.path_entry[1].get())
     result, msg = start_sort()
     if result: messagebox.showinfo(title="Success", message="Sort completed")
     else: messagebox.showerror(title="error", message=msg)
+
+  def ask_to_custom_msgbox(self, message, title='Warning'):
+    if(Config.checkbox_choises[1].get() == 1):
+      custom_message_box = CustomMessageBox(
+        self.root,
+        title,
+        message,
+        icon=self.icon_path
+      )
+      self.root.wait_window(custom_message_box)  # Attendi che la finestra di dialogo venga chiusa
+
+      if custom_message_box.checkbox_var.get():
+        print("Checkbox selezionata. Salva la preferenza qui.")
+        #TODO
+
+      if(custom_message_box.ok):
+        return True
+    return False
