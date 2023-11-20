@@ -6,6 +6,7 @@ from src.ui.option import create_opt_frame
 from src.ui.folder_selection import create_selection_folder_frame
 from src.ui.log import Logs
 from src.config import Config
+from src.ui.custom_messagebox import CustomMessageBox
 
 # TODO implementa una conferma dell'utente prima di eseguire azioni irreversibili come l'eliminazione di cartelle
 # TODO msgbox con don't show me again
@@ -27,11 +28,11 @@ class Interface():
     self.root.geometry(self.SIZE)
     self.root.iconbitmap(self.icon_path)
     
-    style = Style()
+    self.style = Style()
 
     Style().configure("TButton", padding=3, background="white")
 
-    style.map("B.TButton",
+    self.style.map("B.TButton",
     foreground=[('pressed', 'orange'), ('active', 'orange'), ('!pressed', 'red')],
     background=[('pressed', '!disabled', 'active', 'white')],
     font='Noto 10 bold'
@@ -62,6 +63,22 @@ class Interface():
     self.root.mainloop()
     
   def start_sort(self):
+    if(Config.checkbox_choises[1].get() == 1):
+      custom_message_box = CustomMessageBox(
+        self.root,
+        "Warning",
+        "This operation will delete empty folders. Continue?",
+        "Don't show again",
+        icon=self.icon_path,
+        style=self.style
+      )
+      self.root.wait_window(custom_message_box)  # Attendi che la finestra di dialogo venga chiusa
+
+      print(custom_message_box)
+      if custom_message_box.checkbox_var.get():
+        print("Checkbox selezionata. Salva la preferenza qui.")
+        #TODO
+      
     self.config.set_input_folder(self.path_entry[0].get())
     self.config.set_output_folder(self.path_entry[1].get())
     result, msg = start_sort()
