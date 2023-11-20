@@ -1,4 +1,4 @@
-from os.path import join
+from os.path import join, basename
 from src.folder import Folder
 from src.config import Config
 from src.regex import RegexMedia
@@ -6,15 +6,27 @@ from src.image import ImageHelper
 from src.video import VideoHelper
 from os import remove, walk, listdir
 from datetime import datetime
+import traceback
+
+regex = RegexMedia()
+image = ImageHelper()
+video = VideoHelper()
+
+def extract_date(file_path, file, folder_date):
+  if(folder_date != None and len(folder_date) == 3): return folder_date
+  if(image.isImage(file_path)): 
+    date = image.get_date_from_metadata(file_path)
+  else: 
+    date = video.get_date_from_metadata(file_path)
+  # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
+  if(date != None): return date 
+  date = regex.extract_date_from_media(file, folder_date)
+  return date
 
 
 def start_sort():
   # change this for selecting current image's path
   # config = Config()
-  regex = RegexMedia()
-  image = ImageHelper()
-  video = VideoHelper()
-
   print(Config.input_folder)
   if(Config.input_folder == "" or Config.output_folder == "" or Config.input_folder == None or Config.output_folder == None):
     return False, "The source and destination folders cannot be empty"
@@ -31,44 +43,43 @@ def start_sort():
   
   # ciclo tutte le cartelle
   for root, dirs, files in walk(Config.input_folder):
-    date = regex.extract_date_from_folder(root)
+    root = root.replace('\\', '/')
+    folder_date = regex.extract_date_from_folder(root)
     # ciclo tutte le immagini
     for file in files:
-      # try:
+      time = datetime.now()
+      hour = time.hour
+      minute = time.minute
+      second = time.second
+      try:
         file_path = join(root, file).replace('\\', '/')
         # se non è un immagine o un video, passa al file successivo
         if(not image.isImage(file_path) and not video.isVideo(file_path)): continue
-        
-        time = datetime.now()
-        hour = time.hour
-        minute = time.minute
-        second = time.second
         
         # se è un duplicato, lo sposto nella cartella "duplicati" e passo all'immagine successiva
         if(image.isDuplicate(file_path)): 
           remove(file_path)
           Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: successfully deleted.', 'info')
           continue
-        if(image.isImage(file_path)): 
-          date = image.get_date_from_metadata(file_path)
-        else: 
-          date = video.get_date_from_metadata(file_path)
-        # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
-        if(date == None): #TODO
-          pass
-          # date = regex.extract_date_from_img(file, date)
-        # se non l'ha ancora trovata la sposto nella cartella 'unknown'
         # TODO vedere se il timestamp cambia con più dati
+        date = extract_date(file_path, file, folder_date)
         if(date == None):
           Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} No date found in the file: file not moved.', 'error')
         else:
-          date_path = join(Config.output_folder, date[0], date[1], date[2])
+          if(date[0] != None and date[1] == None): 
+            date_path = join(Config.output_folder, date[0])
+          elif date[0] != None and date[1] != None and date[2] == None: 
+            date_path = join(Config.output_folder, date[0], date[1])
+          else: 
+            date_path = join(Config.output_folder, date[0], date[1], date[2])
           image.move_file(file_path, file, date_path)
           Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} moved successfully.', 'default')
-      # except Exception as e:
-      #   with open('error_logs.txt', 'a+') as file:
-      #     file.write(str(e) + '\n')
-      #   Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. See more information on error_logs.txt', 'error')
+      except Exception as e:
+        with open('error_logs.txt', 'a+') as file:
+          file.write(f'{hour}:{minute}:{second}\nErrore: ')
+          traceback.print_exc(file=file)
+          file.write('\n')
+        Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. See more information on error_logs.txt', 'error')
   Config.logs_obj.add_logs('sorting completed.', 'default')
+  image.HASH_LIST = []
   return True, None
-  
