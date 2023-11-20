@@ -4,7 +4,7 @@ from src.config import Config
 from src.regex import RegexMedia
 from src.image import ImageHelper
 from src.video import VideoHelper
-from os import remove, walk, listdir
+from os import remove, rmdir, walk, listdir
 from datetime import datetime
 import traceback
 
@@ -23,11 +23,11 @@ def extract_date(file_path, file, folder_date):
   date = regex.extract_date_from_media(file, folder_date)
   return date
 
-
+# TODO cosa succede se quitto mentre è in corso il processo?
 def start_sort():
   # change this for selecting current image's path
   # config = Config()
-  print(Config.input_folder)
+  print(Config.checkbox_choises[0].get())
   if(Config.input_folder == "" or Config.output_folder == "" or Config.input_folder == None or Config.output_folder == None):
     return False, "The source and destination folders cannot be empty"
   if(Config.input_folder == Config.output_folder):
@@ -56,10 +56,13 @@ def start_sort():
         # se non è un immagine o un video, passa al file successivo
         if(not image.isImage(file_path) and not video.isVideo(file_path)): continue
         
-        # se è un duplicato, lo sposto nella cartella "duplicati" e passo all'immagine successiva
+        # se è un duplicato, lo cancello e passo all'immagine successiva
         if(image.isDuplicate(file_path)): 
-          remove(file_path)
-          Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: successfully deleted.', 'info')
+          if(Config.checkbox_choises[0].get() == 1):
+            remove(file_path)
+            Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: successfully deleted.', 'info')
+          else:
+            Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: file not moved.', 'info')
           continue
         # TODO vedere se il timestamp cambia con più dati
         date = extract_date(file_path, file, folder_date)
@@ -80,6 +83,9 @@ def start_sort():
           traceback.print_exc(file=file)
           file.write('\n')
         Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. See more information on error_logs.txt', 'error')
+    if(Config.checkbox_choises[1].get() == 1 and (not any(listdir(root)))):
+      rmdir(root)
+      Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Empty folder deleted', 'info')
   Config.logs_obj.add_logs('sorting completed.', 'default')
   image.HASH_LIST = []
   return True, None
