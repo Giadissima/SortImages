@@ -8,8 +8,6 @@ from src.ui.log import Logs
 from src.config import Config
 from src.ui.custom_messagebox import CustomMessageBox
 
-# TODO implementa una conferma dell'utente prima di eseguire azioni irreversibili come l'eliminazione di cartelle
-# TODO msgbox con don't show me again
 class Interface():
   def __init__(self, title: str, size: str, icon_path: str, default_font = None, default_font_size = None):
     self.TITLE = title

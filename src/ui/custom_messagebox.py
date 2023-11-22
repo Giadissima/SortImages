@@ -2,7 +2,6 @@ from tkinter import Label, BooleanVar, Button, Checkbutton, LEFT, RIGHT, Topleve
 from src.ui.utils import resize_image
 class CustomMessageBox(Toplevel):
   # TODO mettere style in configuration
-  # TODO rivedere l'intera grafica e aggiungere il pulsante di warning
   def __init__(self, parent, title, message, icon=None):
     super().__init__(parent)
     self.title(title)

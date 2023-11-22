@@ -1,6 +1,7 @@
 import re
 # TODO utilizzare import configparser
 class RegexMedia:
+  # TODO fare tutte le prove con i file con le regex
   def __init__(self):
     self.months_italian = r'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
     self.months_english = r'January|February|March|April|May|June|July|August|September|October|November|December'
@@ -10,7 +11,6 @@ class RegexMedia:
     self.month_pattern = r'({}|{}|{}|{})'.format(self.month_number_pattern, self.months_abbreviated, self.months_english, self.months_italian)
     self.year_pattern = r'(19\d{2}|20\d{2}|\d{2})'
     self.day_pattern = r'(0[1-9]|1[0-9]|2[0-9]|30|31)'
-    self.nested_folder_pattern = r'.+/'
 
   def extract_date_from_media(self, img_name: str, date):
     # Estrae la data dalla stringa img_name
