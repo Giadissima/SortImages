@@ -1,5 +1,5 @@
 import re
-
+# TODO utilizzare import configparser
 class RegexMedia:
   def __init__(self):
     self.months_italian = r'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
@@ -58,8 +58,18 @@ class RegexMedia:
       return [year, month, day]
 
     # ? Caso in cui trova sia anno che mese
-    match = re.search(r'/{}/{}'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
+    match = re.search(r'/{}/{}$'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
     if match:
+      print(folder_name, 'tutto di fila anno e mese')
+      year, month = [group for group in match.groups()]
+      # TODO ValueError per mese in stringa
+      if int(year) < 100:
+        year = '19' + year if int(year) > 70 else '20' + year
+      return [year, month, None]
+    
+    match = re.search(r'/{}/{}/'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
+    if match:
+      print(folder_name, 'tutto di fila anno e mese')
       year, month = [group for group in match.groups()]
       if int(year) < 100:
         year = '19' + year if int(year) > 70 else '20' + year
