@@ -1,10 +1,8 @@
 from tkinter import END, Button, Entry, Label, filedialog
 from src.ui.utils import resize_image
-from src.config import Config
 
 
 def create_selection_folder_frame(frame, folder_icon_path, font=None):
-    config = Config()
     sub_title = Label(frame, text="Select Folders", font='Noto 10 bold')
     sub_title.grid(row=0, sticky='w')
     
@@ -36,9 +34,6 @@ def create_selection_folder_frame(frame, folder_icon_path, font=None):
     frame.rowconfigure(1, weight=1)     # Imposta il peso della riga 0
     frame.rowconfigure(2, weight=1)     # Imposta il peso della riga 0
     return [path_entry_1, path_entry_2]
-    
-# TODO metterlo in comune
-
 
 def open_folder_dialog(entry):
   folder_path = filedialog.askdirectory()

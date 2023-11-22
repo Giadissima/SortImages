@@ -63,6 +63,7 @@ class Interface():
     self.root.mainloop()
     
   def start_sort(self):
+    # TODO trasformare il tutto in una funzione con array associativi per le preferenze
     if(Config.checkbox_choises[0].get() == 1 and not self.find_preference("DUPLICATES_CHOISE")):
       msg = "The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?"
       custom_message_box_1 = self.ask_to_custom_msgbox(msg, "DUPLICATES_CHOISE")
