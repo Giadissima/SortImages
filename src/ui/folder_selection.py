@@ -1,5 +1,5 @@
 from tkinter import END, Button, Entry, Label, filedialog
-from PIL import Image, ImageTk
+from src.ui.utils import resize_image
 from src.config import Config
 
 
@@ -37,10 +37,8 @@ def create_selection_folder_frame(frame, folder_icon_path, font=None):
     frame.rowconfigure(2, weight=1)     # Imposta il peso della riga 0
     return [path_entry_1, path_entry_2]
     
-def resize_image(image_path, width, height):
-  original_image = Image.open(image_path)
-  resized_image = original_image.resize((width, height))
-  return ImageTk.PhotoImage(resized_image)
+# TODO metterlo in comune
+
 
 def open_folder_dialog(entry):
   folder_path = filedialog.askdirectory()

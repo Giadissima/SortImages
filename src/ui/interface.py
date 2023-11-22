@@ -63,11 +63,15 @@ class Interface():
     self.root.mainloop()
     
   def start_sort(self):
-    # TODO mettere messaggi diversi
-    custom_message_box_1 = self.ask_to_custom_msgbox("Are you sure you want to delete empty folders\nfrom the starting folder?")
-    if not custom_message_box_1: return
-    custom_message_box_2 = self.ask_to_custom_msgbox("The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?")
-    if not custom_message_box_2: return
+    if(Config.checkbox_choises[0].get() == 1 and not self.find_preference("DUPLICATES_CHOISE")):
+      msg = "The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?"
+      custom_message_box_1 = self.ask_to_custom_msgbox(msg, "DUPLICATES_CHOISE")
+      if not custom_message_box_1: return
+    
+    if(Config.checkbox_choises[1].get() == 1 and not self.find_preference("FOLDERS_CHOISE")):  
+      msg = "Are you sure you want to delete empty folders\nfrom the starting folder?"
+      custom_message_box_2 = self.ask_to_custom_msgbox(msg, "FOLDERS_CHOISE")
+      if not custom_message_box_2: return
    
     self.config.set_input_folder(self.path_entry[0].get())
     self.config.set_output_folder(self.path_entry[1].get())
@@ -75,20 +79,34 @@ class Interface():
     if result: messagebox.showinfo(title="Success", message="Sort completed")
     else: messagebox.showerror(title="error", message=msg)
 
-  def ask_to_custom_msgbox(self, message, title='Warning'):
-    if(Config.checkbox_choises[1].get() == 1):
-      custom_message_box = CustomMessageBox(
-        self.root,
-        title,
-        message,
-        icon=self.icon_path
-      )
-      self.root.wait_window(custom_message_box)  # Attendi che la finestra di dialogo venga chiusa
+  def ask_to_custom_msgbox(self, message, choise_name, title='Warning'):
+    custom_message_box = CustomMessageBox(
+      self.root,
+      title,
+      message,
+      icon=self.icon_path
+    )
+    self.root.wait_window(custom_message_box)  # Attendi che la finestra di dialogo venga chiusa
 
-      if custom_message_box.checkbox_var.get():
-        print("Checkbox selezionata. Salva la preferenza qui.")
-        #TODO
+    if custom_message_box.checkbox_var.get():
+      print("Checkbox selezionata. Salva la preferenza qui.")
+      with open('config.ini', "a+") as f:
+        f.write(f'{choise_name}=True')
+        f.write('\n')
 
-      if(custom_message_box.ok):
-        return True
+    if(custom_message_box.ok):
+      return True
     return False
+  
+  def find_preference(self, preference):
+    try:
+      with open('config.ini', 'r') as file:
+        for line_number, line in enumerate(file, start=1):
+          print(line)
+          if f'{preference}=True' in line:
+              print(f"Trova 'DUPLICATE_IMG' alla riga {line_number}: {line.strip()}")
+              # Puoi fare altre operazioni qui se necessario
+              return True  # Trovato, esci dalla funzione
+    except FileNotFoundError:
+        print(f"Il file 'config.ini' non esiste.")
+        return False

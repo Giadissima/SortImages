@@ -1,16 +1,24 @@
 import tkinter as tk
+from PIL import Image, ImageTk
+from src.ui.utils import resize_image
 class CustomMessageBox(tk.Toplevel):
   # TODO mettere style in configuration
   # TODO rivedere l'intera grafica e aggiungere il pulsante di warning
   def __init__(self, parent, title, message, icon=None):
     super().__init__(parent)
     self.title(title)
+    self.ok = True
 
     if icon:
       self.iconbitmap(default=icon)
 
-    self.geometry("350x150")
+    self.geometry("350x180")
 
+    self.warning_img_path = resize_image('assets/Warning.png', 70, 50)
+    label1 = tk.Label(self,image=self.warning_img_path)
+    label1.image = self.warning_img_path  # Mantieni un riferimento
+    label1.pack()
+    
     self.message_label = tk.Label(self, text=message, padx=10, pady=10)
     self.message_label.pack()
 
