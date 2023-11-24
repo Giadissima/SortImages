@@ -3,3 +3,5 @@
 2) prende la regex sempre dell'anno composto da due numeri, dividerlo in due regex
 
 3)Se cerco di chiudere il processo, non risponde più e quindi devo fare un pulsante pause
+
+4) usare i set per l'hashlist

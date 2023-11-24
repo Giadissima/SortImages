@@ -2,15 +2,13 @@ from tkinter import BOTH, Frame, Tk, messagebox
 from tkinter.ttk import Label, Button, Style
 
 from src.sort import start_sort
-from src.ui.option import create_opt_frame
+from src.ui.option import OptionsFrame
 from src.ui.folder_selection import create_selection_folder_frame
 from src.ui.log import Logs
 from src.config import Config
 from src.ui.custom_messagebox import CustomMessageBox
 from configparser import ConfigParser
 # TODO trasformare il tutto in una funzione con array associativi per le preferenze
-# TODO usare i set per l'hashlist
-
 
 class Interface():
   def __init__(self, title: str, size: str, icon_path: str, default_font=None, default_font_size=None):
@@ -53,9 +51,8 @@ class Interface():
     self.path_entry = create_selection_folder_frame(
         selection_folder_frame, self.icon_path, self.default_font)
 
-    option_frame = Frame(form_frame)
-    create_opt_frame(option_frame, self.default_font)
-    option_frame.grid(row=0, column=1, sticky="nsew", padx=10)
+    opt_frame = OptionsFrame(form_frame, self.default_font)
+    opt_frame.frame.grid(row=0, column=1, sticky="nsew", padx=10)
 
     form_frame.columnconfigure(0, weight=1)
     form_frame.columnconfigure(1, weight=1)
