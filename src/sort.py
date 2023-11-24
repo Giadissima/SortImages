@@ -45,6 +45,10 @@ def start_sort():
   
   # ciclo tutte le cartelle
   for root, dirs, files in walk(Config.input_folder):
+    time = datetime.now()
+    hour = time.hour
+    minute = time.minute
+    second = time.second
     root = root.replace('\\', '/')
     folder_date = regex.extract_date_from_folder(root)
     # ciclo tutte le immagini
@@ -86,6 +90,7 @@ def start_sort():
           traceback.print_exc(file=file)
           file.write('\n')
         Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. See more information on error_logs.txt', 'error')
+      finally: Config.logs_obj.log_text_field.update_idletasks()
     if(Config.checkbox_choises[1].get() == 1 and (not any(listdir(root)))):
       rmdir(root)
       Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Empty folder deleted', 'info')
