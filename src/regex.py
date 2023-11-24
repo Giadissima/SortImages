@@ -1,5 +1,4 @@
 import re
-# TODO utilizzare import configparser
 class RegexMedia:
   # TODO fare tutte le prove con i file con le regex
   def __init__(self):
@@ -127,7 +126,6 @@ class RegexMedia:
     if match:
       print(folder_name, 'tutto di fila anno e mese')
       year, month = [group for group in match.groups()]
-      # TODO ValueError per mese in stringa
       if int(year) < 100:
         year = '19' + year if int(year) > 70 else '20' + year
       return [year, month]

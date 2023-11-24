@@ -26,11 +26,9 @@ def extract_date(file_path, file, folder_date):
   date = regex.extract_date_from_media(file, folder_date)
   return date
 
-# TODO cosa succede se quitto mentre è in corso il processo?
 def start_sort():
   # change this for selecting current image's path
   # config = Config()
-  print(Config.checkbox_choises[0].get())
   if(Config.input_folder == "" or Config.output_folder == "" or Config.input_folder == None or Config.output_folder == None):
     return False, "The source and destination folders cannot be empty"
   if(Config.input_folder == Config.output_folder):
@@ -39,7 +37,6 @@ def start_sort():
     return False, "The source and destination folders cannot be one a subfolder of the other."
   
   Config.logs_obj.delete_logs()
-  # TODO il pulsante start deve diventare "pause"
   if not listdir(Config.input_folder) :
     return False, "Start folder doesn't contain files. Process aborted."
   
@@ -64,14 +61,12 @@ def start_sort():
         
         # se è un duplicato, lo cancello e passo all'immagine successiva
         if(image.isDuplicate(file_path)): 
-          if(Config.checkbox_choises[0].get() == 1):
+          if(Config.checkbox_choises['DeleteDuplicates'].get() == 1):
             remove(file_path)
             Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: successfully deleted.', 'info')
           else:
             Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: file not moved.', 'info')
           continue
-        # TODO vedere se il timestamp cambia con più dati
-        # TODO che succede se chiudo l'interfaccia mentre il progetto è attivo?
         date = extract_date(file_path, file, folder_date)
         if(date == None):
           Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} No date found in the file: file not moved.', 'error')
@@ -91,7 +86,7 @@ def start_sort():
           file.write('\n')
         Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. See more information on error_logs.txt', 'error')
       finally: Config.logs_obj.log_text_field.update_idletasks()
-    if(Config.checkbox_choises[1].get() == 1 and (not any(listdir(root)))):
+    if(Config.checkbox_choises['DeleteEmptyFolders'].get() == 1 and (not any(listdir(root)))):
       rmdir(root)
       Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Empty folder deleted', 'info')
   Config.logs_obj.add_logs('sorting completed.', 'default')

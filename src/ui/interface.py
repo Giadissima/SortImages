@@ -8,7 +8,6 @@ from src.ui.log import Logs
 from src.config import Config
 from src.ui.custom_messagebox import CustomMessageBox
 from configparser import ConfigParser
-# TODO trasformare il tutto in una funzione con array associativi per le preferenze
 
 class Interface():
   def __init__(self, title: str, size: str, icon_path: str, default_font=None, default_font_size=None):
@@ -74,8 +73,8 @@ class Interface():
     msg1 = "The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?"
     msg2 = "Are you sure you want to delete empty folders\nfrom the starting folder?"
 
-    self.check_and_set_preference(Config.checkbox_choises[0], 'DUPLICATES_CHOISE', msg1)
-    self.check_and_set_preference(Config.checkbox_choises[1], 'FOLDER_CHOICE', msg2)
+    self.check_and_set_preference(Config.checkbox_choises['DeleteDuplicates'], 'DUPLICATES_CHOISE', msg1)
+    self.check_and_set_preference(Config.checkbox_choises['DeleteEmptyFolders'], 'FOLDER_CHOICE', msg2)
 
     self.config.set_input_folder(self.path_entry[0].get())
     self.config.set_output_folder(self.path_entry[1].get())

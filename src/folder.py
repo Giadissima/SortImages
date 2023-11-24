@@ -6,7 +6,6 @@ class Folder():
   def __init__(self, ):
     pass
   
-  # TODO docstring e rivedere i commenti
   @staticmethod
   def path_is_parent(parent_path, child_path):
     parent_path = abspath(parent_path)
