@@ -11,6 +11,62 @@ class RegexMedia:
     self.month_pattern = r'({}|{}|{}|{})'.format(self.month_number_pattern, self.months_abbreviated, self.months_english, self.months_italian)
     self.year_pattern = r'(19\d{2}|20\d{2}|\d{2})'
     self.day_pattern = r'(0[1-9]|1[0-9]|2[0-9]|30|31)'
+    
+    self.italian_month_dict = {
+      'gennaio':'01',
+      'febbraio':'02',
+      'marzo':'03',
+      'aprile':'04',
+      'maggio':'05',
+      'giugno':'06',
+      'luglio':'07',
+      'agosto': '08',
+      'settembre':'09',
+      'ottobre':'10',
+      'novembre':'11',
+      'dicembre':'12'
+    }
+    
+    self.english_month_dict = {
+      'january':'01',
+      'february':'02',
+      'march':'03',
+      'april':'04',
+      'may':'05',
+      'june':'06',
+      'july':'07',
+      'august': '08',
+      'september':'09',
+      'october':'10',
+      'november':'11',
+      'december':'12'
+    }
+    
+    self.english_month_abbr_dict = {
+      'jan':'01',
+      'feb':'02',
+      'mar':'03',
+      'apr':'04',
+      'may':'05',
+      'jun':'06',
+      'jul':'07',
+      'aug': '08',
+      'sep':'09',
+      'oct':'10',
+      'nov':'11',
+      'dec':'12'
+    }
+    
+    self.italian_month_abbr_dict = {
+      'gen':'01',
+      'mag':'05',
+      'giu':'06',
+      'lug':'07',
+      'ago': '08',
+      'set':'09',
+      'ott':'10',
+      'dic':'12'
+    }
 
   def extract_date_from_media(self, img_name: str, date):
     # Estrae la data dalla stringa img_name
@@ -29,6 +85,15 @@ class RegexMedia:
     match = re.search(r'/{}/{}/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern), folder_name, re.IGNORECASE)
     if match:
       year, month, day = [group for group in match.groups()]
+      if(not month.isnumeric()):
+        if(month in self.italian_month_dict.keys()):
+          month = self.italian_month_dict[month]
+        elif(month in self.italian_month_abbr_dict.keys()):
+          month = self.italian_month_abbr_dict[month]
+        elif(month in self.english_month_dict.keys()):
+          month = self.english_month_dict[month]
+        else:
+          month = self.english_month_abbr_dict[month]
       if int(year) < 100:
           year = '19' + year if int(year) > 70 else '20' + year
       return [year, month, day]
@@ -65,7 +130,7 @@ class RegexMedia:
       # TODO ValueError per mese in stringa
       if int(year) < 100:
         year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, None]
+      return [year, month]
     
     match = re.search(r'/{}/{}/'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
     if match:
@@ -73,7 +138,7 @@ class RegexMedia:
       year, month = [group for group in match.groups()]
       if int(year) < 100:
         year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, None]
+      return [year, month]
 
     # ? caso anno/mare/mese
     match = re.search(r'/{}/.+/{}'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
@@ -81,7 +146,7 @@ class RegexMedia:
       year, month = [group for group in match.groups()]
       if int(year) < 100:
         year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, None]
+      return [year, month]
       
     # ? Caso in cui trova solo l'anno
     match = re.search(r'/{}'.format(self.year_pattern), folder_name)
@@ -89,5 +154,5 @@ class RegexMedia:
       year = [group for group in match.groups()][0]
       if int(year) < 100:
         year = '19' + year if int(year) > 70 else '20' + year
-      return [year, None, None]
+      return [year]
     return None

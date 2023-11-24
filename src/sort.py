@@ -13,7 +13,10 @@ image = ImageHelper()
 video = VideoHelper()
 
 def extract_date(file_path, file, folder_date):
-  if(folder_date != None and len(folder_date) == 3): return folder_date
+  if(folder_date != None and len(folder_date) == 3): 
+    print(folder_date)
+    print(file_path, "founded folder date")
+    return folder_date
   if(image.isImage(file_path)): 
     date = image.get_date_from_metadata(file_path)
   else: 
@@ -64,6 +67,7 @@ def start_sort():
             Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: file not moved.', 'info')
           continue
         # TODO vedere se il timestamp cambia con più dati
+        # TODO che succede se chiudo l'interfaccia mentre il progetto è attivo?
         date = extract_date(file_path, file, folder_date)
         if(date == None):
           Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} No date found in the file: file not moved.', 'error')
