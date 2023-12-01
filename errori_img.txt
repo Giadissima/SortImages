@@ -9,3 +9,5 @@
 5) i file metterli con il plurale
 
 6) docstring e rivedere i commenti
+
+cambiare log e logging i nomi

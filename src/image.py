@@ -22,7 +22,7 @@ class ImageHelper(File):
       with Image.open(img) as image:
         image.verify()
       return True
-    except UnidentifiedImageError:
+    except Exception:
       return False
     
   @staticmethod

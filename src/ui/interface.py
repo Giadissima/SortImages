@@ -4,7 +4,7 @@ from tkinter.ttk import Label, Button, Style
 from src.sort import start_sort
 from src.ui.option import OptionsFrame
 from src.ui.folder_selection import create_selection_folder_frame
-from src.ui.log import Logs
+from src.ui.log import TkinterLogs
 from src.config import Config
 from src.ui.custom_messagebox import CustomMessageBox
 from configparser import ConfigParser
@@ -61,7 +61,7 @@ class Interface():
                   style="B.TButton", command=self.start_sort)
     btn.pack(pady=10)
 
-    self.config.set_logs_obj(Logs(self.root))
+    self.config.set_logs_obj(TkinterLogs(self.root))
     self.root.mainloop()
 
   def read_config(self):

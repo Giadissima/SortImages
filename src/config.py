@@ -1,7 +1,7 @@
-from src.ui.log import Logs
+from src.ui.log import TkinterLogs
 
 class Config():
-  logs_obj: Logs = None
+  logs_obj: TkinterLogs = None
   checkbox_choises = None
   input_folder: str = None
   output_folder: str = None

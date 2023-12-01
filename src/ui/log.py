@@ -1,12 +1,12 @@
 from tkinter import BOTH, DISABLED, END, NORMAL, Text
 
-class Logs():
+class TkinterLogs():
   def __init__(self, frame) -> None:
     self.FRAME = frame
     self.log_text_field = Text(self.FRAME, height=10, width=30, state=DISABLED)
     self.log_text_field.tag_configure('error', foreground='red')
     self.log_text_field.tag_configure('info', foreground='blue')
-    self.log_text_field.tag_configure('default', foreground='black')
+    self.log_text_field.tag_configure('debug', foreground='black')
     self.log_text_field.pack(expand=True, fill=BOTH, padx=10, pady=10)
     
   def add_logs(self, message, tag):
