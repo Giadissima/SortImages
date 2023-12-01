@@ -5,7 +5,8 @@ from hachoir.parser import createParser
 
 class VideoHelper(File):
 
-  def isVideo(self, file_path):
+  @staticmethod
+  def isVideo(file_path):
     """Verifica se il file è un video.
 
     Args:
@@ -14,18 +15,12 @@ class VideoHelper(File):
     Returns:
         bool: True se il file è un video, altrimenti False.
     """
-    video_extensions = {'avi', 'mkv', 'mp4', 'mov', 'flv', 'wmv', 'webm'}  # Aggiungi le estensioni video che desideri supportare
-
-    # Estrai l'estensione del file
+    video_extensions = {'avi', 'mkv', 'mp4', 'mov', 'flv', 'wmv', 'webm'}
     file_extension = file_path.rsplit('.',1)[1].lower()
-
-    # Verifica se l'estensione è nella lista delle estensioni video
-    if file_extension in video_extensions:
-        return True
-
-    return False
+    return file_extension in video_extensions
   
-  def get_date_from_metadata(self, vid):
+  @staticmethod
+  def get_date_from_metadata(vid):
     try:
       video = VideoFileClip(vid)
       parser = createParser(vid)

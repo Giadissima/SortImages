@@ -1,3 +1,4 @@
+from typing import List, Optional
 from PIL import Image, UnidentifiedImageError
 from PIL.ExifTags import TAGS
 from src.file import File
@@ -6,8 +7,10 @@ class ImageHelper(File):
   def __init__(self):
     super().__init__()
     
-  def isImage(self, img):
-    """return if file is an image and it can access on its
+  @staticmethod
+  def isImage(img:str) -> bool:
+    """ 
+    Return True if the file is an image and can be accessed.
 
     Args:
       img (str): img path
@@ -22,8 +25,10 @@ class ImageHelper(File):
     except UnidentifiedImageError:
       return False
     
-  def get_date_from_metadata(self, img):
-    """Prende un immagine e restituisce la data di creazione raccolta dai suoi metadati
+  @staticmethod
+  def get_date_from_metadata(img:str) -> Optional[List[str]]:
+    """
+    Prende un immagine e restituisce la data di creazione raccolta dai suoi metadati
 
     Args:
       img (str): full path dell'immagine

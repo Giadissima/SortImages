@@ -1,32 +1,19 @@
-from os.path import join, basename
+from os.path import join
+from typing import Union
 from src.folder import Folder
 from src.config import Config
 from src.regex import RegexMedia
 from src.image import ImageHelper
 from src.video import VideoHelper
+from src.file import File
 from os import remove, rmdir, walk, listdir
 from datetime import datetime
 import traceback
 
 regex = RegexMedia()
-image = ImageHelper()
-video = VideoHelper()
+file = File()
 
-def extract_date(file_path, file, folder_date):
-  if(folder_date != None and len(folder_date) == 3): 
-    print(folder_date)
-    print(file_path, "founded folder date")
-    return folder_date
-  if(image.isImage(file_path)): 
-    date = image.get_date_from_metadata(file_path)
-  else: 
-    date = video.get_date_from_metadata(file_path)
-  # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
-  if(date != None): return date 
-  date = regex.extract_date_from_media(file, folder_date)
-  return date
-
-def start_sort():
+def start_sort() -> Union[bool, str]:
   # change this for selecting current image's path
   # config = Config()
   if(Config.input_folder == "" or Config.output_folder == "" or Config.input_folder == None or Config.output_folder == None):
@@ -43,52 +30,64 @@ def start_sort():
   # ciclo tutte le cartelle
   for root, dirs, files in walk(Config.input_folder):
     time = datetime.now()
-    hour = time.hour
-    minute = time.minute
-    second = time.second
+    hour, minute, second = time.hour, time.minute, time.second
     root = root.replace('\\', '/')
     folder_date = regex.extract_date_from_folder(root)
     # ciclo tutte le immagini
-    for file in files:
+    for f in files:
       time = datetime.now()
-      hour = time.hour
-      minute = time.minute
-      second = time.second
+      hour, minute, second = time.hour, time.minute, time.second
       try:
-        file_path = join(root, file).replace('\\', '/')
+        file_path = join(root, f).replace('\\', '/')
         # se non è un immagine o un video, passa al file successivo
-        if(not image.isImage(file_path) and not video.isVideo(file_path)): continue
+        media_class:VideoHelper|ImageHelper = identify_media(file_path)
+        if media_class == None: continue
         
         # se è un duplicato, lo cancello e passo all'immagine successiva
-        if(image.isDuplicate(file_path)): 
+        if(file.isDuplicate(file_path)): 
           if(Config.checkbox_choises['DeleteDuplicates'].get() == 1):
             remove(file_path)
             Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: successfully deleted.', 'info')
           else:
             Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Duplicated detected: file not moved.', 'info')
           continue
-        date = extract_date(file_path, file, folder_date)
+        date = media_class.extract_date(file_path, f, folder_date)
         if(date == None):
           Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} No date found in the file: file not moved.', 'error')
-        else:
+        else: # TODO farlo in una funzione
           if(date[0] != None and date[1] == None): 
             date_path = join(Config.output_folder, date[0])
           elif date[0] != None and date[1] != None and date[2] == None: 
             date_path = join(Config.output_folder, date[0], date[1])
           else: 
             date_path = join(Config.output_folder, date[0], date[1], date[2])
-          image.move_file(file_path, file, date_path)
+          file.move_file(file_path, f, date_path)
           Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} moved successfully.', 'default')
       except Exception as e:
-        with open('error_logs.txt', 'a+') as file:
-          file.write(f'{hour}:{minute}:{second}\nErrore: ')
-          traceback.print_exc(file=file)
-          file.write('\n')
-        Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. See more information on error_logs.txt', 'error')
+        handle_exception(file_path, e)
       finally: Config.logs_obj.log_text_field.update_idletasks()
     if(Config.checkbox_choises['DeleteEmptyFolders'].get() == 1 and (not any(listdir(root)))):
       rmdir(root)
       Config.logs_obj.add_logs(f'{hour}:{minute}:{second} {file_path} Empty folder deleted', 'info')
   Config.logs_obj.add_logs('sorting completed.', 'default')
-  image.HASH_LIST = []
+  file.HASH_LIST.clear()
   return True, None
+
+def identify_media(file_path: str) -> Union[ImageHelper, VideoHelper, None]:
+  """Identifica la classe di supporto per il tipo di media."""
+  if ImageHelper.isImage(file_path):
+      return ImageHelper()
+  elif VideoHelper.isVideo(file_path):
+      return VideoHelper()
+  return None
+
+def handle_exception(file_path: str, exception: Exception):
+  """Gestisce le eccezioni durante l'elaborazione dei file."""
+  time = datetime.now()
+  hour, minute, second = time.hour, time.minute, time.second
+  with open('error_logs.txt', 'a+') as f:
+      f.write(f'{hour}:{minute}:{second}\nErrore: ')
+      traceback.print_exc(file=f)
+      f.write('\n')
+  Config.logs_obj.add_logs(f'{file_path} An error occurred: file not sorted. '
+                            f'See more information on error_logs.txt', 'error')
