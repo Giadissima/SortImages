@@ -1,4 +1,4 @@
-from src.ui.log import TkinterLogs
+from src.ui.tkinter_logs import TkinterLogs
 
 class Config():
   logs_obj: TkinterLogs = None

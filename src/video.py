@@ -1,4 +1,4 @@
-from src.file import File
+from src.files import File
 from moviepy.editor import VideoFileClip
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser

@@ -3,7 +3,7 @@ from os.path import join, exists
 from os import rename
 from src.regex import RegexMedia
 
-from src.folder import Folder
+from src.folders import Folder
 
 # TODO function get time
 # from hashlib import md5s

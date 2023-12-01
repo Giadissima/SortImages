@@ -2,9 +2,9 @@ from tkinter import BOTH, Frame, Tk, messagebox
 from tkinter.ttk import Label, Button, Style
 
 from src.sort import start_sort
-from src.ui.option import OptionsFrame
+from src.ui.options import OptionsFrame
 from src.ui.folder_selection import create_selection_folder_frame
-from src.ui.log import TkinterLogs
+from src.ui.tkinter_logs import TkinterLogs
 from src.config import Config
 from src.ui.custom_messagebox import CustomMessageBox
 from configparser import ConfigParser

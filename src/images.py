@@ -1,7 +1,7 @@
 from typing import List, Optional
 from PIL import Image, UnidentifiedImageError
 from PIL.ExifTags import TAGS
-from src.file import File
+from src.files import File
 
 class ImageHelper(File):
   def __init__(self):
