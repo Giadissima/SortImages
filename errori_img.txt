@@ -4,10 +4,6 @@
 
 3)Se cerco di chiudere il processo, non risponde più e quindi devo fare un pulsante pause
 
-4) usare i set per l'hashlist
-
-5) i file metterli con il plurale
+4) pensare se c'è un modo in cui input folder possa stare dentro la dest folder o viceversa
 
 6) docstring e rivedere i commenti
-
-cambiare log e logging i nomi

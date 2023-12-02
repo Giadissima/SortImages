@@ -15,11 +15,6 @@ class TkinterLogs():
     self.log_text_field.config(state=DISABLED)  # Disabilita la modifica del testo
     self.log_text_field.see(END)
     
-  def on_button_click(self):
-    message = self.input_entry.get()
-    self.add_logs(message)
-    self.input_entry.delete(0, END)  # Cancella il testo nell'input field
-    
   def delete_logs(self):
     self.log_text_field.config(state=NORMAL)  # Abilita la modifica del testo
     self.log_text_field.delete(1.0, END)  # Cancella tutto il testo nella casella di testo

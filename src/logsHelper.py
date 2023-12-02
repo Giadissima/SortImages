@@ -25,7 +25,7 @@ def get_tkinter_logger(logs_obj):
 
   # Configura l'handler per il widget Text di Tkinter
   tkinter_text_handler = TkinterTextHandler(logs_obj)
-  tkinter_text_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
+  tkinter_text_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s', '%H:%M:%S'))
   tkinter_text_handler.setLevel(logging.DEBUG)
   tkinter_logger.addHandler(tkinter_text_handler)
   tkinter_logger.setLevel(logging.DEBUG)
