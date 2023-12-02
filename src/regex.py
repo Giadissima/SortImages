@@ -1,4 +1,5 @@
 import re
+from typing import List
 class RegexMedia:
   # TODO fare tutte le prove con i file con le regex
   def __init__(self):
@@ -66,91 +67,54 @@ class RegexMedia:
       'ott':'10',
       'dic':'12'
     }
+    
+    self.date_folder_patterns = [
+      r'/{}/{}/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
+      r'/{}/.+/{}/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
+      r'/{}/{}/.+/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
+      r'/{}/.+/{}/.+/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
+      r'/{}/{}$'.format(self.year_pattern, self.month_pattern),
+      r'/{}/{}/'.format(self.year_pattern, self.month_pattern),
+      r'/{}/.+/{}'.format(self.year_pattern, self.month_pattern),
+      r'/{}'.format(self.year_pattern) # TODO vedere perché io prendevo year = [group for group in match.groups()][0]
+    ]
 
+  # TODO dividere le regex tra anno a 2 cifre o anno a 4 cifre
   def extract_date_from_media(self, img_name: str, date):
     # Estrae la data dalla stringa img_name
-    match = re.search(r'{}.?{}.?{}'.format(self.year_pattern, self.month_pattern, self.day_pattern), img_name, re.IGNORECASE)
+    match = re.search(r'19\d{2}|20\d{2}.?\({}\).?{}'.format(self.month_number_pattern, self.day_pattern), img_name, re.IGNORECASE)
     if match:
       year, month, day = [group for group in match.groups()]
-      if(int(year) < 100):
-        year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, day]
+      return [self.get_year(year), month, day]
     return date
 
   def extract_date_from_folder(self, folder_name: str):
-    # ? Caso in cui trova sia anno che mese che giorno
-    
-    #? caso tutto di fila
-    match = re.search(r'/{}/{}/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern), folder_name, re.IGNORECASE)
-    if match:
-      year, month, day = [group for group in match.groups()]
-      if(not month.isnumeric()):
-        if(month in self.italian_month_dict.keys()):
-          month = self.italian_month_dict[month]
-        elif(month in self.italian_month_abbr_dict.keys()):
-          month = self.italian_month_abbr_dict[month]
-        elif(month in self.english_month_dict.keys()):
-          month = self.english_month_dict[month]
-        else:
-          month = self.english_month_abbr_dict[month]
-      if int(year) < 100:
-          year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, day]
-    
-    # ? caso anno/mare/mese/giorno
-    match = re.search(r'/{}/.+/{}/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern), folder_name, re.IGNORECASE)
-    if match:
-      year, month, day = [group for group in match.groups()]
-      if int(year) < 100:
-          year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, day]
-    
-    # ? caso anno/mese/mare/giorno
-    match = re.search(r'/{}/{}/.+/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern), folder_name, re.IGNORECASE)
-    if match:
-      year, month, day = [group for group in match.groups()]
-      if int(year) < 100:
-          year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, day]
-    
-    # ? caso anno/Giovanni/mese/mare/giorno
-    match = re.search(r'/{}/.+/{}/.+/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern), folder_name, re.IGNORECASE)
-    if match:
-      year, month, day = [group for group in match.groups()]
-      if int(year) < 100:
-          year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month, day]
+    for pattern in self.date_folder_patterns:
+      match = re.search(pattern, folder_name, re.IGNORECASE)
+      if match:
+        groups = match.groups()
+        if len(groups) == 3:
+          return [self.get_year(groups[0]), self.get_month(groups[1]), groups[2]]
+        elif len(groups) == 2:
+          return [self.get_year(groups[0]), self.get_month(groups[1])]
+        elif len(groups) == 1:
+          return [self.get_year(groups[0])]
 
-    # ? Caso in cui trova sia anno che mese
-    match = re.search(r'/{}/{}$'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
-    if match:
-      print(folder_name, 'tutto di fila anno e mese')
-      year, month = [group for group in match.groups()]
-      if int(year) < 100:
-        year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month]
-    
-    match = re.search(r'/{}/{}/'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
-    if match:
-      print(folder_name, 'tutto di fila anno e mese')
-      year, month = [group for group in match.groups()]
-      if int(year) < 100:
-        year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month]
-
-    # ? caso anno/mare/mese
-    match = re.search(r'/{}/.+/{}'.format(self.year_pattern, self.month_pattern), folder_name, re.IGNORECASE)
-    if match:
-      year, month = [group for group in match.groups()]
-      if int(year) < 100:
-        year = '19' + year if int(year) > 70 else '20' + year
-      return [year, month]
-      
-    # ? Caso in cui trova solo l'anno
-    match = re.search(r'/{}'.format(self.year_pattern), folder_name)
-    if match:
-      year = [group for group in match.groups()][0]
-      if int(year) < 100:
-        year = '19' + year if int(year) > 70 else '20' + year
-      return [year]
     return None
+  
+  def get_year(self, y):
+    if int(y) < 100:
+      y = '19' + y if int(y) > 70 else '20' + y
+    return y
+  
+  def get_month(self, month:str) ->str:
+    if(not month.isnumeric()):
+      if(month in self.italian_month_dict.keys()):
+        month = self.italian_month_dict[month]
+      elif(month in self.italian_month_abbr_dict.keys()):
+        month = self.italian_month_abbr_dict[month]
+      elif(month in self.english_month_dict.keys()):
+        month = self.english_month_dict[month]
+      else:
+        month = self.english_month_abbr_dict[month]
+    return month
