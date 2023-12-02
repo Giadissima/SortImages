@@ -6,4 +6,10 @@
 
 4) pensare se c'è un modo in cui input folder possa stare dentro la dest folder o viceversa
 
+5) se tocchi la casella di testo si blocca anche se il processo continua ad andare
+
 6) docstring e rivedere i commenti
+
+7) opzione "ignorare se sono già presenti delle date nelle cartelle"
+
+8) dopo un po' smette di rispondere a caso

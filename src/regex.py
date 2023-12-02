@@ -9,8 +9,9 @@ class RegexMedia:
     self.month_number_pattern = r'0[1-9]|1[0-2]'
 
     self.month_pattern = r'({}|{}|{}|{})'.format(self.month_number_pattern, self.months_abbreviated, self.months_english, self.months_italian)
-    self.year_pattern = r'(19\d{2}|20\d{2}|\d{2})'
     self.day_pattern = r'(0[1-9]|1[0-9]|2[0-9]|30|31)'
+    self.complete_year = r'(\d{4})'
+    self.abbreviate_year = r'(19|20)'
     
     self.italian_month_dict = {
       'gennaio':'01',
@@ -69,28 +70,42 @@ class RegexMedia:
     }
     
     self.date_folder_patterns = [
-      r'/{}/{}/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
-      r'/{}/.+/{}/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
-      r'/{}/{}/.+/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
-      r'/{}/.+/{}/.+/{}'.format(self.year_pattern, self.month_pattern, self.day_pattern),
-      r'/{}/{}$'.format(self.year_pattern, self.month_pattern),
-      r'/{}/{}/'.format(self.year_pattern, self.month_pattern),
-      r'/{}/.+/{}'.format(self.year_pattern, self.month_pattern),
-      r'/{}'.format(self.year_pattern) # TODO vedere perché io prendevo year = [group for group in match.groups()][0]
+      re.compile(r'/{}/{}/{}'.format(self.complete_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/.+/{}/{}'.format(self.complete_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/{}/.+/{}'.format(self.complete_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/.+/{}/.+/{}'.format(self.complete_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      
+      re.compile(r'/{}/{}/{}'.format(self.abbreviate_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/.+/{}/{}'.format(self.abbreviate_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/{}/.+/{}'.format(self.abbreviate_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/.+/{}/.+/{}'.format(self.abbreviate_year, self.month_pattern, self.day_pattern), flags=re.IGNORECASE),
+      
+      re.compile(r'/{}/{}'.format(self.complete_year, self.month_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/.+/{}'.format(self.complete_year, self.month_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/{}'.format(self.abbreviate_year, self.month_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}/.+/{}'.format(self.abbreviate_year, self.month_pattern), flags=re.IGNORECASE),
+      re.compile(r'/{}'.format(self.complete_year)),
+    ]
+    
+    self.date_img_patterns = [
+      re.compile(r'{}({}){}'.format(self.complete_year, self.month_number_pattern, self.day_pattern)),
+      re.compile(r'{}\D({})\D{}'.format(self.complete_year, self.month_number_pattern, self.day_pattern)),
+      re.compile(r'{}({}){}'.format(self.abbreviate_year, self.month_number_pattern, self.day_pattern)),
+      re.compile(r'{}\D({})\D{}'.format(self.abbreviate_year, self.month_number_pattern, self.day_pattern)),
     ]
 
-  # TODO dividere le regex tra anno a 2 cifre o anno a 4 cifre
   def extract_date_from_media(self, img_name: str, date):
-    # Estrae la data dalla stringa img_name
-    match = re.search(r'19\d{2}|20\d{2}.?\({}\).?{}'.format(self.month_number_pattern, self.day_pattern), img_name, re.IGNORECASE)
-    if match:
-      year, month, day = [group for group in match.groups()]
-      return [self.get_year(year), month, day]
+    # Estrae la data dalla stringa img_name 
+    for pattern in self.date_img_patterns:
+      match = re.search(pattern, img_name)
+      if match:
+        year, month, day = match.group(1), match.group(2), match.group(3)
+        return [self.get_year(year), month, day]
     return date
 
   def extract_date_from_folder(self, folder_name: str):
     for pattern in self.date_folder_patterns:
-      match = re.search(pattern, folder_name, re.IGNORECASE)
+      match = re.search(pattern, folder_name)
       if match:
         groups = match.groups()
         if len(groups) == 3:
@@ -99,7 +114,6 @@ class RegexMedia:
           return [self.get_year(groups[0]), self.get_month(groups[1])]
         elif len(groups) == 1:
           return [self.get_year(groups[0])]
-
     return None
   
   def get_year(self, y):
