@@ -1,4 +1,4 @@
-from src.ui.interface import Interface
+from src.ui.ui_interface import Interface
 
 def main():
   Interface("Sort Images", "700x400", "assets/icon.ico", "Noto 10")

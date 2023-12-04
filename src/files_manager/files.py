@@ -1,9 +1,9 @@
 from hashlib import md5
 from os.path import join, exists
 from os import rename
-from src.regex import RegexMedia
+from src.sort.regex import RegexMedia
 
-from src.folders import Folder
+from src.files_manager.folders import Folder
 
 # TODO function get time
 # from hashlib import md5s

@@ -1,6 +1,6 @@
 from tkinter import W, Checkbutton, Frame, IntVar, Label
 
-from src.config import Config
+from src.config.config import Config
 
 class OptionsFrame:
   def __init__(self, frame, font=None):

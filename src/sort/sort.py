@@ -1,15 +1,17 @@
 from logging import Logger
 from os.path import join
 from typing import Union
-from src.folders import Folder
-from src.config import Config
-from src.regex import RegexMedia
-from src.images import ImageHelper
-from src.video import VideoHelper
-from src.files import File
+from src.config.config import Config
+from src.files_manager.folders import Folder
+from src.sort.regex import RegexMedia
+from src.files_manager.images import ImageHelper
+from src.files_manager.video import VideoHelper
+from src.files_manager.files import File
 from os import remove, rmdir, walk, listdir
-from src.logsHelper import get_error_logger, get_tkinter_logger
+from src.logs import get_error_logger, get_tkinter_logger
 
+
+# TODO rivedere i file di imports
 regex = RegexMedia()
 file = File()
 file_error_logger = get_error_logger()

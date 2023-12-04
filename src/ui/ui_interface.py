@@ -1,14 +1,12 @@
-from tkinter import BOTH, Frame, Tk, messagebox
-from tkinter.ttk import Label, Button
+from tkinter import Tk, messagebox
+from tkinter.ttk import Button
 
-from src.sort import start_sort
-
-
-from src.ui.tkinter_logs import TkinterLogs
-from src.ui.style import configure_style
-from src.config import Config
-from src.ui.custom_messagebox import CustomMessageBox
-from src.ui.user_config import ConfigManager
+from src.config.config import Config
+from src.config.user_config import ConfigManager
+from src.sort.sort import start_sort
+from src.ui.components.tkinter_logs import TkinterLogs
+from src.ui.settings.settings_style import configure_style
+from src.ui.components.custom_messagebox import CustomMessageBox
 from src.ui.ui_manager import UIManager
 
 class Interface():

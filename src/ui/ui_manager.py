@@ -1,6 +1,6 @@
 from tkinter import BOTH, Frame, Label
-from src.ui.options import OptionsFrame
-from src.ui.folder_selection import create_selection_folder_frame
+from src.ui.components.options_interface import OptionsFrame
+from src.ui.components.folder_selection import create_selection_folder_frame
 
 class UIManager:
   def __init__(self, root, size, title, icon_path, default_font=None, default_font_size=None):

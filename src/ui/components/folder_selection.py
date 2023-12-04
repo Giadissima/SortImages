@@ -1,12 +1,12 @@
 from tkinter import END, Button, Entry, Label, filedialog
-from src.ui.utils import resize_image
+from src.files_manager.images import ImageHelper
 
-
+# Todo ottimizzarla
 def create_selection_folder_frame(frame, folder_icon_path, font=None):
     sub_title = Label(frame, text="Select Folders", font='Noto 10 bold')
     sub_title.grid(row=0, sticky='w')
     
-    folder_icon_path = resize_image(folder_icon_path, 13, 13)
+    folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
     
     # Cartella input field
     label_1 = Label(frame, text="Start folder:", font=font)

@@ -1,8 +1,8 @@
 from tkinter.tix import IMAGETEXT
 from typing import List, Optional
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
 from PIL.ExifTags import TAGS
-from src.files import File
+from src.files_manager.files import File
 
 class ImageHelper(File):
   def __init__(self):
