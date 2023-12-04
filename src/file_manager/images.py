@@ -1,3 +1,4 @@
+from tkinter.tix import IMAGETEXT
 from typing import List, Optional
 from PIL import Image, UnidentifiedImageError
 from PIL.ExifTags import TAGS
@@ -53,3 +54,9 @@ class ImageHelper(File):
           dd = data[8:10]
           return [yy, mm, dd]
       return None
+    
+  @staticmethod
+  def resize_image(image_path, width, height):
+    original_image = Image.open(image_path)
+    resized_image = original_image.resize((width, height))
+    return IMAGETEXT.PhotoImage(resized_image)
