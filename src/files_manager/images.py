@@ -1,6 +1,6 @@
-from tkinter.tix import IMAGETEXT
 from typing import List, Optional
 from PIL import Image
+from PIL import ImageTk
 from PIL.ExifTags import TAGS
 from src.files_manager.files import File
 
@@ -23,7 +23,7 @@ class ImageHelper(File):
       with Image.open(img) as image:
         image.verify()
       return True
-    except Exception:
+    except IOError:
       return False
     
   @staticmethod
@@ -38,25 +38,28 @@ class ImageHelper(File):
       data (str[]): data[0] = yy, data[1] = mm, data [2] = dd
       se non è riuscito a estrapolare la data, ritorna None
     """
-    with Image.open(img) as image:
-      exifdata = image.getexif()
-      for tag_id in exifdata:
-        # get the tag name, instead of human unreadable tag id
-        tag = TAGS.get(tag_id, tag_id)
-        data = exifdata.get(tag_id)
-        # decode bytes 
-        if isinstance(data, bytes):
-            data = data.decode()
-        # tipo data str e valore = 2023:01:31 13:19:34
-        if(tag == 'DateTime'):
-          yy = data[0:4]
-          mm = data[5:7]
-          dd = data[8:10]
-          return [yy, mm, dd]
+    try:
+      with Image.open(img) as image:
+        exifdata = image.getexif()
+        for tag_id in exifdata:
+          # get the tag name, instead of human unreadable tag id
+          tag = TAGS.get(tag_id, tag_id)
+          data = exifdata.get(tag_id)
+          # decode bytes 
+          if isinstance(data, bytes):
+              data = data.decode()
+          # tipo data str e valore = 2023:01:31 13:19:34
+          if(tag == 'DateTime'):
+            yy = data[0:4]
+            mm = data[5:7]
+            dd = data[8:10]
+            return [yy, mm, dd]
+        return None
+    except (IOError, KeyError, AttributeError):
       return None
     
   @staticmethod
   def resize_image(image_path, width, height):
     original_image = Image.open(image_path)
     resized_image = original_image.resize((width, height))
-    return IMAGETEXT.PhotoImage(resized_image)
+    return ImageTk.PhotoImage(resized_image)
