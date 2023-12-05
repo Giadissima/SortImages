@@ -6,7 +6,14 @@ class Config():
   input_folder: str = None
   output_folder: str = None
 
-  def set_logs_obj(self, obj): Config.logs_obj = obj
-  def set_input_folder(self, path): Config.input_folder = path
-  def set_output_folder(self, path): Config.output_folder = path
-  def set_checkbox_choises(self, arr): Config.checkbox_choises = arr
+  @staticmethod
+  def set_logs_obj(obj): Config.logs_obj = obj
+  @staticmethod
+  def set_input_folder(path): Config.input_folder = path
+  @staticmethod
+  def set_output_folder(path): Config.output_folder = path
+  @staticmethod
+  def set_checkbox_choises(arr): Config.checkbox_choises = arr
+  @staticmethod
+  def get_checkbox_choises(key)->bool: 
+    return Config.checkbox_choises[key].get() == 1

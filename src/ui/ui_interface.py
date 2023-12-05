@@ -12,7 +12,6 @@ from src.ui.ui_manager import UIManager
 class Interface():
   def __init__(self, title: str, size: str, icon_path: str, default_font=None, default_font_size=None):
     self.root = Tk()
-    self.config = Config()
     self.config_manager = ConfigManager()
     self.ui_manager = UIManager(self.root, size, title, icon_path, default_font, default_font_size)
     
@@ -27,18 +26,19 @@ class Interface():
     btn = Button(self.root, text="Start", style="B.TButton", command=self.start_sort)
     btn.pack(pady=10)
 
-    self.config.set_logs_obj(TkinterLogs(self.root))
+    Config.set_logs_obj(TkinterLogs(self.root))
     self.root.mainloop()
 
   def start_sort(self):
     msg1 = "The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?"
     msg2 = "Are you sure you want to delete empty folders\nfrom the starting folder?"
 
+    # TODO path entry?
     self.check_and_set_preference('DUPLICATES_CHOISE', msg1)
     self.check_and_set_preference('FOLDER_CHOICE', msg2)
 
-    self.config.set_input_folder(self.path_entry[0].get())
-    self.config.set_output_folder(self.path_entry[1].get())
+    Config.set_input_folder(self.path_entry[0].get())
+    Config.set_output_folder(self.path_entry[1].get())
     result, msg = start_sort()
     if result:
       messagebox.showinfo(title="Success", message="Sort completed")
@@ -46,12 +46,8 @@ class Interface():
       messagebox.showerror(title="error", message=msg)
 
   def check_and_set_preference(self, preference_name, msg):
-    checkbox = Config.checkbox_choises[preference_name], 
-    if checkbox.get() == 1 and not self.config_manager.has_preference(preference_name):
-      custom_message_box = self.ask_to_custom_msgbox(
-        msg, preference_name)
-      if not custom_message_box:
-        checkbox.set(0)
+    if Config.get_checkbox_choises(preference_name) and not self.config_manager.has_preference(preference_name):
+      self.ask_to_custom_msgbox(msg, preference_name)
 
   def ask_to_custom_msgbox(self, message, choise_name, title='Warning'):
     custom_message_box = CustomMessageBox(
@@ -63,7 +59,8 @@ class Interface():
     self.root.wait_window(custom_message_box)
 
     # TODO ho aggiunto == 1, controllarlo
-    if custom_message_box.checkbox_var.get() == 1:
+    checkbox = custom_message_box.checkbox_var
+    if checkbox.get() == 1:
       self.config_manager.set_preference(choise_name, 'True')
     return custom_message_box.ok
   

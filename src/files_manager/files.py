@@ -1,12 +1,10 @@
 from hashlib import md5
 from os.path import join, exists
 from os import rename
+from typing import List
+
 from src.sort.regex import RegexMedia
-
 from src.files_manager.folders import Folder
-
-# TODO function get time
-# from hashlib import md5s
 class File:
   def __init__(self):
     self.BUF_SIZE = 65536
@@ -50,7 +48,7 @@ class File:
     return hash.hexdigest()
   
   @classmethod
-  def extract_date(cls, file_path: str, file: str, folder_date: [str, str, str]):
+  def extract_date(cls, file_path: str, file: str, folder_date: List[str]|None):
     regex = RegexMedia()
     if(folder_date != None and len(folder_date) == 3): 
       print(folder_date)

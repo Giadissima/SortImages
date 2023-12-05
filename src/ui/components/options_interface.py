@@ -4,7 +4,6 @@ from src.config.config import Config
 
 class OptionsFrame:
   def __init__(self, frame, font=None):
-    self.config = Config()
     self.parent_frame = frame
     self.frame = Frame(self.parent_frame)
     self.font = font
@@ -26,7 +25,7 @@ class OptionsFrame:
       self.choices[key] = IntVar()
       Checkbutton(self.frame, text=text, variable=self.choices[key], font=self.font).grid(row=idx, sticky=W)
 
-    self.config.set_checkbox_choises(self.choices)
+    Config.set_checkbox_choises(self.choices)
 
 # Usage example:
 # options_frame = OptionsFrame(frame, font)
