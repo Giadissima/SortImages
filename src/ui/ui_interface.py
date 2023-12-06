@@ -1,3 +1,4 @@
+from threading import Thread, Event
 from tkinter import Tk, messagebox
 from tkinter.ttk import Button
 
@@ -15,6 +16,8 @@ class Interface():
     self.config_manager = ConfigManager()
     self.icon_path = icon_path
     self.ui_manager = UIManager(self.root, size, title, icon_path, default_font, default_font_size)
+    self.sort_thread = None  # Variabile per tenere traccia del thread di ordinamento
+    self.pause_event = Event()  # Oggetto Event per gestire la pausa
     
     self.main_frame()
 
@@ -24,27 +27,64 @@ class Interface():
     # TODO come funziona lo scoping di style?
     configure_style()
 
-    btn = Button(self.root, text="Start", style="B.TButton", command=self.start_sort)
-    btn.pack(pady=10)
+    self.btn = Button(self.root, text="Start", style="B.TButton", command=self.start_sorting_or_resume)
+    self.btn.pack(pady=10)
 
     Config.set_logs_obj(TkinterLogs(self.root))
     self.root.mainloop()
 
+  def start_sorting_or_resume(self):
+    # Verifica se il thread di ordinamento è già in esecuzione
+    if self.sort_thread: # se il thread esiste
+      if self.sort_thread.is_alive(): # se è vivo
+        if self.pause_event and self.pause_event.is_set(): # dobbiamo fare il resume
+          self.resume_sort()
+        else: # dobbiamo fare il pause
+          # Il thread è in esecuzione, quindi vuoi metterlo in pausa
+          self.pause_sort()
+    else:
+      self.start_sort()
+
+  def pause_sort(self):
+      if self.sort_thread and self.sort_thread.is_alive():
+        self.pause_event.set()
+        self.btn.config(text="Resume")
+        messagebox.showinfo(title="Info", message="Sorting paused.")
+      else:
+        messagebox.showinfo(title="Info", message="No sorting in progress to pause.")
+
+  def resume_sort(self):
+      if self.sort_thread and self.sort_thread.is_alive():
+        self.pause_event.clear()
+        self.btn.config(text="Pause")
+        messagebox.showinfo(title="Info", message="Sorting resumed.")
+      else:
+        messagebox.showinfo(title="Info", message="No sorting in progress to resume.")
+      
+
   def start_sort(self):
+    self.pause_event.clear()
+    self.btn.config(text="Pause")
+    
     msg1 = "The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?"
     msg2 = "Are you sure you want to delete empty folders\nfrom the starting folder?"
 
-    # TODO path entry?
     self.check_and_set_preference('DeleteDuplicates', msg1)
     self.check_and_set_preference('DeleteEmptyFolders', msg2)
 
     Config.set_input_folder(self.ui_manager.path_entry[0].get())
     Config.set_output_folder(self.ui_manager.path_entry[1].get())
-    result, msg = start_sort()
+    
+    self.sort_thread = Thread(target=self.run_sort)
+    self.sort_thread.start()
+    
+  def run_sort(self):
+    result, msg = start_sort(pause_event=self.pause_event)
     if result:
-      messagebox.showinfo(title="Success", message="Sort completed")
+        messagebox.showinfo(title="Success", message="Sort completed")
     else:
-      messagebox.showerror(title="error", message=msg)
+        messagebox.showerror(title="Error", message=msg)
+    self.btn.config(text="Start")
 
   def check_and_set_preference(self, preference_name, msg):
     if Config.get_checkbox_choises(preference_name) and not self.config_manager.has_preference(preference_name):

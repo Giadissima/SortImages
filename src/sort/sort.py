@@ -1,5 +1,6 @@
 from logging import Logger
 from os.path import join
+from threading import Event
 from typing import Union
 from src.files_manager.folders import Folder
 from src.config.config import Config
@@ -8,7 +9,7 @@ from src.sort.regex import RegexMedia
 from src.files_manager.images import ImageHelper
 from src.files_manager.video import VideoHelper
 from src.files_manager.files import File
-from os import remove, rmdir, walk, listdir
+from os import remove, walk, listdir
 from src.logs import get_error_logger, get_tkinter_logger
 
 
@@ -19,7 +20,7 @@ file = File()
 folder = Folder()
 file_error_logger = get_error_logger()
 
-def start_sort() -> Union[bool, str]:
+def start_sort(pause_event: Event = None) -> Union[bool, str]:
   tkinter_logger = get_tkinter_logger(Config.logs_obj)
   
   if(Config.input_folder == "" or Config.output_folder == "" or Config.input_folder == None or Config.output_folder == None):
@@ -40,6 +41,10 @@ def start_sort() -> Union[bool, str]:
     # ciclo tutte le immagini
     for f in files:
       try:
+        if pause_event and pause_event.is_set(): tkinter_logger.info("Sorting paused. Waiting for resume...")
+        while pause_event and pause_event.is_set():
+          pause_event.wait()  # Attendi fino a quando l'Event viene cancellato
+                    
         file_path = join(root, f).replace('\\', '/')
         # se non è un immagine o un video, passa al file successivo
         media_class:VideoHelper|ImageHelper = identify_media(file_path)
