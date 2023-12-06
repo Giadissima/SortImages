@@ -1,6 +1,7 @@
 from logging import Logger
 from os.path import join
 from typing import Union
+from src.files_manager.folders import Folder
 from src.config.config import Config
 from src.files_manager.folders import Folder
 from src.sort.regex import RegexMedia
@@ -65,9 +66,9 @@ def start_sort() -> Union[bool, str]:
       except Exception:
         handle_exception(tkinter_logger)
       finally: Config.logs_obj.log_text_field.update_idletasks()
-    if(Config.checkbox_choises['DeleteEmptyFolders'].get() == 1 and (not any(listdir(root)))):
-      rmdir(root)
-      tkinter_logger.info(f'{root} - Empty folder deleted')
+  if(Config.checkbox_choises['DeleteEmptyFolders'].get() == 1 and (not any(listdir(root)))):
+    Folder.delete_empty_folders()
+    tkinter_logger.info(f'{root} - Empty folders deleted')
   tkinter_logger.debug('sorting completed.')
   file.HASH_LIST.clear()
   return True, None

@@ -1,4 +1,5 @@
-from os.path import abspath, commonpath
+from os import listdir, rmdir
+from os.path import abspath, commonpath, join, isdir
 from pathlib import Path
 
 
@@ -20,3 +21,23 @@ class Folder():
   @staticmethod
   def create_nested_dir(path_to_create):
     Path(path_to_create).mkdir(parents=True, exist_ok=True)
+    
+  @staticmethod
+  def delete_empty_folders(root):
+    # se non è una cartella il percorso passato ritorno
+    if not isdir(root): return
+    
+    # per ogni elemento nella cartella, controllo se è una directory, in caso affermativo, chiamo ricorsivamente la funzione
+    for foldername in listdir(root):
+      folderpath = join(root, foldername)
+      if isdir(folderpath):
+        Folder.delete_empty_folder(folderpath)
+
+    # una volta rimosse le subdirs, controllo nuovamente se la cartella di partenza è vuota, se sì la cancello
+    if not listdir(root):
+      try:
+        # Rimuovi la cartella vuota
+        rmdir(root)
+        print(f"Cartella vuota rimossa: {root}")
+      except OSError as e:
+        print(f"Errore nella rimozione della cartella vuota {root}: {e}")
