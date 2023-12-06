@@ -30,6 +30,7 @@ def create_selection_folder_frame(frame, folder_icon_path, font=None):
     browse_button_2.grid(row=2, column=2)
     browse_button_2.image = folder_icon_path
     
+    # TODO fare una funzione comune
     frame.columnconfigure(1, weight=1)  # Imposta il peso della colonna 1
     frame.rowconfigure(1, weight=1)     # Imposta il peso della riga 0
     frame.rowconfigure(2, weight=1)     # Imposta il peso della riga 0

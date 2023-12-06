@@ -43,9 +43,8 @@ def start_sort() -> Union[bool, str]:
         media_class:VideoHelper|ImageHelper = identify_media(file_path)
         if media_class == None: continue
         
-        # se è un duplicato, lo cancello e passo all'immagine successiva
         if(file.isDuplicate(file_path)): 
-          if(Config.checkbox_choises['DeleteDuplicates'].get() == 1):
+          if(Config.get_checkbox_choises('DeleteDuplicates')):
             remove(file_path)
             tkinter_logger.info(f'{f} - Duplicated detected: successfully deleted.')
           else:
@@ -54,13 +53,8 @@ def start_sort() -> Union[bool, str]:
         date = media_class.extract_date(file_path, f, folder_date)
         if(date == None):
           tkinter_logger.error(f'{f} - No date found in the file: file not moved.')
-        else: # TODO farlo in una funzione
-          if(date[0] != None and date[1] == None): 
-            date_path = join(Config.output_folder, date[0])
-          elif date[0] != None and date[1] != None and date[2] == None: 
-            date_path = join(Config.output_folder, date[0], date[1])
-          else: 
-            date_path = join(Config.output_folder, date[0], date[1], date[2])
+        else:
+          date_path = get_date_path(date)
           file.move_file(file_path, f, date_path)
           tkinter_logger.debug(f'{f} - moved successfully.')
       except Exception:
@@ -85,3 +79,11 @@ def handle_exception(tkinter_logger: Logger):
   """Gestisce le eccezioni durante l'elaborazione dei file."""
   file_error_logger.error('', exc_info=True)
   tkinter_logger.error('An error occurred: file not sorted. See more information on error_logs.log')
+  
+def get_date_path(date):
+  if date[1] == None: 
+    return join(Config.output_folder, date[0])
+  elif date[2] == None: 
+    return join(Config.output_folder, date[0], date[1])
+  else: 
+    return join(Config.output_folder, date[0], date[1], date[2])
