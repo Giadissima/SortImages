@@ -13,11 +13,11 @@ class ConfigManager:
 
   def save_config(self):
     with open('config.ini', "w") as configfile:
-        self.config_parser.write(configfile)
+      self.config_parser.write(configfile)
 
   def set_preference(self, option, value):
     self.config_parser.set('Preferences', option, value)
     self.save_config()
       
   def has_preference(self, name):
-    self.config_parser.has_option('Preferences', name)
+    return self.config_parser.has_option('Preferences', name)
