@@ -15,8 +15,8 @@ class OptionsFrame:
     sub_title.grid(row=0, sticky='w')
 
     options = {
-      "DUPLICATES_CHOISE": "Delete duplicate images and videos from start folder",
-      "FOLDER_CHOICE": "Delete empty folders after the sort process",
+      "DeleteDuplicates": "Delete duplicate images and videos from start folder",
+      "DeleteEmptyFolders": "Delete empty folders after the sort process",
     }
 
     # idx = l'indice per memorizzare a che riga della griglia sei, 

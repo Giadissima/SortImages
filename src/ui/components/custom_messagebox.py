@@ -1,5 +1,5 @@
 from tkinter import Label, BooleanVar, Button, Checkbutton, LEFT, RIGHT, Toplevel
-from src.files_manager.images import Image
+from src.files_manager.images import ImageHelper
 class CustomMessageBox(Toplevel):
   def __init__(self, parent, title, message, icon=None):
     super().__init__(parent)
@@ -11,7 +11,7 @@ class CustomMessageBox(Toplevel):
 
     self.geometry("350x180")
 
-    self.warning_img_path = Image.resize_image('assets/Warning.png', 70, 50)
+    self.warning_img_path = ImageHelper.resize_image('assets/Warning.png', 70, 50)
     label1 = Label(self,image=self.warning_img_path)
     label1.image = self.warning_img_path  # Mantieni un riferimento
     label1.pack()

@@ -13,6 +13,7 @@ class Interface():
   def __init__(self, title: str, size: str, icon_path: str, default_font=None, default_font_size=None):
     self.root = Tk()
     self.config_manager = ConfigManager()
+    self.icon_path = icon_path
     self.ui_manager = UIManager(self.root, size, title, icon_path, default_font, default_font_size)
     
     self.main_frame()
@@ -34,11 +35,11 @@ class Interface():
     msg2 = "Are you sure you want to delete empty folders\nfrom the starting folder?"
 
     # TODO path entry?
-    self.check_and_set_preference('DUPLICATES_CHOISE', msg1)
-    self.check_and_set_preference('FOLDER_CHOICE', msg2)
+    self.check_and_set_preference('DeleteDuplicates', msg1)
+    self.check_and_set_preference('DeleteEmptyFolders', msg2)
 
-    Config.set_input_folder(self.path_entry[0].get())
-    Config.set_output_folder(self.path_entry[1].get())
+    Config.set_input_folder(self.ui_manager.path_entry[0].get())
+    Config.set_output_folder(self.ui_manager.path_entry[1].get())
     result, msg = start_sort()
     if result:
       messagebox.showinfo(title="Success", message="Sort completed")

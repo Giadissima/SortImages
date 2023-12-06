@@ -12,9 +12,11 @@ from os import remove, rmdir, walk, listdir
 from src.logs import get_error_logger, get_tkinter_logger
 
 
+# TODO c'è un problema con configparse che non sembra funzionare
 # TODO rivedere i file di imports
 regex = RegexMedia()
 file = File()
+folder = Folder()
 file_error_logger = get_error_logger()
 
 def start_sort() -> Union[bool, str]:
@@ -60,9 +62,9 @@ def start_sort() -> Union[bool, str]:
       except Exception:
         handle_exception(tkinter_logger)
       finally: Config.logs_obj.log_text_field.update_idletasks()
-  if(Config.checkbox_choises['DeleteEmptyFolders'].get() == 1 and (not any(listdir(root)))):
-    Folder.delete_empty_folders()
-    tkinter_logger.info(f'{root} - Empty folders deleted')
+  if(Config.get_checkbox_choises('DeleteEmptyFolders') and (not any(listdir(root)))):
+    folder.delete_empty_folders(Config.input_folder)
+    tkinter_logger.info('Empty folders deleted')
   tkinter_logger.debug('sorting completed.')
   file.HASH_LIST.clear()
   return True, None

@@ -2,10 +2,12 @@ from os import listdir, rmdir
 from os.path import abspath, commonpath, join, isdir
 from pathlib import Path
 
+from src.logs import get_error_logger
+
 
 class Folder():
   def __init__(self, ):
-    pass
+    self.file_error_logger = get_error_logger()
   
   @staticmethod
   def path_is_parent(parent_path, child_path):
@@ -22,8 +24,7 @@ class Folder():
   def create_nested_dir(path_to_create):
     Path(path_to_create).mkdir(parents=True, exist_ok=True)
     
-  @staticmethod
-  def delete_empty_folders(root):
+  def delete_empty_folders(self, root):
     # se non è una cartella il percorso passato ritorno
     if not isdir(root): return
     
@@ -31,13 +32,12 @@ class Folder():
     for foldername in listdir(root):
       folderpath = join(root, foldername)
       if isdir(folderpath):
-        Folder.delete_empty_folder(folderpath)
+        self.delete_empty_folders(folderpath)
 
     # una volta rimosse le subdirs, controllo nuovamente se la cartella di partenza è vuota, se sì la cancello
     if not listdir(root):
       try:
         # Rimuovi la cartella vuota
         rmdir(root)
-        print(f"Cartella vuota rimossa: {root}")
       except OSError as e:
-        print(f"Errore nella rimozione della cartella vuota {root}: {e}")
+        self.file_error_logger.error(f"non è stato possibile cancellare la cartella {root}, errore:\n{e}")
