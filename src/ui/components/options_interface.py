@@ -17,6 +17,7 @@ class OptionsFrame:
     options = {
       "DeleteDuplicates": "Delete duplicate images and videos from start folder",
       "DeleteEmptyFolders": "Delete empty folders after the sort process",
+      "IgnoreFolderSort": "Do not consider folder names for sorting",
     }
 
     # idx = l'indice per memorizzare a che riga della griglia sei, 

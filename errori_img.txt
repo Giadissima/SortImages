@@ -1,15 +1,9 @@
-3)Se cerco di chiudere il processo, non risponde più e quindi devo fare un pulsante pause
-
 4) pensare se c'è un modo in cui input folder possa stare dentro la dest folder o viceversa
-
-5) se tocchi la casella di testo si blocca anche se il processo continua ad andare
 
 6) docstring e rivedere i commenti
 
-7) opzione "non controllare se nel nome della cartella ci sono date"
-
-8) dopo un po' smette di rispondere a caso
-
-9) rivedere un attimo l'interfaccia
-
 10) controllare le regex delle folder
+
+1) il secondo start non funziona
+
+2) se chiudo il processo il thread continua

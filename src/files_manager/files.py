@@ -22,7 +22,11 @@ class File:
       file_name = f"{file_list[0]}.{i}.{file_list[1]}"
       file_dest_path = join(new_path, file_name) 
       i+=1
-    rename(file_path, file_dest_path)
+    try:
+      rename(file_path, file_dest_path)
+      return True
+    except PermissionError:
+      return False
       
   def isDuplicate(self, file):
     """Find if file is a duplicate by the array contains al the hash previously seen
