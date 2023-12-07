@@ -14,6 +14,7 @@ from os import remove, walk, listdir
 from src.logs import get_error_logger, get_tkinter_logger
 
 # TODO rivedere i file di imports
+# TODO creare una classe sort
 regex = RegexMedia()
 file = File()
 folder = Folder()
@@ -34,14 +35,13 @@ def start_sort(pause_event: Event = None, quit_event: Event = None) -> Union[boo
     return False, "Start folder doesn't contain files. Process aborted."
   
   # ciclo tutte le cartelle
-  for root, dirs, files in walk(Config.input_folder):
+  for root, _, files in walk(Config.input_folder):
     root = root.replace('\\', '/')
     if(Config.get_checkbox_choises('IgnoreFolderSort')):
       folder_date = None
     else: folder_date = regex.extract_date_from_folder(root)
     # ciclo tutte le immagini
     for f in files:
-      # print("a")
       if quit_event and quit_event.is_set(): 
         print("closing...")
         return True, None
@@ -50,7 +50,6 @@ def start_sort(pause_event: Event = None, quit_event: Event = None) -> Union[boo
         while pause_event and pause_event.is_set():
           if(has_thread_to_stop()): 
             return True, None
-          print("aaaa")
           pause_event.wait()  # Attendi fino a quando l'Event viene cancellato
                     
         file_path = join(root, f).replace('\\', '/')
@@ -65,28 +64,18 @@ def start_sort(pause_event: Event = None, quit_event: Event = None) -> Union[boo
           else:
             tkinter_logger.info(f'{f} - Duplicated detected: file not moved.')
           continue
-        # print("b")
         date = media_class.extract_date(file_path, f, folder_date)
-        # print("c")
         if(date == None):
-          # print("f")
           tkinter_logger.error(f'{f} - No date found in the file: file not moved.')
-          # print("g")
         else:
-          # print("h")
           date_path = get_date_path(date)
           response = file.move_file(file_path, f, date_path)
-          # print("i")
           if response and not has_thread_to_stop(quit_event):
             tkinter_logger.debug(f'{f} - moved successfully.')
-            # print("error")
           else: 
-            # print("m")
             if not has_thread_to_stop(quit_event):
               tkinter_logger.error(f'{f} - The file could not be moved')
-        # print("d")
       except Exception:
-        # print("e")
         handle_exception(tkinter_logger)
       finally: 
         if not has_thread_to_stop(quit_event): 
