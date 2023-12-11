@@ -3,7 +3,7 @@ from src.ui.components.options_interface import OptionsFrame
 from src.ui.components.folder_selection import create_selection_folder_frame
 
 class UIManager:
-  def __init__(self, root, size, title, icon_path, default_font=None, default_font_size=None):
+  def __init__(self, root:Frame, size, title, icon_path, default_font=None, default_font_size=None):
       self.root: Frame = root
       self.size = size
       self.title = title
@@ -26,7 +26,7 @@ class UIManager:
     selection_folder_frame = Frame(form_frame)
     selection_folder_frame.grid(row=0, column=0, padx=10, sticky="nsew")
     self.path_entry = create_selection_folder_frame(
-        selection_folder_frame, self.icon_path, self.default_font)
+      selection_folder_frame, self.icon_path, self.default_font)
 
     opt_frame = OptionsFrame(form_frame, self.default_font)
     opt_frame.frame.grid(row=0, column=1, sticky="nsew", padx=10)
@@ -37,3 +37,6 @@ class UIManager:
     table.columnconfigure(0, weight=weight)
     table.columnconfigure(1, weight=weight)
     table.rowconfigure(0, weight=weight)
+    
+  def get_text_entries(self):
+    return self.path_entry[0].get(), self.path_entry[1].get()

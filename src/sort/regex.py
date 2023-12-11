@@ -1,5 +1,6 @@
 import re
-from typing import List
+
+from src.config.config import Config
 class RegexMedia:
   # TODO fare tutte le prove con le cartelle con le regex
   def __init__(self):
@@ -104,6 +105,8 @@ class RegexMedia:
     return date
 
   def extract_date_from_folder(self, folder_name: str):
+    if Config.get_checkbox_choises('IgnoreFolderSort'):
+      return None
     for pattern in self.date_folder_patterns:
       match = re.search(pattern, folder_name)
       if match:
