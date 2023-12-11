@@ -1,4 +1,3 @@
-from logging import Logger
 from os.path import join
 from threading import Event
 import time
@@ -14,7 +13,6 @@ from os import remove, walk, listdir
 from src.logs import get_error_logger, get_tkinter_logger
 
 # TODO rivedere i file di imports
-# TODO creare una classe sort
 
 class Sort():
   def __init__(self, quit_event: Event, pause_event: Event) -> None:
@@ -25,9 +23,18 @@ class Sort():
     self.quit_event = quit_event
     self.pause_event = pause_event
     self.tkinter_logger = get_tkinter_logger(Config.logs_obj)
-    
 
   def start_sort(self) -> Union[bool, str]:
+    """Set up everything necessary to start image sorting,
+    beginning with checking if the input and output folders
+    have been entered correctly, and ending with logging
+    whether the sort occurred successfully or if there were errors.
+    
+    Returns:
+      Union[bool, str]: 
+        bool: True if the process has completed without errors, False otherwise, 
+        str: error's message, if the pricess has completed without errors, str will be None
+      """
     result, msg = self.check_input_output_folders()
     if result == False: return result, msg
     try:
@@ -46,19 +53,28 @@ class Sort():
 
   @staticmethod
   def identify_media(file_path: str) -> Union[ImageHelper, VideoHelper, None]:
-    """Identifica la classe di supporto per il tipo di media."""
+    """Identify the type of file passed and return its corresponding class.
+      Args:
+        file_path (str): The full directory of the file to be identified.
+      Returns:
+        ImageHelper|VideoHelper|None: None if file doesn't match any class"""
     if ImageHelper.isImage(file_path):
         return ImageHelper()
     elif VideoHelper.isVideo(file_path):
         return VideoHelper()
     return None
 
-  def handle_exception(self):
-    """Gestisce le eccezioni durante l'elaborazione dei file."""
+  def handle_exception(self)->None:
+    """Handles exceptions during file processing."""
     self.file_error_logger.error('', exc_info=True)
     self.log_into_tkinter(self.tkinter_logger.error, 'An error occurred: file not sorted. See more information on error_logs.log')
     
-  def get_date_path(self, date):
+  def get_date_path(self, date)->Union[str,None]:
+    """Check for items containing dates and concatenate the contents..
+      Args:
+        date (List[str]): a list of three elements containing: year, month, day
+      Returns:
+        str|None: The new file path"""
     if date[1] == None: 
       return join(Config.output_folder, date[0])
     elif date[2] == None: 
@@ -66,7 +82,15 @@ class Sort():
     else: 
       return join(Config.output_folder, date[0], date[1], date[2])
   
-  def check_input_output_folders(self):
+  def check_input_output_folders(self)->Union[bool, str]:
+    """Check if the input and output folders are the same, 
+    if the input folder is empty, 
+    and if the same folder has been passed twice.
+    
+    Returns:
+      Union[bool, str]: 
+        bool: True if the process has completed without errors, False otherwise, 
+        str: error's message, if the pricess has completed without errors, str will be None"""
     if(Config.input_folder == "" or Config.output_folder == "" or Config.input_folder == None or Config.output_folder == None):
       return False, "The source and destination folders cannot be empty"
     if(Config.input_folder == Config.output_folder):
@@ -85,12 +109,18 @@ class Sort():
   
   def is_pause_set(self): return self.pause_event and self.pause_event.is_set()
   
-  def log_into_tkinter(self, f, *args):
+  def log_into_tkinter(self, f, *args)->None:
+    """Prevents the entire thread from blocking by checking if the stop event has been set,
+    thereby avoiding attempts to write logs to a non-existent stream (as the interface is closing).
+    Args:
+      f (function): function to call for logging
+      args : f's parameters"""
     if not self.is_quit_set():
       f(*args)
       Config.logs_obj.log_text_field.update_idletasks()
       
-  def handle_folders_deletion(self):
+  def handle_folders_deletion(self)->None:
+    """Manages folder deletion."""
     if self.is_quit_set(): return
     if(Config.get_checkbox_choises('DeleteEmptyFolders') and (not any(listdir(Config.input_folder)))):
       self.folder.delete_empty_folders(Config.input_folder)
@@ -98,15 +128,14 @@ class Sort():
         self.tkinter_logger.info,
         'Empty folders deleted')
       
-  def loop_into_folders(self):
-    # ciclo tutte le cartelle
+  def loop_into_folders(self)->None:
     for root, _, files in walk(Config.input_folder):
       root = root.replace('\\', '/')
       if self.is_quit_set(): return True
       self.folder_date = self.regex.extract_date_from_folder(root)
       self.loop_into_files(root, files)
       
-  def loop_into_files(self, folder_path, file_list):
+  def loop_into_files(self, folder_path, file_list)->Union[None,True]:
     for file_name in file_list:
       if self.is_quit_set(): return True
       if self.is_pause_set(): 
@@ -122,7 +151,14 @@ class Sort():
       
       self.handle_move_file(media_class, file_path, file_name)
       
-  def handle_duplicates(self, file_path, file_name):
+  def handle_duplicates(self, file_path, file_name)->bool:
+    """Checks if the passed file is a duplicate and, 
+    if so, examines the action it should take based on 
+    the preferences previously entered by the user.
+    Args:
+      file_path (str): the entire path of the file to check
+      file:name (str): just the name of the file to check
+    """
     if self.file.isDuplicate(file_path): 
       if(Config.get_checkbox_choises('DeleteDuplicates')):
         remove(file_path)
