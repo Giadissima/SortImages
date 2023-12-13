@@ -1,4 +1,4 @@
-# SortImage - instruction
+# SortImage - instructions
 
 Use python version: 3.11
 
