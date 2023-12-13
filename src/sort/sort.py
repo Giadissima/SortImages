@@ -3,13 +3,10 @@ from threading import Event
 from typing import Union
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
-from src.files_manager.folders import Folder
-from src.files_manager.images import ImageHelper
-from src.files_manager.video import VideoHelper
-from src.files_manager.files import File
+from src.files_manager import *
 from src.sort.regex import RegexMedia
 from src.thread.thread_events_manager import ThreadEventsManager
-from os import walk, listdir
+from os import walk
 
 # TODO rivedere i file di imports
 
@@ -64,7 +61,7 @@ class Sort():
   def handle_exception(self)->None:
     """Handles exceptions during file processing."""
     self.logs.error_logger.error('', exc_info=True)
-    self.log_into_tkinter(self.logs.tkinter_logger.error, 
+    self.log_into_tkinter(self.logs.tkinter_logger.error,   
                                'An error occurred: file not sorted. See more information on error_logs.log')
      
   def handle_folders_deletion(self)->None:
