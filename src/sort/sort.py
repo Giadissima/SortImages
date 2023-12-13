@@ -3,12 +3,10 @@ from threading import Event
 from typing import Union
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
-from src.files_manager import *
+from src.files_manager import ImageHelper, VideoHelper, Folder, File
 from src.sort.regex import RegexMedia
 from src.thread.thread_events_manager import ThreadEventsManager
 from os import walk
-
-# TODO rivedere i file di imports
 
 class Sort():
   def __init__(self, quit_event: Event, pause_event: Event) -> None:
