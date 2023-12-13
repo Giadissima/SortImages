@@ -7,7 +7,7 @@ from src.ui.components.tkinter_logs import TkinterLogs
 from src.ui.settings.settings_style import configure_style
 from src.ui.components.custom_messagebox import CustomMessageBox
 from src.ui.ui_manager import UIManager
-from src.thread_manager import ThreadManager
+from src.thread.thread_manager import ThreadManager
 
 class Interface():
   def __init__(self, title: str, size: str, icon_path: str, default_font=None, default_font_size=None):

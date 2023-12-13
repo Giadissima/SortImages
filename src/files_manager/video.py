@@ -27,10 +27,11 @@ class VideoHelper(File):
       metadata = extractMetadata()
       if metadata.has("creation_date"):
         creation_date: str = metadata.get("creation_date").strftime("%Y %m %d")
-        print("Data di creazione del video:", creation_date.split())
+        # print("Data di creazione del video:", creation_date.split())
         return creation_date.split()
       else:
-        print("Data di creazione non trovata nei metadati del video.")
+        pass
+        # print("Data di creazione non trovata nei metadati del video.")
     except Exception as e:
       return None
     finally:

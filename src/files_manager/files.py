@@ -1,7 +1,9 @@
 from hashlib import md5
 from os.path import join, exists
-from os import rename
-from typing import List
+from os import remove, rename
+from typing import List, Union
+from src.date_manager import DateManager
+from src.config.config import Config
 
 from src.sort.regex import RegexMedia
 from src.files_manager.folders import Folder
@@ -55,11 +57,47 @@ class File:
   def extract_date(cls, file_path: str, file: str, folder_date: List[str]|None):
     regex = RegexMedia()
     if(folder_date != None and len(folder_date) == 3): 
-      print(folder_date)
-      print(file_path, "founded folder date")
+      # print(folder_date)
+      # print(file_path, "founded folder date")
       return folder_date
     date = cls.get_date_from_metadata(file_path)
     # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
     if(date != None): return date 
     date = regex.extract_date_from_media(file, folder_date)
     return date
+  
+  def handle_duplicates(self, file_path, file_name)->Union[bool, str|None]:
+    """Checks if the passed file is a duplicate and, 
+    if so, examines the action it should take based on 
+    the preferences previously entered by the user.
+    Args:
+      file_path (str): the entire path of the file to check
+      file:name (str): just the name of the file to check
+    Returns:
+      Union[bool, str|None]: 
+        bool: True if file is a duplicate, False otherwise
+        str: message to be printed if file is a duplicate
+    """
+    if self.isDuplicate(file_path): 
+      if(Config.get_checkbox_choises('DeleteDuplicates')):
+        remove(file_path)
+        return True, f'{file_name} - Duplicated detected: successfully deleted.'
+      else:
+        return True, f'{file_name} - Duplicated detected: file not moved.'
+    return False, None
+  
+  def handle_move_file(self, media_class, file_path:str, file_name:str, folder_date: str):
+    """Checks if the passed date is valid, and if so, creates the new path for the image and moves it."""
+    date = media_class.extract_date(file_path, file_name, folder_date)
+    
+    # case no date found: file not moved
+    if(date == None):
+      return 'error', f'{file_name} - No date found in the file: file not moved.'
+    
+    # case date_found
+    date_path = DateManager.get_date_path(date, Config.output_folder)
+    response = self.move_file(file_path, file_name, date_path)
+    if response:
+      return 'debug', f'{file_name} - moved successfully.'
+    else: 
+      return 'error', f'{file_name} - The file could not be moved'
