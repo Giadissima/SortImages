@@ -34,7 +34,10 @@ class Interface():
     self.btn.pack(pady=10)
 
     Config.set_logs_obj(TkinterLogs(self.root))
-    self.root.mainloop()
+    try:
+      self.root.mainloop()
+    except KeyboardInterrupt:
+      print("chiusura...")
     
   def ask_to_custom_msgbox(self, message, choise_name, title='Warning'):
     custom_message_box = CustomMessageBox(

@@ -80,9 +80,7 @@ class Sort():
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
     for root, _, files in walk(Config.input_folder):
       root = root.replace('\\', '/')
-      print(Config.output_folder, root)
       if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root): 
-        print("skipped")
         continue
       if self.t_events_manager.is_quit_set(): return True
       self.folder_date = self.regex.extract_date_from_folder(root)

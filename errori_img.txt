@@ -6,6 +6,6 @@
 
 4) non si è chiuso durante la pausa
 
-5) gestire il control c line 37, in main_frame
-
 6) ogni volta che viene premuto start aggiunge un thread
+
+7) mettere due cartelle uguali

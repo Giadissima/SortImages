@@ -1,5 +1,4 @@
 import logging
-
 class TkinterTextHandler(logging.Handler):
   def __init__(self, text_obj):
     super().__init__()

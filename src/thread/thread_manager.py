@@ -9,6 +9,7 @@ class ThreadManager():
     self.pause_event = Event()  # Oggetto Event per gestire la pausa
     self.quit_event = Event()  # Oggetto Event per gestire la chiusura del processo
     self.sort_thread = None
+    self.sort = None
     
   def pause_sort(self, main_button: Button):
     if self.sort_thread and self.sort_thread.is_alive():
@@ -21,8 +22,10 @@ class ThreadManager():
       main_button.config(text="Pause")
 
   def start_sort(self, text_entry1:str, text_entry2:str, check_and_set_preference, main_button: Button):
-    if self.sort_thread != None and self.sort_thread.is_alive(): 
+    if self.sort_thread and self.sort_thread.is_alive():
       print("sort_thread is not terminated")
+      self.quit_event.set()  # Imposta l'evento di interruzione
+      self.sort_thread.join()  # Attendi che il thread esistente termini completamente
       return
     self.sort_thread = None
     self.pause_event.clear()
@@ -42,15 +45,22 @@ class ThreadManager():
     main_button.config(text="Pause")
     
   def run_sort(self, main_button):
-    self.sort = Sort(self.quit_event, self.pause_event)
-    result, msg = self.sort.start_sort()
-    if result:
-      messagebox.showinfo(title="Success", message="Sort completed")
-    else:
-      messagebox.showerror(title="Error", message=msg)
-    main_button.config(text="Start")
-    self.quit_event.set()
-    self.sort_thread = None
+    
+    while not self.quit_event.is_set():
+      if not self.pause_event.is_set():
+        if self.sort == None: self.sort = Sort(self.quit_event, self.pause_event)
+        result, msg = self.sort.start_sort()
+        if result:
+          messagebox.showinfo(title="Success", message="Sort completed")
+        else:
+          messagebox.showerror(title="Error", message=msg)
+
+        main_button.config(text="Start")
+        self.quit_event.set()
+        self.sort_thread = None
+        break  # Importante: esce dal ciclo dopo il completamento
+
+    print("Thread terminato.")
     
   def on_close(self):
     if self.sort_thread and self.sort_thread.is_alive():
