@@ -50,6 +50,7 @@ class ThreadManager():
       messagebox.showerror(title="Error", message=msg)
     main_button.config(text="Start")
     self.quit_event.set()
+    self.sort_thread = None
     
   def on_close(self):
     if self.sort_thread and self.sort_thread.is_alive():
