@@ -1,7 +1,9 @@
 import logging
 
 from src.logs.tkinter_logs import TkinterTextHandler
+from meta.decorators import singleton
 
+@singleton
 class LogsHelper():
   def __init__(self, logs_obj):
     self.error_logger = self.get_error_logger()
@@ -14,7 +16,7 @@ class LogsHelper():
     file_handler.setLevel(logging.ERROR)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s\n%(message)s'))
     file_logger.addHandler(file_handler)
-    print("get_error_logger called")
+    # print("get_error_logger called")
     
     return file_logger
     
@@ -26,6 +28,10 @@ class LogsHelper():
     tkinter_text_handler.setLevel(logging.DEBUG)
     tkinter_logger.addHandler(tkinter_text_handler)
     tkinter_logger.setLevel(logging.DEBUG)
-    print("get_tkinter_logger called")
+    # print("get_tkinter_logger called")
     
     return tkinter_logger
+  
+  def cleanup(self):
+    self.error_logger = None
+    self.tkinter_logger = None

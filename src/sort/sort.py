@@ -13,7 +13,7 @@ class Sort():
     self.regex = RegexMedia()
     self.file = File()
     self.folder = Folder()
-    self.logs = LogsHelper(Config.logs_obj)
+    self.logs = None
     self.t_events_manager = ThreadEventsManager(quit_event, pause_event)
 
   def start_sort(self) -> Union[bool, str]:
@@ -30,14 +30,19 @@ class Sort():
     result, msg = Folder.check_input_output_folders(Config.input_folder, Config.output_folder)
     if result == False: return result, msg
     try:
+      # Al posto di istanziare LogsHelper direttamente, creiamo l'istanza solo quando ne abbiamo bisogno
+      if self.logs is None:
+        self.logs = LogsHelper(Config.logs_obj)
       Config.logs_obj.delete_logs()
       self.loop_into_folders()
       self.handle_folders_deletion()
+      print("sorting completed")
       self.log_into_tkinter(
         self.logs.tkinter_logger.info,
         'sorting completed.')
       self.file.HASH_LIST.clear()
-    except Exception:
+    except Exception as e:
+      print(e)
       self.handle_exception()
       if not self.t_events_manager.is_quit_set():
         Config.logs_obj.log_text_field.update_idletasks()
@@ -120,6 +125,8 @@ class Sort():
     Args:
       f (function): function to call for logging
       args : f's parameters"""
+    print("into the class")
     if not self.t_events_manager.is_quit_set():
+      print("calling f", f, *args)
       f(*args)
       Config.logs_obj.log_text_field.update_idletasks()

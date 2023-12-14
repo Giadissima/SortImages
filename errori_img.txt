@@ -6,6 +6,4 @@
 
 4) non si è chiuso durante la pausa
 
-6) ogni volta che viene premuto start aggiunge un thread
-
 7) mettere due cartelle uguali
