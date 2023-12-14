@@ -52,10 +52,10 @@ class Folder():
       return False, "The source and destination folders cannot be empty"
     if(output_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
       return False, "The source and destination folders cannot be empty"
-    if Folder.is_nested_dir(output_folder, input_folder):
-      return False, "The source folders cannot be a subfolder of the destination source"
     if(input_folder == output_folder):
       return False, "The source and destination folders cannot be the same"
+    if Folder.is_nested_dir(output_folder, input_folder):
+      return False, "The source folders cannot be a subfolder of the destination source"
     if not listdir(input_folder) :
       return False, "Start folder doesn't contain files. Process aborted."
     return True, None
