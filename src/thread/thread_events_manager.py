@@ -1,5 +1,5 @@
 from threading import Event
-from time import sleep
+# from time import sleep
 class ThreadEventsManager():
   def __init__(self, quit_event: Event, pause_event: Event) -> None:
     self.quit_event = quit_event
@@ -15,7 +15,7 @@ class ThreadEventsManager():
     
   def is_quit_set(self):
     """return true if quit event is set, false otherwise"""
-    sleep(0.1)
+    # sleep(0.05)
     if self.quit_event and self.quit_event.is_set(): 
       return True
     return False
@@ -23,3 +23,6 @@ class ThreadEventsManager():
   def is_pause_set(self): 
     """return true if pause event is set, false otherwise"""
     return self.pause_event and self.pause_event.is_set()
+  
+  def quit(self):
+    self.quit_event.set()

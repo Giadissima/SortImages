@@ -68,7 +68,8 @@ class ThreadManager():
     
   def on_close(self):
     print("Closing thread...")
-    self.quit_event.set()
     if self.sort_thread and self.sort_thread.is_alive():
+      self.sort.quit()
       print("Waiting for the sorting thread to join...")
+      self.sort_thread.join(timeout=3)
     print("Thread closed.")

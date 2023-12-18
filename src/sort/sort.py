@@ -6,6 +6,7 @@ from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
 from src.sort.regex import RegexMedia
 from src.thread.thread_events_manager import ThreadEventsManager
+import atexit
 from os import walk
 
 class Sort():
@@ -15,6 +16,7 @@ class Sort():
     self.folder = Folder()
     self.logs = None
     self.t_events_manager = ThreadEventsManager(quit_event, pause_event)
+    atexit.register(lambda: self.t_events_manager.quit())
 
   def start_sort(self) -> Union[bool, str]:
     """Set up everything necessary to start image sorting,
@@ -44,8 +46,6 @@ class Sort():
     except Exception as e:
       print(e)
       self.handle_exception()
-      if not self.t_events_manager.is_quit_set():
-        Config.logs_obj.log_text_field.update_idletasks()
     return True, None
 
   @staticmethod
@@ -63,6 +63,8 @@ class Sort():
 
   def handle_exception(self)->None:
     """Handles exceptions during file processing."""
+    if not self.t_events_manager.is_quit_set():
+      Config.logs_obj.log_text_field.update_idletasks()
     self.logs.error_logger.error('', exc_info=True)
     self.log_into_tkinter(self.logs.tkinter_logger.error,   
                                'An error occurred: file not sorted. See more information on error_logs.log')
@@ -130,3 +132,8 @@ class Sort():
       print("calling f", f, *args)
       f(*args)
       Config.logs_obj.log_text_field.update_idletasks()
+      
+  def quit(self):
+   self.t_events_manager.quit()
+   
+ 
