@@ -1,10 +1,10 @@
-# Image Organizer Tool
+# SortImage
 
 [Inserire il logo o una immagine rappresentativa del progetto qui]
 
 ## Overview
 
-The Image Organizer Tool is a powerful utility designed to efficiently organize images based on various parameters, including image names, metadata, and folder names. It extends its functionality to subdirectories, providing a comprehensive solution for image organization.
+The SortImage tool is a powerful utility designed to efficiently organize images based on various parameters, including image names, metadata, and folder names. It extends its functionality to subdirectories, providing a comprehensive solution for image organization.
 
 ## Features
 
