@@ -48,7 +48,6 @@ class Interface():
     )
     self.root.wait_window(custom_message_box)
 
-    # TODO ho aggiunto == 1, controllarlo
     checkbox = custom_message_box.checkbox_var
     if checkbox.get() == 1:
       self.config_manager.set_preference(choise_name, 'True')

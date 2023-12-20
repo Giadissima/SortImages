@@ -2,7 +2,6 @@ import re
 
 from src.config.config import Config
 class RegexMedia:
-  # TODO fare tutte le prove con le cartelle con le regex
   def __init__(self):
     self.months_italian = r'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
     self.months_english = r'January|February|March|April|May|June|July|August|September|October|November|December'

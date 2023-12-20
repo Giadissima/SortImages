@@ -35,7 +35,7 @@ class VideoHelper(File):
       if metadata.has("creation_date"):
         creation_date: str = metadata.get("creation_date").strftime("%Y %m %d")
         return creation_date.split()
-    except Exception:
+    except (FileNotFoundError, PermissionError) :
       return None
     finally:
       if not parser:

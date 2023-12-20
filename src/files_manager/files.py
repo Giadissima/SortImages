@@ -20,7 +20,7 @@ class File:
       new_path (string): new file's path
     """
     Folder.create_nested_dir(new_path)
-    file_dest_path = self.check_file_name(file_name)
+    file_dest_path = self.check_file_name(file_name, new_path)
     try:
       rename(file_path, file_dest_path)
       return True
