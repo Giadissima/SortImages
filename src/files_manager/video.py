@@ -1,5 +1,5 @@
+from typing import List, Optional
 from src.files_manager.files import File
-from moviepy.editor import VideoFileClip
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 
@@ -7,36 +7,37 @@ class VideoHelper(File):
 
   @staticmethod
   def isVideo(file_path):
-    """Verifica se il file è un video.
+    """Check if the file is a video.
 
     Args:
-        file_path (str): Percorso del file da verificare.
+      file_path (str): Path of the file to check.
 
     Returns:
-        bool: True se il file è un video, altrimenti False.
+      bool: True if the file is a video, otherwise False.
     """
     video_extensions = {'avi', 'mkv', 'mp4', 'mov', 'flv', 'wmv', 'webm'}
     file_extension = file_path.rsplit('.',1)[1].lower()
     return file_extension in video_extensions
   
   @staticmethod
-  def get_date_from_metadata(vid):
+  def get_date_from_metadata(vid:str)->Optional[List[str]]:
+    """_summary_
+
+    Args:
+      vid (str): path of the video to extract date
+
+    Returns:
+      Optional[List[str]]: the date if video has metadata
+    """
     try:
-      video = VideoFileClip(vid)
       parser = createParser(vid)
-      metadata = extractMetadata()
+      metadata = extractMetadata(parser)
       if metadata.has("creation_date"):
         creation_date: str = metadata.get("creation_date").strftime("%Y %m %d")
-        # print("Data di creazione del video:", creation_date.split())
         return creation_date.split()
-      else:
-        pass
-        # print("Data di creazione non trovata nei metadati del video.")
-    except Exception as e:
+    except Exception:
       return None
     finally:
-      if video is not None:
-        video.close()
-      if parser is not None:
+      if not parser:
         parser.close()
 

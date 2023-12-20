@@ -1,7 +1,7 @@
 from hashlib import md5
 from os.path import join, exists
 from os import remove, rename
-from typing import List, Union
+from typing import List, Optional, Union
 from src.date_manager import DateManager
 from src.config.config import Config
 
@@ -51,7 +51,7 @@ class File:
     return hash.hexdigest()
   
   @classmethod
-  def extract_date(cls, file_path: str, file: str, folder_date: List[str]|None)->[str, str, str]:
+  def extract_date(cls, file_path: str, file: str, folder_date: List[str]|None)-> Optional[List[str]]:
     """Extract date from metadata and file_name, giving priority in order to:
       - folder_date of lenght 3,
       - metadata (date of creation)
