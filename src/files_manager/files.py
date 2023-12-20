@@ -31,8 +31,8 @@ class File:
     """Find if file is a duplicate by the array contains al the hash previously seen
 
     Args:
-        file (string): file to search duplicates
-        path (string): path contains other files
+      file (string): file to search duplicates
+      path (string): path contains other files
     """ 
     file_hashed = self.hash_file(file)
     if file_hashed in self.HASH_LIST:
@@ -59,13 +59,13 @@ class File:
       - folder_date of other lengths
 
     Args:
-        cls (ImageHelper|VideoHelper): class to which a file belongs which can be an image or a video
-        file_path (str): where file's stored
-        file (str): name of the file
-        folder_date (List[str] | None): the date from the folder
+      cls (ImageHelper|VideoHelper): class to which a file belongs which can be an image or a video
+      file_path (str): where file's stored
+      file (str): name of the file
+      folder_date (List[str] | None): the date from the folder
 
     Returns:
-        [year(str), month(str), day(str)]: date extracted from file and folder
+      [year(str), month(str), day(str)]: date extracted from file and folder
     """
     regex = RegexMedia()
     if(folder_date != None and len(folder_date) == 3): 
@@ -101,13 +101,13 @@ class File:
     """Checks if the passed date is valid, and if so, creates the new path for the image and moves it.
 
     Args:
-        media_class (ImageHelper|VideoHelper): class to which a file belongs which can be an image or a video
-        file_path (str): the entire path of the file
-        file_name (str): the name of the file
-        folder_date (List[str] | None): date extracted from folder
+      media_class (ImageHelper|VideoHelper): class to which a file belongs which can be an image or a video
+      file_path (str): the entire path of the file
+      file_name (str): the name of the file
+      folder_date (List[str] | None): date extracted from folder
 
     Returns:
-        Union[function_name(str), message(str)]: log message with a default value stored in function_name with a message
+      Union[function_name(str), message(str)]: log message with a default value stored in function_name with a message
     """
     date = media_class.extract_date(file_path, file_name, folder_date)
     
@@ -128,11 +128,11 @@ class File:
     find another name and return it
     
     Args:
-    file_name(str): the name of the file
-    new_path(str): the path to whitch move the file
+      file_name(str): the name of the file
+      new_path(str): the path to whitch move the file
     
     Return:
-    str: the new path with name checked
+      str: the new path with name checked
     """
     file_dest_path = join(new_path, file_name)
     file_list = file_name.rsplit('.', 1)
