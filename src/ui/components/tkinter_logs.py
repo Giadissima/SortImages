@@ -1,9 +1,9 @@
-from tkinter import BOTH, DISABLED, END, NORMAL, Text
+from tkinter import BOTH, DISABLED, END, NORMAL, scrolledtext
 
 class TkinterLogs():
   def __init__(self, frame) -> None:
     self.FRAME = frame
-    self.log_text_field = Text(self.FRAME, height=10, width=30, state=DISABLED)
+    self.log_text_field = scrolledtext.ScrolledText(self.FRAME, height=10, width=30, state=DISABLED)
     self.log_text_field.tag_configure('error', foreground='red')
     self.log_text_field.tag_configure('info', foreground='blue')
     self.log_text_field.tag_configure('debug', foreground='black')
