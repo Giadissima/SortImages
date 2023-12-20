@@ -62,7 +62,8 @@ class File:
       return folder_date
     date = cls.get_date_from_metadata(file_path)
     # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
-    if(date != None): return date 
+    if(date != None): 
+      return date 
     date = regex.extract_date_from_media(file, folder_date)
     return date
   

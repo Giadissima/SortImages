@@ -22,9 +22,9 @@ class ThreadManager():
       main_button.config(text="Pause")
 
   def start_sort(self, text_entry1:str, text_entry2:str, check_and_set_preference, main_button: Button):
-    print("Sort thread is starting...")
+    # print("Sort thread is starting...")
     if self.sort_thread and self.sort_thread.is_alive():
-      print("sort_thread is not terminated")
+      # print("sort_thread is not terminated")
       self.quit_event.set()  # Imposta l'evento di interruzione
       self.sort_thread.join()  # Attendi che il thread esistente termini completamente
       return
@@ -49,7 +49,7 @@ class ThreadManager():
     
     while not self.quit_event.is_set():
       if not self.pause_event.is_set():
-        print("Sorting thread is running...")
+        # print("Sorting thread is running...")
         result, msg = self.sort.start_sort()
         if result:
           messagebox.showinfo(title="Success", message="Sort completed")
@@ -64,12 +64,12 @@ class ThreadManager():
           self.sort_thread = None
         break
 
-    print("Thread terminato.")
+    # print("Thread terminato.")
     
   def on_close(self):
-    print("Closing thread...")
+    # print("Closing thread...")
     if self.sort_thread and self.sort_thread.is_alive():
       self.sort.quit()
-      print("Waiting for the sorting thread to join...")
+      # print("Waiting for the sorting thread to join...")
       self.sort_thread.join(timeout=3)
-    print("Thread closed.")
+    # print("Thread closed.")

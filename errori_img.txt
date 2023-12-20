@@ -1,9 +1,3 @@
 1) docstring e rivedere i commenti
 
-2) controllare le regex delle folder
-
-3) tema bianco e tema nero
-
-4) non si è chiuso durante la pausa
-
-7) mettere due cartelle uguali
+i thread non si chiudono correttamente se esco prima dal processo ma rimangono in memoria

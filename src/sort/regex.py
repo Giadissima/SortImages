@@ -12,7 +12,7 @@ class RegexMedia:
     self.month_pattern = r'({}|{}|{}|{})'.format(self.month_number_pattern, self.months_abbreviated, self.months_english, self.months_italian)
     self.day_pattern = r'(0[1-9]|1[0-9]|2[0-9]|30|31)'
     self.complete_year = r'(\d{4})'
-    self.abbreviate_year = r'(19|20)'
+    self.abbreviate_year = r'(\d{2})'
     
     self.italian_month_dict = {
       'gennaio':'01',
