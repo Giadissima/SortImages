@@ -51,7 +51,7 @@ class Interface():
     checkbox = custom_message_box.checkbox_var
     if checkbox.get() == 1:
       self.config_manager.set_preference(choise_name, 'True')
-    return custom_message_box.ok
+    return custom_message_box.ok_button
 
   def on_close(self):
     self.thread_manager.on_close()
@@ -75,5 +75,5 @@ class Interface():
           self.thread_manager.pause_sort(self.btn)
     else:
       # print('starting....')
-      text_entry1, text_entry2 = self.ui_manager.get_text_entries()
-      self.thread_manager.start_sort(text_entry1, text_entry2, self.check_and_set_preference, self.btn)
+      input_folder, output_folder = self.ui_manager.get_text_entries()
+      self.thread_manager.start_sort(input_folder, output_folder, self.check_and_set_preference, self.btn)

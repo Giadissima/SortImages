@@ -1,6 +1,6 @@
 from os.path import join
 from threading import Event
-from typing import Union
+from typing import List, Union
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
@@ -10,6 +10,7 @@ import atexit
 from os import walk
 
 class Sort():
+  """The main class responsible for organizing media."""
   def __init__(self, quit_event: Event, pause_event: Event) -> None:
     self.regex = RegexMedia()
     self.file = File()
@@ -18,7 +19,7 @@ class Sort():
     self.t_events_manager = ThreadEventsManager(quit_event, pause_event)
     atexit.register(lambda: self.t_events_manager.quit())
 
-  def start_sort(self) -> Union[bool, str]:
+  def start_sort(self)->Union[bool, str]:
     """Set up everything necessary to start image sorting,
     beginning with checking if the input and output folders
     have been entered correctly, and ending with logging
@@ -32,7 +33,6 @@ class Sort():
     result, msg = Folder.check_input_output_folders(Config.input_folder, Config.output_folder)
     if result == False: return result, msg
     try:
-      # Al posto di istanziare LogsHelper direttamente, creiamo l'istanza solo quando ne abbiamo bisogno
       if self.logs is None:
         self.logs = LogsHelper(Config.logs_obj)
       Config.logs_obj.delete_logs()
@@ -93,8 +93,16 @@ class Sort():
       self.folder_date = self.regex.extract_date_from_folder(root)
       self.loop_into_files(root, files)
       
-  def loop_into_files(self, folder_path, file_list)->Union[None,True]:
-    """Reorganizes each individual media by reading metadata and using regex in the file name."""
+  def loop_into_files(self, folder_path:str, file_list:List[str]):
+    """Reorganizes each individual media by reading metadata and using regex in the file name.
+    
+    Args:
+      folder_path (str): Folder to which the file is stored. 
+      file_list List[str]: List of files contained within the folder.
+
+    Returns:
+      Optional[List[str]]: file's date if exists, otherwise None
+      """
     for file_name in file_list:
       if self.t_events_manager.is_quit_set(): return True
       if self.t_events_manager.is_pause_set(): 

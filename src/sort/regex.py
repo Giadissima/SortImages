@@ -1,8 +1,10 @@
 import re
+from typing import List, Optional
 
 from src.config.config import Config
 class RegexMedia:
   def __init__(self):
+    # TODO sarebbe meglio leggere da un file json?
     self.months_italian = r'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
     self.months_english = r'January|February|March|April|May|June|July|August|September|October|November|December'
     self.months_abbreviated = r'gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic|jan|jun|jul|aug|sep|oct|dec'
@@ -87,23 +89,39 @@ class RegexMedia:
       re.compile(r'/{}'.format(self.complete_year)),
     ]
     
-    self.date_img_patterns = [
+    self.date_file_patterns = [
       re.compile(r'{}({}){}'.format(self.complete_year, self.month_number_pattern, self.day_pattern)),
       re.compile(r'{}\D({})\D{}'.format(self.complete_year, self.month_number_pattern, self.day_pattern)),
       re.compile(r'{}({}){}'.format(self.abbreviate_year, self.month_number_pattern, self.day_pattern)),
       re.compile(r'{}\D({})\D{}'.format(self.abbreviate_year, self.month_number_pattern, self.day_pattern)),
     ]
 
-  def extract_date_from_media(self, img_name: str, date):
-    # Estrae la data dalla stringa img_name 
-    for pattern in self.date_img_patterns:
-      match = re.search(pattern, img_name)
+  def extract_date_from_media(self, file_name: str, date: Optional[List[str]])->Optional[List[str]]:
+    """Check if there is a date in the file name, and if so, return it.
+
+    Args:
+      file_name (str)
+      date (Optional[List[str]]): The date of the previously extracted folder, which may also be None.
+
+    Returns:
+      Optional[List[str]]: file's date if exists, otherwise None
+    """
+    for pattern in self.date_file_patterns:
+      match = re.search(pattern, file_name)
       if match:
         year, month, day = match.group(1), match.group(2), match.group(3)
         return [self.get_year(year), month, day]
     return date
 
-  def extract_date_from_folder(self, folder_name: str):
+  def extract_date_from_folder(self, folder_name: str)->Optional[List[str]]:
+    """Check if there is a date in the folder name, and if so, return it
+
+    Args:
+      folder_name (str)
+
+    Returns:
+      Optional[List[str]]: folder's date if exists, otherwise None
+    """
     if Config.get_checkbox_choises('IgnoreFolderSort'):
       return None
     for pattern in self.date_folder_patterns:
@@ -119,11 +137,13 @@ class RegexMedia:
     return None
   
   def get_year(self, y):
+    """Converts the abbreviate year to a 4-digit year."""
     if int(y) < 100:
       y = '19' + y if int(y) > 70 else '20' + y
     return y
   
-  def get_month(self, month:str) ->str:
+  def get_month(self, month:str)->str:
+    """Converts the months written in letters to numbers."""
     if(not month.isnumeric()):
       if(month in self.italian_month_dict.keys()):
         month = self.italian_month_dict[month]
