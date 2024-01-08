@@ -1,3 +1,4 @@
 1) docstring e rivedere i commenti
+2) aggiungere lingua italiano
 
 i thread non si chiudono correttamente se esco prima dal processo ma rimangono in memoria

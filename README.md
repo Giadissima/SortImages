@@ -1,6 +1,6 @@
 # SortImage
 
-[Inserire il logo o una immagine rappresentativa del progetto qui]
+![Representative image of the project](relative%20path/assets/screen.jpg?raw=true "Sort Image Screen")
 
 ## Overview
 
@@ -43,7 +43,7 @@ The SortImage tool is a powerful utility designed to efficiently organize images
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/Giadissima/SortImages
    ```
 
 2. Install dependencies:
