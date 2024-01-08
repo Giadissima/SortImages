@@ -1,6 +1,6 @@
 # SortImage
 
-![Representative image of the project](relative%20path/assets/screen.jpg?raw=true "Sort Image Screen")
+![Representative image of the project](assets/screen.jpg?raw=true "Sort Image Screen")
 
 ## Overview
 
