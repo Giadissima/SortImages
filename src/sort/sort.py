@@ -200,7 +200,7 @@ class Sort():
       "Sorting paused. Waiting for resume...")
     
     while self.is_pause_set():
-      if(self.is_quit_set()): 
+      if self.is_quit_set(): 
         return
       
     self.log_into_tkinter(
