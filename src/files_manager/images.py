@@ -52,7 +52,6 @@ class ImageHelper(File):
             yy = data[0:4]
             mm = data[5:7]
             dd = data[8:10]
-            # print("metadata founded in ", img)
             return [yy, mm, dd]
         return None
     except (IOError, KeyError, AttributeError):

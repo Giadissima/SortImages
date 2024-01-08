@@ -1,10 +1,10 @@
-# SortImage
+# SortImages
 
-![Representative image of the project](assets/screen.jpg?raw=true "Sort Image Screen")
+![Representative image of the project](assets/screen.jpg?raw=true "SortImages Screenshot")
 
 ## Overview
 
-The SortImage tool is a powerful utility designed to efficiently organize images based on various parameters, including image names, metadata, and folder names. It extends its functionality to subdirectories, providing a comprehensive solution for image organization.
+The SortImages tool is a powerful utility designed to efficiently organize images based on various parameters, including image names, metadata, and folder names. It extends its functionality to subdirectories, providing a comprehensive solution for image organization.
 
 ## Features
 
@@ -43,7 +43,7 @@ The SortImage tool is a powerful utility designed to efficiently organize images
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Giadissima/SortImages
+   git clone https://github.com/Giadissima/SortImagess
    ```
 
 2. Install dependencies:

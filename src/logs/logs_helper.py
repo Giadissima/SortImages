@@ -20,7 +20,6 @@ class LogsHelper():
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s\n%(message)s'))
     file_logger = logging.getLogger('file_logger')
     file_logger.addHandler(file_handler)
-    # print("get_error_logger called")
     
     return file_logger
     
@@ -36,6 +35,5 @@ class LogsHelper():
     tkinter_logger = logging.getLogger('tkinter_logger')
     tkinter_logger.addHandler(tkinter_text_handler)
     tkinter_logger.setLevel(logging.DEBUG)
-    # print("get_tkinter_logger called")
     
     return tkinter_logger

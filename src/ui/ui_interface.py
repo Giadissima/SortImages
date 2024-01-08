@@ -67,13 +67,13 @@ class Interface():
     if self.thread_manager.sort_thread: # if thread exists
       if self.thread_manager.sort_thread.is_alive(): # if it's alive
         if self.thread_manager.pause_event and self.thread_manager.pause_event.is_set(): # we need to perform the resume action
-          # print('resuming....')
+          print('resuming....')
           self.thread_manager.resume_sort(self.btn)
         else: # dobbiamo fare il pause
           # Il thread è in esecuzione, lo vogliamo mettere in pausa
-          # print('pausing....')
+          print('pausing....')
           self.thread_manager.pause_sort(self.btn)
     else:
-      # print('starting....')
+      print('starting....')
       input_folder, output_folder = self.ui_manager.get_text_entries()
       self.thread_manager.start_sort(input_folder, output_folder, self.check_and_set_preference, self.btn)

@@ -1,10 +1,10 @@
-from tkinter import END, Button, Entry, Label, StringVar, filedialog
+from tkinter import END, Button, Frame, Entry, Label, StringVar, filedialog
 from src.files_manager.images import ImageHelper
 from src.ui.utility.utility import configure_weight
 
 class FolderSelection():
-  def __init__(self, frame, folder_icon_path, font=None):
-    self.frame = frame
+  def __init__(self, parent_frame, folder_icon_path, font=None):
+    self.frame = Frame(parent_frame)
     self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
     self.font = font
     self.folder_path_entries = {}

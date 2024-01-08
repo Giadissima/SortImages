@@ -38,7 +38,6 @@ class Sort():
       Config.logs_obj.delete_logs()
       self.loop_into_folders()
       self.handle_folders_deletion()
-      # print("sorting completed")
       self.log_into_tkinter(
         self.logs.tkinter_logger.info,
         'sorting completed.')
@@ -135,9 +134,7 @@ class Sort():
     Args:
       f (function): function to call for logging
       args : f's parameters"""
-    # print("into the class")
     if not self.t_events_manager.is_quit_set():
-      # print("calling f", f, *args)
       f(*args)
       Config.logs_obj.log_text_field.update_idletasks()
       

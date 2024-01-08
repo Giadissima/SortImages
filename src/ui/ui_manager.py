@@ -13,17 +13,22 @@ class UIManager:
     self.default_font_size = default_font_size
 
   def setup_ui(self):
+    # TODO padding=10 non funziona più come parametro a label, capire perché
     title = Label(self.root, text="Image Sorter", font='Noto 16 bold')
     title.pack()
 
     form_frame = Frame(self.root)
     form_frame.pack(expand=True, fill=BOTH)
 
-    self.folder_selection_frame = FolderSelection(form_frame, self.icon_path, self.default_font)
+    self.setup_selection_folder_frame(form_frame)
     self.setup_options_frame(form_frame)
 
     configure_weight(form_frame, [0], [0,1])
 
+  def setup_selection_folder_frame(self, parent_frame):
+    self.folder_selection_frame = FolderSelection(parent_frame, self.icon_path, self.default_font)
+    self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew")
+    
   def setup_options_frame(self, parent_frame):
     opt_frame = OptionsFrame(parent_frame, self.default_font)
     opt_frame.frame.grid(row=0, column=1, sticky="nsew", padx=10)

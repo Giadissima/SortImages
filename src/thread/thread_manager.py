@@ -40,9 +40,7 @@ class ThreadManager():
         check_and_set_preference (function): Check the saved user preferences.'
         main_button (Button): The button inside the graphical interface whose text needs to be changed.
     """
-    # print("Sort thread is starting...")
     if self.sort_thread and self.sort_thread.is_alive():
-      # print("sort_thread is not terminated")
       self.quit_event.set()  # Imposta l'evento di interruzione
       self.sort_thread.join()  # Attendi che il thread esistente termini completamente
       return
@@ -71,7 +69,6 @@ class ThreadManager():
     """
     while not self.quit_event.is_set():
       if not self.pause_event.is_set():
-        # print("Sorting thread is running...")
         result, msg = self.sort.start_sort()
         if result:
           messagebox.showinfo(title="Success", message="Sort completed")
@@ -86,13 +83,9 @@ class ThreadManager():
           self.sort_thread = None
         break
 
-    # print("Thread terminato.")
     
   def on_close(self):
     """Closes the thread properly"""
-    # print("Closing thread...")
     if self.sort_thread and self.sort_thread.is_alive():
       self.sort.quit()
-      # print("Waiting for the sorting thread to join...")
       self.sort_thread.join(timeout=3)
-    # print("Thread closed.")

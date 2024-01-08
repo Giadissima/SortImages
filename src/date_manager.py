@@ -9,7 +9,6 @@ class DateManager():
         date (List[str]): a list of three elements containing: year, month, day
       Returns:
         str|None: The new file path"""
-    print(date)
     if len(date) == 1 and date[0] != None: 
       return join(output_folder, date[0])
     elif len(date) == 2 and date[0] != None and date[1] != None: 
