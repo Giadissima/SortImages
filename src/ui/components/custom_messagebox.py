@@ -1,4 +1,5 @@
-from tkinter import Frame, Label, BooleanVar, Button, Checkbutton, LEFT, RIGHT, Toplevel
+from tkinter.ttk import Frame, Label, Button, Checkbutton
+from tkinter import BooleanVar, LEFT, RIGHT, Toplevel
 from src.files_manager.images import ImageHelper
 
 class CustomMessageBox(Toplevel):
@@ -26,7 +27,7 @@ class CustomMessageBox(Toplevel):
     label1.image = self.warning_img_path
     label1.pack()
 
-    self.message_label = Label(self, text=self.message, padx=10, pady=10)
+    self.message_label = Label(self, text=self.message, padding=10)
     self.message_label.pack()
 
     self.checkbox_var = BooleanVar()
@@ -34,7 +35,8 @@ class CustomMessageBox(Toplevel):
     self.dont_show_again_checkbox.pack()
 
     for button_name, button_info in self.buttons.items():
-      button = Button(self, text=button_info["text"], command=button_info["command"](self), highlightthickness=0)
+      button = Button(self, text=button_info["text"], command=lambda: button_info["command"](self))
+
       button.pack(side=LEFT if button_name == "OK" else RIGHT, padx=35, ipadx=10)
 
   def button_pressed(self, is_ok:bool):

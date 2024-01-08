@@ -1,4 +1,5 @@
-from tkinter import BOTH, DISABLED, END, NORMAL, Frame
+from tkinter import BOTH, DISABLED, END, NORMAL
+from tkinter.ttk import Frame
 from tkinter.scrolledtext import ScrolledText
 
 class TkinterLogs():

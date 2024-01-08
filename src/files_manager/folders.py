@@ -1,5 +1,5 @@
 from os import listdir, rmdir
-from os.path import abspath, commonpath, join, isdir
+from os.path import abspath, commonpath, join, isdir, exists, isdir
 from pathlib import Path
 from typing import Union
 class Folder():
@@ -60,6 +60,8 @@ class Folder():
       Union[bool, str]: 
         bool: True if the process has completed without errors, False otherwise, 
         str: error's message, if the pricess has completed without errors, str will be None"""
+    if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
+      return False, "The source or destination folder doesn't not exists anymore"
     if(input_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
       return False, "The source and destination folders cannot be empty"
     if(output_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
@@ -71,3 +73,13 @@ class Folder():
     if not listdir(input_folder) :
       return False, "Start folder doesn't contain files. Process aborted."
     return True, None
+  
+  def if_folder_exists(folder_path:str)->bool:
+    """Compare the common path of the parent and child path with the common path of just 
+      the parent path
+
+    folder_path (str): the folder we need to check if exists and if is a folder
+
+    Returns:
+      bool: true if folder exists, otherwise False"""
+    return isdir(folder_path) and exists(folder_path)

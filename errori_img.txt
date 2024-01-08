@@ -2,3 +2,5 @@
 2) aggiungere lingua italiano
 
 i thread non si chiudono correttamente se esco prima dal processo ma rimangono in memoria
+
+controllare se start folder esiste e se dest folder esiste

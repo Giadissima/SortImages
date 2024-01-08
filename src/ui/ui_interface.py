@@ -10,26 +10,24 @@ from src.ui.ui_manager import UIManager
 from src.thread.thread_manager import ThreadManager
 
 class Interface():
-  def __init__(self, title: str, size: str, icon_path: str, default_font=None, default_font_size=None):
+  def __init__(self, title: str, size: str, icon_path: str):
     self.icon_path = icon_path
     self.root = Tk()
     self.config_manager = ConfigManager()
-    self.ui_manager = UIManager(self.root, size, title, icon_path, default_font, default_font_size)
+    self.ui_manager = UIManager(self.root, size, title, icon_path)
     self.thread_manager = ThreadManager()
+    
     self.root.protocol("WM_DELETE_WINDOW", self.on_close)
     
     self.main_frame()
 
   def main_frame(self):
     self.ui_manager.setup_ui()
-
-    # TODO come funziona lo scoping di style?
     configure_style()
-
     self.btn = Button(
       self.root, 
       text="Start", 
-      style="B.TButton", 
+      style="StartButton.TButton",
       command=self.start_sorting_or_resume)
     self.btn.pack(pady=10)
 

@@ -1,16 +1,17 @@
-from tkinter import END, Button, Frame, Entry, Label, StringVar, filedialog
+from tkinter.ttk import Button, Frame, Entry, Label
+from tkinter import END, StringVar, filedialog
 from src.files_manager.images import ImageHelper
 from src.ui.utility.utility import configure_weight
 
 class FolderSelection():
-  def __init__(self, parent_frame, folder_icon_path, font=None):
+  def __init__(self, parent_frame, folder_icon_path):
     self.frame = Frame(parent_frame)
     self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
-    self.font = font
     self.folder_path_entries = {}
     self.create_widgets()
 
   def create_widgets(self):
+    Label(self.frame, text="Select folders", style="Subtitle.TLabel").grid(row=0,column=0, sticky='we')
     """ Creates buttons and labels necessary to interface"""
     self.create_folder_row(1, "Start folder:", "input_folder")
     self.create_folder_row(2, "Destination folder:", "output_folder")
@@ -24,11 +25,11 @@ class FolderSelection():
       label_text (str): Text of the label to be displayed on the screen.
       entry_name (str): Key in the dictionary of entries that contains their names.
     """
-    label = Label(self.frame, text=label_text, font=self.font)
+    label = Label(self.frame, text=label_text)
     label.grid(row=row, column=0, sticky='w')
 
     self.folder_path_entries[entry_name] = StringVar()
-    path_entry = Entry(self.frame, font=self.font, textvariable=self.folder_path_entries[entry_name])
+    path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name])
     path_entry.grid(row=row, column=1, pady=10, sticky='we')
 
     browse_button = Button(self.frame, image=self.folder_icon_path, command=lambda: self.open_folder_dialog(path_entry))
