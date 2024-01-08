@@ -7,34 +7,35 @@ from src.ui.components.tkinter_logs import TkinterLogs
 from src.ui.settings.settings_style import configure_style
 from src.ui.components.custom_messagebox import CustomMessageBox
 from src.ui.ui_manager import UIManager
-from src.thread_manager import ThreadManager
+from src.thread.thread_manager import ThreadManager
 
 class Interface():
-  def __init__(self, title: str, size: str, icon_path: str, default_font=None, default_font_size=None):
+  def __init__(self, title: str, size: str, icon_path: str):
     self.icon_path = icon_path
     self.root = Tk()
     self.config_manager = ConfigManager()
-    self.ui_manager = UIManager(self.root, size, title, icon_path, default_font, default_font_size)
+    self.ui_manager = UIManager(self.root, size, title, icon_path)
     self.thread_manager = ThreadManager()
+    
     self.root.protocol("WM_DELETE_WINDOW", self.on_close)
     
     self.main_frame()
 
   def main_frame(self):
     self.ui_manager.setup_ui()
-
-    # TODO come funziona lo scoping di style?
     configure_style()
-
     self.btn = Button(
       self.root, 
       text="Start", 
-      style="B.TButton", 
+      style="StartButton.TButton",
       command=self.start_sorting_or_resume)
     self.btn.pack(pady=10)
 
     Config.set_logs_obj(TkinterLogs(self.root))
-    self.root.mainloop()
+    try:
+      self.root.mainloop()
+    except KeyboardInterrupt:
+      print("chiusura...")
     
   def ask_to_custom_msgbox(self, message, choise_name, title='Warning'):
     custom_message_box = CustomMessageBox(
@@ -45,11 +46,10 @@ class Interface():
     )
     self.root.wait_window(custom_message_box)
 
-    # TODO ho aggiunto == 1, controllarlo
     checkbox = custom_message_box.checkbox_var
     if checkbox.get() == 1:
       self.config_manager.set_preference(choise_name, 'True')
-    return custom_message_box.ok
+    return custom_message_box.ok_button
 
   def on_close(self):
     self.thread_manager.on_close()
@@ -73,5 +73,5 @@ class Interface():
           self.thread_manager.pause_sort(self.btn)
     else:
       print('starting....')
-      text_entry1, text_entry2 = self.ui_manager.get_text_entries()
-      self.thread_manager.start_sort(text_entry1, text_entry2, self.check_and_set_preference, self.btn)
+      input_folder, output_folder = self.ui_manager.get_text_entries()
+      self.thread_manager.start_sort(input_folder, output_folder, self.check_and_set_preference, self.btn)

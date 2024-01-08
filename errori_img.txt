@@ -1,9 +1,6 @@
-4) pensare se c'è un modo in cui input folder possa stare dentro la dest folder o viceversa
+1) docstring e rivedere i commenti
+2) aggiungere lingua italiano
 
-6) docstring e rivedere i commenti
+i thread non si chiudono correttamente se esco prima dal processo ma rimangono in memoria
 
-10) controllare le regex delle folder
-
-1) il secondo start non funziona
-
-2) se chiudo il processo il thread continua
+controllare se start folder esiste e se dest folder esiste

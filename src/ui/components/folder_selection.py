@@ -1,43 +1,48 @@
-from tkinter import END, Button, Entry, Label, filedialog
+from tkinter.ttk import Button, Frame, Entry, Label
+from tkinter import END, StringVar, filedialog
 from src.files_manager.images import ImageHelper
+from src.ui.utility.utility import configure_weight
 
-# Todo ottimizzarla
-def create_selection_folder_frame(frame, folder_icon_path, font=None):
-    sub_title = Label(frame, text="Select Folders", font='Noto 10 bold')
-    sub_title.grid(row=0, sticky='w')
-    
-    folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
-    
-    # Cartella input field
-    label_1 = Label(frame, text="Start folder:", font=font)
-    label_1.grid(row=1, column=0, sticky='w')
+class FolderSelection():
+  def __init__(self, parent_frame, folder_icon_path):
+    self.frame = Frame(parent_frame)
+    self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
+    self.folder_path_entries = {}
+    self.create_widgets()
 
-    path_entry_1 = Entry(frame, font=font)
-    path_entry_1.grid(row=1, column=1, pady=10, sticky='we')
-    
-    browse_button_1 = Button(frame, image=folder_icon_path, command=lambda: open_folder_dialog(path_entry_1))
-    browse_button_1.grid(row=1, column=2)
-    browse_button_1.image = folder_icon_path
-    
-    # Cartella output field
-    label_2 = Label(frame, text="Destination folder:", font=font)
-    label_2.grid(row=2, column=0, sticky='w')
+  def create_widgets(self):
+    Label(self.frame, text="Select folders", style="Subtitle.TLabel").grid(row=0,column=0, sticky='we')
+    """ Creates buttons and labels necessary to interface"""
+    self.create_folder_row(1, "Start folder:", "input_folder")
+    self.create_folder_row(2, "Destination folder:", "output_folder")
+    configure_weight(self.frame, [0, 1, 2], [1, 1, 1])
 
-    path_entry_2 = Entry(frame, font=font)
-    path_entry_2.grid(row=2, column=1, pady=10, sticky='we')
-    
-    browse_button_2 = Button(frame, image=folder_icon_path, command=lambda: open_folder_dialog(path_entry_2))
-    browse_button_2.grid(row=2, column=2)
-    browse_button_2.image = folder_icon_path
-    
-    # TODO fare una funzione comune
-    frame.columnconfigure(1, weight=1)  # Imposta il peso della colonna 1
-    frame.rowconfigure(1, weight=1)     # Imposta il peso della riga 0
-    frame.rowconfigure(2, weight=1)     # Imposta il peso della riga 0
-    return [path_entry_1, path_entry_2]
+  def create_folder_row(self, row:int, label_text:str, entry_name:str):
+    """Creates the row of the grid containing various components of the interface.
 
-def open_folder_dialog(entry):
-  folder_path = filedialog.askdirectory()
-  if folder_path:
-    entry.delete(0, END)
-    entry.insert(0, folder_path)
+    Args:
+      row (int): number of row that this function is generating
+      label_text (str): Text of the label to be displayed on the screen.
+      entry_name (str): Key in the dictionary of entries that contains their names.
+    """
+    label = Label(self.frame, text=label_text)
+    label.grid(row=row, column=0, sticky='w')
+
+    self.folder_path_entries[entry_name] = StringVar()
+    path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name])
+    path_entry.grid(row=row, column=1, pady=10, sticky='we')
+
+    browse_button = Button(self.frame, image=self.folder_icon_path, command=lambda: self.open_folder_dialog(path_entry))
+    browse_button.grid(row=row, column=2)
+    browse_button.image = self.folder_icon_path
+
+  def open_folder_dialog(self, entry:Entry):
+    """Open a folder dialog to select a folder and save it to the entry parameter
+
+    Args:
+      entry (Entry): the Entry widget of tkinter to save the selected folder_path
+    """
+    folder_path = filedialog.askdirectory()
+    if folder_path:
+      entry.delete(0, END)
+      entry.insert(0, folder_path)

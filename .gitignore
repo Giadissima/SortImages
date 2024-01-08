@@ -135,10 +135,11 @@ config.ini
 
 # pytype static type analyzer
 .pytype/
+*/__pycache__
 
 # Cython debug symbols
 cython_debug/
-test/new/*
-test/current/*
+test/new
+test/current
 
-error_logs.txt
+error_logs.log
