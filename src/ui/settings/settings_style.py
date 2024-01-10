@@ -21,7 +21,9 @@ def configure_style():
   style.map("StartButton.TButton",
     foreground=[('pressed', 'blue'),
                 ('active', 'blue'), 
-                ('!pressed', 'navy')],
+                ('!pressed', 'navy'),
+                ('disabled', 'gray')],
+    background=[('disabled', 'gray')],
     font='Noto 10 bold')
   
   # title style

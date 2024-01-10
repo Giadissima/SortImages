@@ -1,23 +1,18 @@
 from os.path import join
-from threading import Event
 from typing import List, Union
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
 from src.sort.regex import RegexMedia
-from src.thread.thread_events_manager import ThreadEventsManager
-import atexit
 from os import walk
 
 class Sort():
   """The main class responsible for organizing media."""
-  def __init__(self, quit_event: Event, pause_event: Event) -> None:
+  def __init__(self) -> None:
     self.regex = RegexMedia()
     self.file = File()
     self.folder = Folder()
     self.logs = None
-    self.t_events_manager = ThreadEventsManager(quit_event, pause_event)
-    atexit.register(lambda: self.t_events_manager.quit())
 
   def start_sort(self)->Union[bool, str]:
     """Set up everything necessary to start image sorting,
@@ -38,9 +33,7 @@ class Sort():
       Config.logs_obj.delete_logs()
       self.loop_into_folders()
       self.handle_folders_deletion()
-      self.log_into_tkinter(
-        self.logs.tkinter_logger.info,
-        'sorting completed.')
+      self.logs.tkinter_logger.info('sorting completed.')
       self.file.HASH_LIST.clear()
     except Exception as e:
       print(e)
@@ -62,25 +55,17 @@ class Sort():
 
   def handle_exception(self)->None:
     """Handles exceptions during file processing."""
-    if not self.t_events_manager.is_quit_set():
-      Config.logs_obj.log_text_field.update_idletasks()
-    self.logs.error_logger.error('', exc_info=True)
-    self.log_into_tkinter(self.logs.tkinter_logger.error,   
-                               'An error occurred: file not sorted. See more information on error_logs.log')
+    self.logs.log_traceback()
+    self.logs.log_tkinter('error','An error occurred: file not sorted. See more information on error_logs.log')
      
   def handle_folders_deletion(self)->None:
     """Manages folder deletion."""
-    if self.t_events_manager.is_quit_set(): return
     if Config.get_checkbox_choises('DeleteEmptyFolders'):
       msg = self.folder.delete_empty_folders(Config.input_folder)
       if msg == None:
-        self.log_into_tkinter(
-          self.logs.tkinter_logger.info,
-          'Empty folders deleted')
+        self.logs.log_tkinter('info','Empty folders deleted')
       else:
-        self.log_into_tkinter(
-          self.logs.tkinter_logger.error,
-          msg)
+        self.logs.log_tkinter('error',msg)
       
   def loop_into_folders(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
@@ -88,7 +73,6 @@ class Sort():
       root = root.replace('\\', '/')
       if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root): 
         continue
-      if self.t_events_manager.is_quit_set(): return True
       self.folder_date = self.regex.extract_date_from_folder(root)
       self.loop_into_files(root, files)
       
@@ -103,42 +87,20 @@ class Sort():
       Optional[List[str]]: file's date if exists, otherwise None
       """
     for file_name in file_list:
-      if self.t_events_manager.is_quit_set(): return True
-      if self.t_events_manager.is_pause_set(): 
-        self.log_into_tkinter(
-          self.logs.tkinter_logger.info, 
-          "Sorting paused. Waiting for resume...")
-        self.t_events_manager.pause_loop()
-        self.log_into_tkinter(
-          self.logs.tkinter_logger.info, 
-          "Sorting resumed")
-                  
       file_path = join(folder_path, file_name).replace('\\', '/')
       media_class:VideoHelper|ImageHelper = Sort.identify_media(file_path)
       if media_class == None: continue
       
       result, msg = self.file.handle_duplicates(file_path, file_name)
       if result:
-        self.log_into_tkinter(
-          self.logs.tkinter_logger.info, 
-          msg)
+        self.logs.log_tkinter('info', msg)
         continue
         
       type_of_log, msg = self.file.handle_move_file(media_class, file_path, file_name, self.folder_date)
-      if type_of_log == 'error': self.log_into_tkinter(self.logs.tkinter_logger.error, msg)
-      else: self.log_into_tkinter(self.logs.tkinter_logger.debug, msg)
-      
-  def log_into_tkinter(self, f, *args)->None:
-    """Prevents the entire thread from blocking by checking if the stop event has been set,
-    thereby avoiding attempts to write logs to a non-existent stream (as the interface is closing).
-    Args:
-      f (function): function to call for logging
-      args : f's parameters"""
-    if not self.t_events_manager.is_quit_set():
-      f(*args)
-      Config.logs_obj.log_text_field.update_idletasks()
-      
-  def quit(self):
-   self.t_events_manager.quit()
-   
- 
+      if type_of_log == 'error': self.logs.log_tkinter('error', msg)
+      else: self.logs.log_tkinter('debug',msg)
+
+  
+    
+    # TODO controllare se il file è stato mosso nel frattempo, controllare se esiste
+    # TODO acquire se sta spostando il file

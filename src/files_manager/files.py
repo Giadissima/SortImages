@@ -4,6 +4,7 @@ from os import remove, rename
 from typing import List, Optional, Union
 from src.date_manager import DateManager
 from src.config.config import Config
+from src.thread.semaphore import SemaphoreManager
 
 from src.sort.regex import RegexMedia
 from src.files_manager.folders import Folder
@@ -11,6 +12,7 @@ class File:
   def __init__(self):
     self.BUF_SIZE = 65536
     self.HASH_LIST = set()
+    self.semaphore = SemaphoreManager()
     
   def move_file(self, file_path: str, file_name: str, new_path: str):
     """Move a file in a new directory, and in case of name duplicate error, rename the file.
@@ -19,6 +21,8 @@ class File:
       file_name(string): name of the file
       new_path (string): new file's path
     """
+    if self.semaphore.acquired: return
+    self.semaphore.acquire()
     Folder.create_nested_dir(new_path)
     file_dest_path = self.check_file_name(file_name, new_path)
     try:
@@ -26,6 +30,9 @@ class File:
       return True
     except PermissionError:
       return False
+    finally:
+      self.semaphore.release()
+    
       
   def isDuplicate(self, file):
     """Find if file is a duplicate by the array contains al the hash previously seen
