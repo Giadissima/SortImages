@@ -21,7 +21,7 @@ class ThreadManager():
     Config.set_input_folder(input_folder_entry)
     Config.set_output_folder(output_folder_entry)
       
-    self.t = CustomThread()
+    self.t = CustomThread(btn)
     self.t.start()
     
   def kill_thread(self):

@@ -34,7 +34,6 @@ class Sort():
       self.loop_into_folders()
       self.handle_folders_deletion()
       self.logs.tkinter_logger.info('sorting completed.')
-      self.screen_flush()
       self.file.HASH_LIST.clear()
     except Exception as e:
       print(e)
@@ -56,18 +55,17 @@ class Sort():
 
   def handle_exception(self)->None:
     """Handles exceptions during file processing."""
-    self.logs.error_logger.error('', exc_info=True)
-    self.logs.tkinter_logger.error('An error occurred: file not sorted. See more information on error_logs.log')
-    self.screen_flush()
+    self.logs.log_traceback()
+    self.logs.log_tkinter('error','An error occurred: file not sorted. See more information on error_logs.log')
      
   def handle_folders_deletion(self)->None:
     """Manages folder deletion."""
     if Config.get_checkbox_choises('DeleteEmptyFolders'):
       msg = self.folder.delete_empty_folders(Config.input_folder)
       if msg == None:
-        self.logs.tkinter_logger.info('Empty folders deleted')
+        self.logs.log_tkinter('info','Empty folders deleted')
       else:
-        self.logs.tkinter_logger.error(msg)
+        self.logs.log_tkinter('error',msg)
       
   def loop_into_folders(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
@@ -95,15 +93,14 @@ class Sort():
       
       result, msg = self.file.handle_duplicates(file_path, file_name)
       if result:
-        self.logs.tkinter_logger.info(msg)
+        self.logs.log_tkinter('info', msg)
         continue
         
       type_of_log, msg = self.file.handle_move_file(media_class, file_path, file_name, self.folder_date)
-      if type_of_log == 'error': self.logs.tkinter_logger.error(msg)
-      else: self.logs.tkinter_logger.debug(msg)
-      self.screen_flush()
+      if type_of_log == 'error': self.logs.log_tkinter('error', msg)
+      else: self.logs.log_tkinter('debug',msg)
 
-  def screen_flush(self):
-    Config.logs_obj.log_text_field.update_idletasks()
+  
     
     # TODO controllare se il file è stato mosso nel frattempo, controllare se esiste
+    # TODO acquire se sta spostando il file

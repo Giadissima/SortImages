@@ -1,13 +1,16 @@
 import logging
 
 from src.logs.tkinter_logs import TkinterTextHandler
+from src.config.config import Config
 from meta.decorators import singleton
+from src.thread.semaphore import SemaphoreManager
 
 @singleton
 class LogsHelper():
   def __init__(self, logs_obj):
     self.error_logger = self.get_error_logger()
     self.tkinter_logger = self.get_tkinter_logger(logs_obj)
+    self.semaphore = SemaphoreManager()
   
   def get_error_logger(self):
     """Create the error log stream from error file.
@@ -37,3 +40,25 @@ class LogsHelper():
     tkinter_logger.setLevel(logging.DEBUG)
     
     return tkinter_logger
+  
+  def log_tkinter(self, level, msg):
+    if self.semaphore.acquired: return
+    self.semaphore.acquire()
+    if(level=='debug'):
+      self.tkinter_logger.debug(msg)
+    elif(level=='info'):
+      self.tkinter_logger.info(msg)
+    elif(level=='error'):
+      self.tkinter_logger.error(msg)
+        
+    self.screen_flush()
+    self.semaphore.release()
+    
+    
+    # TODO controllrlo
+  def log_traceback(self):
+    print("error")
+    self.error_logger.error('', exc_info=True)
+  
+  def screen_flush(self):
+    Config.logs_obj.log_text_field.update_idletasks()
