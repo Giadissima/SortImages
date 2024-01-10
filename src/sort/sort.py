@@ -103,7 +103,7 @@ class Sort():
       else: self.logs.tkinter_logger.debug(msg)
       self.screen_flush()
 
-  def screen_flush():
+  def screen_flush(self):
     Config.logs_obj.log_text_field.update_idletasks()
     
     # TODO controllare se il file è stato mosso nel frattempo, controllare se esiste

@@ -5,6 +5,7 @@ import threading
 import ctypes
 class CustomThread(threading.Thread):
   def __init__(self) -> None:
+    super().__init__()
     self.sort_thread = None
     self.sort = Sort()
   
