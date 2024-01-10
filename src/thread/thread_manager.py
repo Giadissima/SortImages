@@ -57,7 +57,7 @@ class ThreadManager():
     Config.set_input_folder(input_folder_entry)
     Config.set_output_folder(output_folder_entry)
     
-    self.sort_thread = Thread(target=self.run_sort, args=(main_button,))
+    self.sort_thread = Thread(target=self.run_sort, args=(main_button))
     self.sort_thread.start()
     main_button.config(text="Pause")
     
