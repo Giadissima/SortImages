@@ -28,7 +28,7 @@ class Interface():
       self.root, 
       text="Start", 
       style="StartButton.TButton",
-      command=self.start_sorting_or_resume)
+      command=self.start_thread)
     self.btn.pack(pady=10)
 
     Config.set_logs_obj(TkinterLogs(self.root))
@@ -52,26 +52,15 @@ class Interface():
     return custom_message_box.ok_button
 
   def on_close(self):
-    self.thread_manager.on_close()
+    self.thread_manager.kill_thread()
     self.root.destroy()
     
   def check_and_set_preference(self, preference_name, msg):
     if Config.get_checkbox_choises(preference_name) and not self.config_manager.has_preference(preference_name):
       self.ask_to_custom_msgbox(msg, preference_name)
       
-  def start_sorting_or_resume(self):
+  def start_thread(self):
     """ Check if the button to start or pause the sorting process has been pressed. """
     # Check if the sorting thread is already running
-    if self.thread_manager.sort_thread: # if thread exists
-      if self.thread_manager.sort_thread.is_alive(): # if it's alive
-        if self.thread_manager.pause_event and self.thread_manager.pause_event.is_set(): # we need to perform the resume action
-          print('resuming....')
-          self.thread_manager.resume_sort(self.btn)
-        else: # dobbiamo fare il pause
-          # Il thread è in esecuzione, lo vogliamo mettere in pausa
-          print('pausing....')
-          self.thread_manager.pause_sort(self.btn)
-    else:
-      print('starting....')
-      input_folder, output_folder = self.ui_manager.get_text_entries()
-      self.thread_manager.start_sort(input_folder, output_folder, self.check_and_set_preference, self.btn)
+    input_folder, output_folder = self.ui_manager.get_text_entries()
+    self.thread_manager.start_thread(input_folder, output_folder, self.check_and_set_preference, self.btn)
