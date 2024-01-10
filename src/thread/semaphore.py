@@ -9,11 +9,17 @@ class SemaphoreManager():
     self.acquired = False
   
   def acquire(self):
-    self.acquired = self.semaphore.acquire()
+    print("acquiring...", self.acquired)
+    if self.acquired: return
+    self.semaphore.acquire()
+    self.acquired = True
+    print("acquired...", self.acquired)
+    
   
   def release(self):
+    print("releasing", self.acquired)
+    if not self.acquired: return
     self.acquired = False
     self.semaphore.release()
-  
-  def wait_until_semaphore_released(self):
-    while not self.acquire(): pass
+    print("released", self.acquired)
+    

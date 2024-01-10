@@ -54,7 +54,6 @@ class LogsHelper():
     self.screen_flush()
     self.semaphore.release()
     
-    
     # TODO controllrlo
   def log_traceback(self):
     print("error")
