@@ -21,8 +21,6 @@ class SemaphoreManager():
     if not self.acquired: return
     self.acquired = False
     self.semaphore.release()
-    print("released", self.acquired)
-    
-  def wait_until_acquired(self):
-    self.semaphore.acquire()
-    self.acquired = True
+  
+  def wait_until_semaphore_released(self):
+    while not self.acquire(): pass

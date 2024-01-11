@@ -43,23 +43,17 @@ class LogsHelper():
   
   def log_tkinter(self, level, msg):
     if self.semaphore.acquired: return
-    print("a")
-    try:
-      self.semaphore.acquire()
-      print("acquired by logging ", self.semaphore.acquired)
-      if(level=='debug'):
-        self.tkinter_logger.debug(msg)
-      elif(level=='info'):
-        self.tkinter_logger.info(msg)
-      elif(level=='error'):
-        self.tkinter_logger.error(msg)
-      print("logged")
-      self.screen_flush()
-      self.semaphore.release()
-    except Exception:
-      print("error")
-      self.semaphore.release()
-      return
+    self.semaphore.acquire()
+    if(level=='debug'):
+      self.tkinter_logger.debug(msg)
+    elif(level=='info'):
+      self.tkinter_logger.info(msg)
+    elif(level=='error'):
+      self.tkinter_logger.error(msg)
+        
+    self.screen_flush()
+    self.semaphore.release()
+    
     
     # TODO controllrlo
   def log_traceback(self):

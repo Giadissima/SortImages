@@ -143,3 +143,4 @@ test/new
 test/current
 
 error_logs.log
+config.ini

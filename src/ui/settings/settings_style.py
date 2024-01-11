@@ -31,5 +31,3 @@ def configure_style():
   
   #subtitle style
   style.configure("Subtitle.TLabel", font=('Noto', 11, 'bold'))
-  
-  return style
