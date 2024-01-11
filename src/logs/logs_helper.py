@@ -57,7 +57,6 @@ class LogsHelper():
     
     # TODO controllrlo
   def log_traceback(self):
-    print("error")
     self.error_logger.error('', exc_info=True)
   
   def screen_flush(self):

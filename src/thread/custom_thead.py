@@ -47,8 +47,7 @@ class CustomThread(threading.Thread):
 
   def kill(self):
     if self.semaphore: self.semaphore.wait_until_acquired()
-    print("killing")
-    self.semaphore.wait_until_semaphore_released()
+    self.semaphore.wait_until_acquired()
     thread_id = self.get_id()
     res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
       ctypes.py_object(SystemExit))
