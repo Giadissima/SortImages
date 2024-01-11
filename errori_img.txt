@@ -1,11 +1,7 @@
 1) docstring e rivedere i commenti
 2) aggiungere lingua italiano
-<<<<<<< HEAD
-config.ini nel gitignore
-=======
 3) metterci la pausa
 4) rivedere la UI
->>>>>>> 4e1ba0310476eb241aaa66b3a1c57bf3d8215903
 
 i thread non si chiudono correttamente se esco prima dal processo ma rimangono in memoria
 
