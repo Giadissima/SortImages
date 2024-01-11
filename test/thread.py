@@ -1,11 +1,15 @@
 import threading
 import ctypes
+from s.s import SemaphoreManager
+from time import sleep
 class Mythread(threading.Thread): 
-  
   # Target function for thread 
   def run(self): 
+    self.s = SemaphoreManager()
     for i in range(10000000): 
-      print('Child Thread') 
+      self.s.acquire()
+      print('Child Thread')
+      self.s.release() 
           
   def get_id(self):
   
@@ -17,6 +21,7 @@ class Mythread(threading.Thread):
         return id
 
   def kill(self):
+    if self.s: self.s.wait_until_acquired()
     print("killing")
     thread_id = self.get_id()
     res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
@@ -24,3 +29,4 @@ class Mythread(threading.Thread):
     if res > 1:
       ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
       print('Exception raise failure')
+    self.s.release()
