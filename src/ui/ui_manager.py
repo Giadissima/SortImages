@@ -41,3 +41,4 @@ class UIManager:
     self.root.title(self.title)
     self.root.geometry(self.size)
     self.root.iconbitmap(self.icon_path)
+    self.root.configure(bg='#2A2A2A')
