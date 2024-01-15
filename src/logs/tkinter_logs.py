@@ -9,4 +9,4 @@ class TkinterTextHandler(Handler):
 
   def emit(self, record:LogRecord):
     msg = self.format(record)
-    self.text_obj.add_logs(msg, record.levelname.lower())
+    self.text_obj.add_logs(msg, record.levelname.lower())                                                                                                                                     
