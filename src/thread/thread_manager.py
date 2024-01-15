@@ -28,6 +28,5 @@ class ThreadManager():
     if(self.t != None and self.t.is_alive()):
       self.t.kill()
       if(self.t.is_alive()):
-        print("join")
-        self.t.join(timeout=3)
+        self.t.join(timeout=1)
       self.t = None
