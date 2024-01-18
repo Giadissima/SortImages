@@ -1,13 +1,13 @@
 from tkinter import Tk
-from tkinter.ttk import Button
 
 from src.config.config import Config
 from src.config.user_config import ConfigManager
-from src.ui.components.tkinter_logs import TkinterLogs
+
 from src.ui.settings.settings_style import configure_style
 from src.ui.components.custom_messagebox import CustomMessageBox
 from src.ui.ui_manager import UIManager
 from src.thread.thread_manager import ThreadManager
+from src.ui.components.buttons import create_rounded_button
 
 class Interface():
   def __init__(self, title: str, size: str, icon_path: str):
@@ -24,14 +24,9 @@ class Interface():
   def main_frame(self):
     self.ui_manager.setup_ui()
     configure_style()
-    self.btn = Button(
-      self.root, 
-      text="Start", 
-      style="StartButton.TButton",
-      command=self.start_thread)
-    self.btn.pack(pady=10)
+    self.btn = create_rounded_button(self.root, 'assets/rounded_button.png', 230, 65, command=self.start_thread)
+    self.btn.pack(pady=(0, 20), side='bottom')
 
-    Config.set_logs_obj(TkinterLogs(self.root))
     try:
       self.root.mainloop()
     except KeyboardInterrupt:

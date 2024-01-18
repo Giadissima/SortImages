@@ -16,14 +16,11 @@ def configure_style():
   style = Style()
   
   # configure default styles
-  style.configure("TButton", padding=0, background="white")
-  style.configure("TCheckbutton", font=('Noto', 11))
-  style.configure("TLabel", font=('Inter', 11))
+  style.configure("TCheckbutton", font=('Verdana', 11))
+  style.configure("TLabel", font=('Verdana', 11))
   
   style.configure('TFrame', background=main_color)
-  
-  # title style
-  style.configure("Title.TLabel", font=('Noto', 22, 'bold'), padding=18, foreground='purple')
+  style.configure('Prova.TFrame', background='white')
   
   #subtitle style
-  style.configure("Subtitle.TLabel", font=('Noto', 11, 'bold'))
+  style.configure("Subtitle.TLabel", font=('Verdana', 15, 'bold'))
