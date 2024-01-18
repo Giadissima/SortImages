@@ -2,7 +2,7 @@ from tkinter.ttk import Frame, Label
 from src.ui.settings.settings_style import main_color
 
 def create_card(father_frame, title, side=None):
-  card_container_frame = Frame(father_frame)
+  card_container_frame = Frame(father_frame, style='Prova.TFrame')
   title_label = Label(card_container_frame, text=title, background=main_color, foreground='white')
   card_frame = Frame(card_container_frame)
   title_label.grid(column=0, row=0, sticky='w', padx=10)
