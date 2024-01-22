@@ -11,6 +11,7 @@ from tkinter.ttk import Style
 main_color = '#2A2A2A'
 secondary_color = '#FF6B00'
 gray = '#474747'
+card_color = '#E5E5E5'
 
 def configure_style():
   style = Style()
@@ -20,7 +21,7 @@ def configure_style():
   style.configure("TLabel", font=('Verdana', 11))
   
   style.configure('TFrame', background=main_color)
-  style.configure('Prova.TFrame', background='white')
+  style.configure('Card.TFrame', background=card_color)
   
   #subtitle style
-  style.configure("Subtitle.TLabel", font=('Verdana', 15, 'bold'))
+  style.configure("CardTitle.TLabel", font=('Verdana', 15, 'bold'), background=card_color, padding=(0,20))

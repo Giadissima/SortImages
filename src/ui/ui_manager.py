@@ -3,7 +3,7 @@ from tkinter.ttk import Frame, Label
 from src.ui.components.options_interface import OptionsFrame
 from src.ui.components.tkinter_logs import TkinterLogs
 from src.ui.components.folder_selection import FolderSelection
-from src.ui.components.cards import create_card
+from src.ui.components.cards import Card, ImageCard
 from src.ui.utility.utility import configure_weight
 from src.ui.settings.settings_style import main_color
 from src.config.config import Config
@@ -31,14 +31,13 @@ class UIManager:
     configure_weight(form_frame, [0], [0,1])
 
   def setup_selection_folder_frame(self, parent_frame):
-    folder_container_frame = create_card(parent_frame, "Folders selection", side='left')
-    folder_container_frame.configure()
-    self.folder_selection_frame = FolderSelection(folder_container_frame, self.icon_path)
+    folder_container_frame = ImageCard(parent_frame, "Folders selection", 'assets/cat.jpeg', side='left', padding=20)
+    self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, self.icon_path)
     self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew")
     
   def setup_options_frame(self, parent_frame):
-    opt_container_frame = create_card(parent_frame, "Options", side='right')
-    opt_frame = OptionsFrame(opt_container_frame)
+    opt_container_frame = ImageCard(parent_frame, "Options", 'assets/logo_cut.png', side='right', padding=20)
+    opt_frame = OptionsFrame(opt_container_frame.widget_frame)
     opt_frame.frame.grid(row=0, column=1, sticky="nsew")
     
   def setup_title(self):
@@ -48,8 +47,8 @@ class UIManager:
     return title
   
   def setup_logs_widget(self, parent_frame):
-    log_frame = create_card(parent_frame, "Logs", side='bottom')
-    Config.set_logs_obj(TkinterLogs(log_frame))
+    log_card = Card(parent_frame, "Logs", side='bottom', expand=True, fill='both', card_color='TFrame')
+    Config.set_logs_obj(TkinterLogs(log_card.card))
 
   def get_text_entries(self):
     input_folder = self.folder_selection_frame.folder_path_entries["input_folder"].get()

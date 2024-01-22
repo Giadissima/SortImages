@@ -11,7 +11,7 @@ class OptionsFrame:
     
   def create_opt_frame(self):
     """Creates a Frame containing checkboxes that include all user-customized sorting options."""
-    sub_title = Label(self.frame, text="Options", style="Subtitle.TLabel")
+    sub_title = Label(self.frame, text="Options", style="CardTitle.TLabel")
     sub_title.grid(row=0, sticky='w')
 
     options = {

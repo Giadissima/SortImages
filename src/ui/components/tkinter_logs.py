@@ -1,7 +1,7 @@
 from tkinter import DISABLED, END, NORMAL, RIGHT, LEFT, BOTH
-from tkinter.ttk import Frame, Scrollbar
+from tkinter.ttk import Frame
 from tkinter.scrolledtext import ScrolledText
-
+from src.ui.settings.settings_style import gray
 class TkinterLogs():
     def __init__(self, frame: Frame):
         """Configure initial tags and the logs widget
@@ -13,6 +13,7 @@ class TkinterLogs():
             self.FRAME, state=DISABLED
         )
 
+        self.log_text_field.config(bg=gray)
         self.log_text_field.tag_configure('error', foreground='red')
         self.log_text_field.tag_configure('info', foreground='blue')
         self.log_text_field.tag_configure('debug', foreground='black')
