@@ -17,10 +17,10 @@ def configure_style():
   style = Style()
   
   # configure default styles
-  style.configure("TCheckbutton", font=('Verdana', 11))
-  style.configure("TLabel", font=('Verdana', 11))
-  
+  style.configure("TCheckbutton", font=('Verdana', 11), background=card_color)
+  style.configure("TLabel", font=('Verdana', 11), background=card_color)
   style.configure('TFrame', background=main_color)
+  
   style.configure('Card.TFrame', background=card_color)
   
   #subtitle style

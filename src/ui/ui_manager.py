@@ -32,7 +32,7 @@ class UIManager:
 
   def setup_selection_folder_frame(self, parent_frame):
     folder_container_frame = ImageCard(parent_frame, "Folders selection", 'assets/cat.jpeg', side='left', padding=20)
-    self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, self.icon_path)
+    self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, 'assets/folder.jpg')
     self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew")
     
   def setup_options_frame(self, parent_frame):
