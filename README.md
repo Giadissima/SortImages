@@ -15,6 +15,8 @@
 <a href="https://www.instagram.com/giadissima___/" target="_blank"><img src="assets/instagram.png" width=30/></a>
 </div>
 
+<br>
+
 ![Representative image of the project](assets/screen.png?raw=true "SortImages Screenshot")
 
 ## Overview
