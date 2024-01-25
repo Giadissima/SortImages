@@ -1,5 +1,5 @@
-# SortImages
 
+# SortImages
 <p align="center">
   <a href="https://nestjs.com/" target="blank"><img src="assets/logo.png" width="120" alt="Nest Logo" /></a>
 </p>
@@ -10,8 +10,8 @@
 <p align="center">A program to organize your photos and videos</p> 
 <div align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://t.me/Giadissima1234" target="_blank"><img src="assets/telegram.png" width=30/></a>
 <a href="https://paypal.me/Giadissima1234?country.x=IT&locale.x=it_IT" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+<a href="https://t.me/Giadissima1234" target="_blank"><img src="assets/telegram.png" width=30/></a>
 <a href="https://www.instagram.com/giadissima___/" target="_blank"><img src="assets/instagram.png" width=30/></a>
 </div>
 
