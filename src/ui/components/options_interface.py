@@ -26,4 +26,5 @@ class OptionsFrame:
       self.choices[key] = IntVar()
       Checkbutton(self.frame, text=text, variable=self.choices[key]).grid(row=idx, sticky=W)
 
+    self.frame.pack(side='top')
     Config.set_checkbox_choises(self.choices)

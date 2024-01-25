@@ -1,4 +1,5 @@
 from tkinter import Tk
+from assets.load_img import ROUNDED_BUTTON_IMG_PATH
 
 from src.config.config import Config
 from src.config.user_config import ConfigManager
@@ -24,7 +25,7 @@ class Interface():
 
   def main_frame(self):
     self.ui_manager.setup_ui()
-    self.btn = create_rounded_button(self.root, 'assets/rounded_button.png', 230, 65, command=self.start_thread)
+    self.btn = create_rounded_button(self.root, ROUNDED_BUTTON_IMG_PATH, 230, 65, command=self.start_thread)
     self.btn.pack(side='bottom')
 
     try:

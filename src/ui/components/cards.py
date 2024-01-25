@@ -3,7 +3,7 @@ from src.ui.settings.settings_style import main_color, card_color
 from src.files_manager.images import ImageHelper
 
 class Card():
-  def __init__(self, father_frame, title, side=None, padding=None, fill=None, expand=None, card_color='Card.TFrame') -> None:
+  def __init__(self, father_frame, title, side=None, padding=0, fill=None, expand=None, card_color='Card.TFrame') -> None:
     self.card_color = card_color
     self.title = title
     self.create_card(father_frame, side=side, padding=padding, fill=fill, expand=expand)
@@ -11,10 +11,10 @@ class Card():
     
   def create_card(self, father_frame, side=None, padding=0, fill=None, expand=False):
     self.card_container = Frame(father_frame)
-    print("side", side, "fill", fill, expand)
     self.card_container.pack(side=side, fill=fill, expand=expand) # fill in questo punto ha 20 a caso
     
-    title_label = Label(self.card_container, text=self.title, background=main_color, foreground='white')
+    print(padding)
+    title_label = Label(self.card_container, text=self.title, background=main_color, foreground='white', padding=padding)
     title_label.grid(column=0, row=0, sticky='w')
     self.card = Frame(self.card_container, style=self.card_color)
     self.card.grid(column=0, row=1, sticky='ewsn')
@@ -25,7 +25,7 @@ class Card():
     
     
 class ImageCard(Card):
-  def __init__(self, father_frame, title, img, side=None, card_color='Card.TFrame', padding=None, fill=None, expand=None, img_width=200, img_height=300) -> None:
+  def __init__(self, father_frame, title, img, side=None, card_color='Card.TFrame', padding=0, fill=None, expand=None, img_width=200, img_height=300) -> None:
     self.img = ImageHelper.resize_image(img, img_width, img_height)
     # self.img = img
     super().__init__(father_frame, title, side=side, card_color=card_color, padding=padding, fill=fill, expand=expand)

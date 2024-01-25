@@ -24,4 +24,4 @@ def configure_style():
   
   
   #subtitle style
-  style.configure("CardTitle.TLabel", font=('Verdana', 15, 'bold'), background=card_color, padding=(0,20))
+  style.configure("CardTitle.TLabel", font=('Verdana', 15, 'bold'), background=card_color, padding=(0,17))

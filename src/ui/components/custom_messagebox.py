@@ -1,5 +1,6 @@
 from tkinter.ttk import Frame, Label, Button, Checkbutton
 from tkinter import BooleanVar, LEFT, RIGHT, Toplevel
+from assets.load_img import WARNING_IMG_PATH
 from src.files_manager.images import ImageHelper
 
 class CustomMessageBox(Toplevel):
@@ -22,7 +23,7 @@ class CustomMessageBox(Toplevel):
       
   def create_widgets(self):
     """ Creates buttons and labels necessary to interface"""
-    self.warning_img_path = ImageHelper.resize_image('assets/Warning.png', 70, 50)
+    self.warning_img_path = ImageHelper.resize_image(WARNING_IMG_PATH, 70, 50)
     label1 = Label(self, image=self.warning_img_path)
     label1.image = self.warning_img_path
     label1.pack()

@@ -1,5 +1,6 @@
 from tkinter import BOTH
 from tkinter.ttk import Frame, Label
+from assets.load_img import CAT_IMG_PATH, FOLDER_IMG_PATH, LOGO_IMG_PATH, TITLE_IMG_PATH
 from src.ui.components.options_interface import OptionsFrame
 from src.ui.components.tkinter_logs import TkinterLogs
 from src.ui.components.folder_selection import FolderSelection
@@ -31,23 +32,23 @@ class UIManager:
     configure_weight(form_frame, [0], [0,1])
 
   def setup_selection_folder_frame(self, parent_frame):
-    folder_container_frame = ImageCard(parent_frame, "Folders selection", 'assets/logo_cut.png', side='left', padding=20)
-    self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, 'assets/folder.jpg')
+    folder_container_frame = ImageCard(parent_frame, "Folders selection", LOGO_IMG_PATH, side='left')
+    self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, FOLDER_IMG_PATH)
     self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew")
     
   def setup_options_frame(self, parent_frame):
-    opt_container_frame = ImageCard(parent_frame, "Options", 'assets/cat.jpeg', side='right', padding=20)
+    opt_container_frame = ImageCard(parent_frame, "Options", CAT_IMG_PATH, side='right')
     opt_frame = OptionsFrame(opt_container_frame.widget_frame)
-    opt_frame.frame.grid(row=0, column=1, sticky="nsew")
+    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=20)
     
   def setup_title(self):
-    title_img = ImageHelper.resize_image('assets/title.png', 344, 69)
+    title_img = ImageHelper.resize_image(TITLE_IMG_PATH, 344, 69)
     title = Label(self.root, background=main_color, image=title_img)
     title.image= title_img
     return title
   
   def setup_logs_widget(self, parent_frame):
-    log_card = Card(parent_frame, "Logs", side='bottom', expand=False, fill='x', card_color='TFrame')
+    log_card = Card(parent_frame, "Logs", side='bottom', expand=False, fill='x', card_color='TFrame', padding=(10,0))
     Config.set_logs_obj(TkinterLogs(log_card.card))
 
   def get_text_entries(self):
