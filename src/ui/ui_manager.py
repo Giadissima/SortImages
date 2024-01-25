@@ -39,7 +39,7 @@ class UIManager:
   def setup_options_frame(self, parent_frame):
     opt_container_frame = ImageCard(parent_frame, "Options", CAT_IMG_PATH, side='right')
     opt_frame = OptionsFrame(opt_container_frame.widget_frame)
-    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=20)
+    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=20, pady=(0,160))
     
   def setup_title(self):
     title_img = ImageHelper.resize_image(TITLE_IMG_PATH, 344, 69)
@@ -58,9 +58,6 @@ class UIManager:
   
   def setup_main_frame(self):
     self.root.title(self.title)
-    # width= self.root.winfo_screenwidth()               
-    # height= self.root.winfo_screenheight()               
-    # self.root.geometry("%dx%d" % (width, height))
     self.root.geometry(self.size)
     self.root.iconbitmap(self.icon_path)
     self.root.configure(bg=main_color)

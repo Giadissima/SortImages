@@ -3,6 +3,8 @@
 3) metterci la pausa
 4) rivedere la UI
 5) controllare se la regex a 4 cifre supera 2050 o inferiore a 1970
+6) problema con i video che non li muove
+7) se lo schermo è piccolo avviarlo in full screen
 
 i thread non si chiudono correttamente se esco prima dal processo ma rimangono in memoria
 

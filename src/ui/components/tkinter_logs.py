@@ -15,8 +15,8 @@ class TkinterLogs():
 
         self.log_text_field.config(bg=gray)
         self.log_text_field.tag_configure('error', foreground='red')
-        self.log_text_field.tag_configure('info', foreground='blue')
-        self.log_text_field.tag_configure('debug', foreground='black')
+        self.log_text_field.tag_configure('info', foreground='light blue')
+        self.log_text_field.tag_configure('debug', foreground='white')
 
         # Non è più necessario creare una barra di scorrimento separata
 
