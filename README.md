@@ -1,4 +1,6 @@
-# SortImages ![logo](assets/logo.png | width=100)
+# SortImages
+
+![Logo](assets/logo.png | width=200)
 
 ![Representative image of the project](assets/screen.png?raw=true "SortImages Screenshot")
 
