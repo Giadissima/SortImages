@@ -18,7 +18,7 @@ class UIManager:
 
   def setup_ui(self):
     title = self.setup_title()
-    title.pack(side='top', pady=(20,20))
+    title.pack(side='top', pady=(10,0))
 
     form_frame = Frame(self.root)
     form_frame.pack(expand=True, fill=BOTH, padx=50)
@@ -31,12 +31,12 @@ class UIManager:
     configure_weight(form_frame, [0], [0,1])
 
   def setup_selection_folder_frame(self, parent_frame):
-    folder_container_frame = ImageCard(parent_frame, "Folders selection", 'assets/cat.jpeg', side='left', padding=20)
+    folder_container_frame = ImageCard(parent_frame, "Folders selection", 'assets/logo_cut.png', side='left', padding=20)
     self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, 'assets/folder.jpg')
     self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew")
     
   def setup_options_frame(self, parent_frame):
-    opt_container_frame = ImageCard(parent_frame, "Options", 'assets/logo_cut.png', side='right', padding=20)
+    opt_container_frame = ImageCard(parent_frame, "Options", 'assets/cat.jpeg', side='right', padding=20)
     opt_frame = OptionsFrame(opt_container_frame.widget_frame)
     opt_frame.frame.grid(row=0, column=1, sticky="nsew")
     
@@ -47,7 +47,7 @@ class UIManager:
     return title
   
   def setup_logs_widget(self, parent_frame):
-    log_card = Card(parent_frame, "Logs", side='bottom', expand=True, fill='both', card_color='TFrame')
+    log_card = Card(parent_frame, "Logs", side='bottom', expand=False, fill='x', card_color='TFrame')
     Config.set_logs_obj(TkinterLogs(log_card.card))
 
   def get_text_entries(self):
@@ -57,6 +57,9 @@ class UIManager:
   
   def setup_main_frame(self):
     self.root.title(self.title)
+    # width= self.root.winfo_screenwidth()               
+    # height= self.root.winfo_screenheight()               
+    # self.root.geometry("%dx%d" % (width, height))
     self.root.geometry(self.size)
     self.root.iconbitmap(self.icon_path)
     self.root.configure(bg=main_color)

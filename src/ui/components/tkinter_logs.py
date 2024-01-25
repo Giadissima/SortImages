@@ -10,7 +10,7 @@ class TkinterLogs():
         self.FRAME = frame
 
         self.log_text_field = ScrolledText(
-            self.FRAME, state=DISABLED
+            self.FRAME, state=DISABLED, height=15
         )
 
         self.log_text_field.config(bg=gray)
@@ -20,7 +20,7 @@ class TkinterLogs():
 
         # Non è più necessario creare una barra di scorrimento separata
 
-        self.log_text_field.pack(fill='both', expand=True, padx=10, pady=10)
+        self.log_text_field.pack(fill='x', expand=True, padx=10, pady=10)
 
     def add_logs(self, message: str, tag: str):
         """Add a log into the logs widget on UI

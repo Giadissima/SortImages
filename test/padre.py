@@ -52,7 +52,7 @@ secondary_color = '#FF6B00'
 
 root = tk.Tk()
 root.title("Frame padre")
-root.geometry("1600x900")
+root.geometry("1600x1200")
 root.configure(bg=main_color)
 style = configure_style()
 

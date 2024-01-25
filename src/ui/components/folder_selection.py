@@ -5,7 +5,7 @@ from src.ui.utility.utility import configure_weight
 
 class FolderSelection():
   def __init__(self, parent_frame, folder_icon_path):
-    self.frame = Frame(parent_frame)
+    self.frame = Frame(parent_frame, style='Card.TFrame')
     self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
     self.folder_path_entries = {}
     self.create_widgets()

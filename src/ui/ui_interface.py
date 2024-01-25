@@ -13,6 +13,7 @@ class Interface():
   def __init__(self, title: str, size: str, icon_path: str):
     self.icon_path = icon_path
     self.root = Tk()
+    configure_style() 
     self.config_manager = ConfigManager()
     self.ui_manager = UIManager(self.root, size, title, icon_path)
     self.thread_manager = ThreadManager()
@@ -23,9 +24,8 @@ class Interface():
 
   def main_frame(self):
     self.ui_manager.setup_ui()
-    configure_style()
     self.btn = create_rounded_button(self.root, 'assets/rounded_button.png', 230, 65, command=self.start_thread)
-    self.btn.pack(pady=(0, 20), side='bottom')
+    self.btn.pack(side='bottom')
 
     try:
       self.root.mainloop()

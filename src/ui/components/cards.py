@@ -28,7 +28,7 @@ class ImageCard(Card):
   def __init__(self, father_frame, title, img, side=None, card_color='Card.TFrame', padding=None, fill=None, expand=None, img_width=200, img_height=300) -> None:
     self.img = ImageHelper.resize_image(img, img_width, img_height)
     # self.img = img
-    super().__init__(father_frame, title, side, card_color, padding, fill, expand)
+    super().__init__(father_frame, title, side=side, card_color=card_color, padding=padding, fill=fill, expand=expand)
     self.create_widgets()
     self.create_img()
     

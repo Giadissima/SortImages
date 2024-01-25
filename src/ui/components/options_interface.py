@@ -5,7 +5,7 @@ from src.config.config import Config
 class OptionsFrame:
   def __init__(self, frame):
     self.parent_frame = frame
-    self.frame = Frame(self.parent_frame)
+    self.frame = Frame(self.parent_frame, style='Card.TFrame')
     self.choices = {}
     self.create_opt_frame()
     
