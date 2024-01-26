@@ -16,7 +16,9 @@
 </div>
 
 <br>
+<div align="center">
 <a align="center", href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50/></a>
+</div>
 
 <br>
 
