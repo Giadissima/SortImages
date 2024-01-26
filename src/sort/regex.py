@@ -1,10 +1,11 @@
 import re
 from typing import List, Optional
-
+from datetime import datetime
 from src.config.config import Config
 class RegexMedia:
   def __init__(self):
-    # TODO sarebbe meglio leggere da un file json?
+    self.current_year = (datetime.now()).year
+    self.minimum_year = 1990
     self.months_italian = r'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
     self.months_english = r'January|February|March|April|May|June|July|August|September|October|November|December'
     self.months_abbreviated = r'gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic|jan|jun|jul|aug|sep|oct|dec'
@@ -139,7 +140,10 @@ class RegexMedia:
   def get_year(self, y):
     """Converts the abbreviate year to a 4-digit year."""
     if int(y) < 100:
-      y = '19' + y if int(y) > 70 else '20' + y
+      y = '19' + y if int(y) > 90 else '20' + y
+      
+    if int(y) < self.minimum_year or int(y) > self.current_year:
+      return None
     return y
   
   def get_month(self, month:str)->str:

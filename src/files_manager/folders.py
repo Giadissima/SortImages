@@ -26,6 +26,7 @@ class Folder():
     Args:
       path_to_create (str): the path to create
     """
+    print(path_to_create)
     Path(path_to_create).mkdir(parents=True, exist_ok=True)
     
   def delete_empty_folders(self, root:str)->None:

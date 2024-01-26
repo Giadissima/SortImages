@@ -75,11 +75,11 @@ class File:
       [year(str), month(str), day(str)]: date extracted from file and folder
     """
     regex = RegexMedia()
-    if(folder_date != None and len(folder_date) == 3): 
+    if(folder_date != None and len(folder_date) == 3 and folder_date[0]!=None): 
       return folder_date
     date = cls.get_date_from_metadata(file_path)
     # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
-    if(date != None): 
+    if(date != None and date[0]!=None): 
       return date 
     date = regex.extract_date_from_media(file, folder_date)
     return date
@@ -119,7 +119,7 @@ class File:
     date = media_class.extract_date(file_path, file_name, folder_date)
     
     # case no date found: file not moved
-    if(date == None):
+    if(date == None or date[0]==None):
       return 'error', f'{file_name} - No date found in the file: file not moved.'
     
     # case date_found
