@@ -26,7 +26,6 @@ class Folder():
     Args:
       path_to_create (str): the path to create
     """
-    print(path_to_create)
     Path(path_to_create).mkdir(parents=True, exist_ok=True)
     
   def delete_empty_folders(self, root:str)->None:
@@ -64,8 +63,6 @@ class Folder():
     if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
       return False, "The source or destination folder doesn't not exists anymore"
     if(input_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
-      return False, "The source and destination folders cannot be empty"
-    if(output_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
       return False, "The source and destination folders cannot be empty"
     if(input_folder == output_folder):
       return False, "The source and destination folders cannot be the same"

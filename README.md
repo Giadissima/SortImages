@@ -16,6 +16,8 @@
 </div>
 
 <br>
+<a href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=60/></a>
+<br>
 
 ![Representative image of the project](assets/screen.png?raw=true "SortImages Screenshot")
 

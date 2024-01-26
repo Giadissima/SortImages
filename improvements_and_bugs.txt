@@ -1,9 +1,9 @@
-1) docstring e rivedere i commenti
-2) aggiungere lingua italiano
-3) metterci la pausa
-6) problema con i video che non li muove
-9) rivedere gli errori di quando inserisci le cartelle
+BUGS:
+- problema con i video che non li muove
+- risolvere il problema di quando chiudi scorrettamente il programma
+- se premo su X nella msgbox, non deve prenderlo come "ok"
 
-i thread non si chiudono correttamente se esco prima dal processo ma rimangono in memoria
-
-controllare se start folder esiste e se dest folder esiste
+IMPROVEMENTS:
+- docstring e rivedere i commenti
+- aggiungere lingua italiano
+- metterci la pausa

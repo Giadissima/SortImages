@@ -74,7 +74,6 @@ class Sort():
       if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root): 
         continue
       self.folder_date = self.regex.extract_date_from_folder(root)
-      print(self.folder_date)
       self.loop_into_files(root, files)
       
   def loop_into_files(self, folder_path:str, file_list:List[str]):
