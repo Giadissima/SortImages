@@ -7,3 +7,5 @@ IMPROVEMENTS:
 - docstring e rivedere i commenti
 - aggiungere lingua italiano
 - metterci la pausa
+- mettere qualcosa per dire nel readme nel getting started che quei passaggi sono per chi vuole estendere il mio codice?. Togliere un s a "SortImages"
+- mettere la repository modificabile da tutti
