@@ -14,7 +14,7 @@
 <a href="https://t.me/Giadissima1234" target="_blank"><img src="assets/telegram.png" width=30/></a>
 <a href="https://www.instagram.com/giadissima___/" target="_blank"><img src="assets/instagram.png" width=30/></a>
 
-<br>
+<br><br>
 <a href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50/></a>
 </div>
 
