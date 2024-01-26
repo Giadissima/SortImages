@@ -93,5 +93,5 @@ See the [LICENSE.md](LICENSE.md) file for details.
 <br>
 
 <div align="center">
-<a align="center", href="https://paypal.me/Giadissima1234?country.x=IT&locale.x=it_IT" target="_blank"><img src="assets/donations.png"/></a>
+<a align="center", href="https://paypal.me/Giadissima1234?country.x=IT&locale.x=it_IT" target="_blank"><img src="assets/donations.png" width=210/></a>
 </div>
