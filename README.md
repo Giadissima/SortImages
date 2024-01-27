@@ -54,7 +54,7 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 
 ## Download
 
-Download the executable from the following buttonDownload the executable from the following button
+Download the executable from the following button
 
 <div>
 <a href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50/></a>
