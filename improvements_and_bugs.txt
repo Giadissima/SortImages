@@ -4,9 +4,10 @@ BUGS:
 
 IMPROVEMENTS:
 - docstring e rivedere i commenti
-- aggiungere lingua italiano
+- aggiungere lingua- italiano
 - metterci la pausa
-- mettere qualcosa per dire nel readme nel getting started che quei passaggi sono per chi vuole estendere il mio codice?. Togliere un s a "SortImages"
 - mettere la repository modificabile da tutti
 - informare sullo spostamento in altri dischi che copia ma non sposta secondo le regole di windows
 - cambiare il colore dei log e metterlo più chiaro
+- mettere il contenuto di tesdt nel gitignore
+- mettere python dalla versione 3.11 in poi
