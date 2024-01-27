@@ -20,8 +20,6 @@
 <a align="center", href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50/></a>
 </div>
 
-<br>
-
 ## Overview
 
 The SortImages tool is a powerful utility designed to efficiently organize images based on various parameters, including image names, metadata, and folder names. It extends its functionality to subdirectories, providing a comprehensive solution for image organization.
