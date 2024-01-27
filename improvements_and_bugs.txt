@@ -1,5 +1,4 @@
 BUGS:
-- problema con i video che non li muove
 - risolvere il problema di quando chiudi scorrettamente il programma
 - se premo su X nella msgbox, non deve prenderlo come "ok"
 
@@ -9,3 +8,5 @@ IMPROVEMENTS:
 - metterci la pausa
 - mettere qualcosa per dire nel readme nel getting started che quei passaggi sono per chi vuole estendere il mio codice?. Togliere un s a "SortImages"
 - mettere la repository modificabile da tutti
+- informare sullo spostamento in altri dischi che copia ma non sposta secondo le regole di windows
+- cambiare il colore dei log e metterlo più chiaro

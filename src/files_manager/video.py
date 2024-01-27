@@ -38,6 +38,5 @@ class VideoHelper(File):
     except (FileNotFoundError, PermissionError) :
       return None
     finally:
-      if not parser:
+      if parser:
         parser.close()
-
