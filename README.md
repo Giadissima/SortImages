@@ -22,11 +22,11 @@
 
 <br>
 
-![Representative image of the project](assets/screen.png?raw=true "SortImages Screenshot")
-
 ## Overview
 
 The SortImages tool is a powerful utility designed to efficiently organize images based on various parameters, including image names, metadata, and folder names. It extends its functionality to subdirectories, providing a comprehensive solution for image organization.
+
+![Representative image of the project](assets/screen.png?raw=true "SortImages Screenshot")
 
 ## Features
 
