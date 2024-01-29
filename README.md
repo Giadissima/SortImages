@@ -17,7 +17,7 @@
 
 <br>
 <div align="center">
-<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50/></a>
+<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0/SortImages_1.0.zip" target="_blank"><img src="assets/windows_download.png" height=50/></a>
 </div>
 
 ## Overview
@@ -29,13 +29,15 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 ## Features
 
 - **Intelligent Sorting:** The tool intelligently organizes images by analyzing their names, metadata, and parent folder names.
-- **Hierarchical Structure:** After specifying source and destination folders, images are structured into subfolders based on the following format: `year/month/day`.
+- **Hierarchical Structure:** After specifying source and destination folders, images are structured into subfolders based on user-defined preferences, including the options to organize by `year`, `year/month`, or `year/month/day`.
 - **Duplicate Recognition:** The tool recognizes duplicate images and offers user-selectable options to handle them:
   - Default: Leaves duplicates in the source folder and logs the detection.
   - Option to delete duplicates during the sorting process.
 - **User Options:**
+  - Option to choose the hierarchical structure based on year, year/month, or year/month/day.
   - Option to ignore folder names during sorting.
   - Option to delete empty folders after sorting.
+  - Option to move screenshots into a dedicated folder named "Screenshot" with organized subfolders.
 
 ## How to Use
 
@@ -57,7 +59,7 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 If you are using a Windows operating system, you can effortlessly download the project by clicking the following button:
 
 <div>
-<a href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50 alt="Windows Download"/></a>
+<a href="https://github.com/Giadissima/SortImages/releases/download/1.0/SortImages_1.0.zip" target="_blank"><img src="assets/windows_download.png" height=50 alt="Windows Download"/></a>
 </div>
 
 If you wish to view the source code or if you don't have Windows installed, you can follow these steps:

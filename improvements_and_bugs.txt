@@ -11,3 +11,8 @@ IMPROVEMENTS:
 - mettere il contenuto di tesdt nel gitignore
 - mettere l'ordinamento di default
 - impostazione "cartella screenshot a parte"
+
+
+
+per generare l'exe:
+pyinstaller.exe --icon=assets/logo.ico -F --noconsole main.py
