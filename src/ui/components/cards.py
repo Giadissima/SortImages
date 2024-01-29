@@ -13,7 +13,6 @@ class Card():
     self.card_container = Frame(father_frame)
     self.card_container.pack(side=side, fill=fill, expand=expand) # fill in questo punto ha 20 a caso
     
-    print(padding)
     title_label = Label(self.card_container, text=self.title, background=main_color, foreground='white', padding=padding)
     title_label.grid(column=0, row=0, sticky='w')
     self.card = Frame(self.card_container, style=self.card_color)

@@ -3,9 +3,9 @@ from typing import List, Optional
 from datetime import datetime
 from src.config.config import Config
 class RegexMedia:
+  current_year = (datetime.now()).year
+  minimum_year = 1990
   def __init__(self):
-    self.current_year = (datetime.now()).year
-    self.minimum_year = 1990
     self.months_italian = r'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
     self.months_english = r'January|February|March|April|May|June|July|August|September|October|November|December'
     self.months_abbreviated = r'gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic|jan|jun|jul|aug|sep|oct|dec'
@@ -107,11 +107,12 @@ class RegexMedia:
     Returns:
       Optional[List[str]]: file's date if exists, otherwise None
     """
+    print(file_name)
     for pattern in self.date_file_patterns:
       match = re.search(pattern, file_name)
       if match:
         year, month, day = match.group(1), match.group(2), match.group(3)
-        return [self.get_year(year), month, day]
+        return [RegexMedia.get_year(year), month, day]
     return date
 
   def extract_date_from_folder(self, folder_name: str)->Optional[List[str]]:
@@ -130,19 +131,21 @@ class RegexMedia:
       if match:
         groups = match.groups()
         if len(groups) == 3:
-          return [self.get_year(groups[0]), self.get_month(groups[1]), groups[2]]
+          return [RegexMedia.get_year(groups[0]), self.get_month(groups[1]), groups[2]]
         elif len(groups) == 2:
-          return [self.get_year(groups[0]), self.get_month(groups[1])]
+          return [RegexMedia.get_year(groups[0]), self.get_month(groups[1])]
         elif len(groups) == 1:
-          return [self.get_year(groups[0])]
+          return [RegexMedia.get_year(groups[0])]
     return None
   
-  def get_year(self, y):
+  @staticmethod
+  def get_year(y):
     """Converts the abbreviate year to a 4-digit year."""
+    print(y)
     if int(y) < 100:
       y = '19' + y if int(y) > 90 else '20' + y
       
-    if int(y) < self.minimum_year or int(y) > self.current_year:
+    if int(y) < RegexMedia.minimum_year or int(y) > RegexMedia.current_year:
       return None
     return y
   
