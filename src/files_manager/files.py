@@ -123,7 +123,10 @@ class File:
       return 'error', f'{file_name} - No date found in the file: file not moved.'
     
     # case date_found
-    date_path = DateManager.get_date_path(date, Config.output_folder)
+    dest_folder = Config.output_folder
+    if Config.get_checkbox_choises("ScreenshotFolder") and RegexMedia.is_file_a_screenshot(file_name): 
+      dest_folder = join(dest_folder, "Screenshot")
+    date_path = DateManager.get_date_path(date, dest_folder)
     response = self.move_file(file_path, file_name, date_path)
     if response:
       return 'debug', f'{file_name} - moved successfully.'
