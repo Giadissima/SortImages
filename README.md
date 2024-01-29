@@ -17,7 +17,7 @@
 
 <br>
 <div align="center">
-<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0/SortImages_1.0.zip" target="_blank"><img src="assets/windows_download.png" height=50/></a>
+<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0/SortImages_1.0.zip" target="_blank"><img src="assets/windows_download_1_0.png" height=50/></a>
 </div>
 
 ## Overview
@@ -59,7 +59,7 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 If you are using a Windows operating system, you can effortlessly download the project by clicking the following button:
 
 <div>
-<a href="https://github.com/Giadissima/SortImages/releases/download/1.0/SortImages_1.0.zip" target="_blank"><img src="assets/windows_download.png" height=50 alt="Windows Download"/></a>
+<a href="https://github.com/Giadissima/SortImages/releases/download/1.0/SortImages_1.0.zip" target="_blank"><img src="assets/windows_download_1_0.png" height=50 alt="Windows Download"/></a>
 </div>
 
 If you wish to view the source code or if you don't have Windows installed, you can follow these steps:
