@@ -107,7 +107,6 @@ class RegexMedia:
     Returns:
       Optional[List[str]]: file's date if exists, otherwise None
     """
-    print(file_name)
     for pattern in self.date_file_patterns:
       match = re.search(pattern, file_name)
       if match:
@@ -141,7 +140,6 @@ class RegexMedia:
   @staticmethod
   def get_year(y):
     """Converts the abbreviate year to a 4-digit year."""
-    print(y)
     if int(y) < 100:
       y = '19' + y if int(y) > 90 else '20' + y
       

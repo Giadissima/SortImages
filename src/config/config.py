@@ -5,6 +5,7 @@ class Config():
   checkbox_choises = None
   input_folder: str = None
   output_folder: str = None
+  sort_method: int = 0
 
   @staticmethod
   def set_logs_obj(obj): Config.logs_obj = obj
@@ -17,3 +18,5 @@ class Config():
   @staticmethod
   def get_checkbox_choises(key)->bool: 
     return Config.checkbox_choises[key].get() == 1
+  @staticmethod
+  def set_sort_method(var): Config.sort_method = var

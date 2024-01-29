@@ -76,11 +76,8 @@ class File:
     """
     regex = RegexMedia()
     if(folder_date != None and len(folder_date) == 3 and folder_date[0]!=None): 
-      print(True)
       return folder_date
-    print("ciao", folder_date)
     date = cls.get_date_from_metadata(file_path)
-    print("metadata: ", date)
     # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
     if(date != None and date[0]!=None): 
       return date 
