@@ -13,6 +13,9 @@ IMPROVEMENTS:
 - impostazione "cartella screenshot a parte"
 
 
+guardare gli assets in tutte le build
+
+
 
 per generare l'exe:
 pyinstaller.exe --icon=assets/logo.ico -F --noconsole main.py
