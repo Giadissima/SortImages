@@ -91,7 +91,7 @@ Contributions are welcome! You can easily fork my repository and add everything 
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE.md).
 
 See the [LICENSE.md](LICENSE.md) file for details.
 
