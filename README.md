@@ -54,15 +54,13 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 
 ## Download
 
-Download the executable from the following button
+If you are using a Windows operating system, you can effortlessly download the project by clicking the following button:
 
 <div>
-<a href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50/></a>
+<a href="https://github.com/Giadissima/SortImages/releases/download/alpha/SortImages_alpha.rar" target="_blank"><img src="assets/windows_download.png" height=50 alt="Windows Download"/></a>
 </div>
 
-## Contributing
-
-Contributions are welcome! Here's how you can collaborate.
+If you wish to view the source code or if you don't have Windows installed, you can follow these steps:
 
 ### Prerequisites
 
@@ -86,6 +84,10 @@ Contributions are welcome! Here's how you can collaborate.
    ```bash
    python main.py
    ```
+
+## Contributing
+
+Contributions are welcome! You can easily fork my repository and add everything you want 😉
 
 ## License
 
