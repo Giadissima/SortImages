@@ -105,7 +105,7 @@ class File:
     return False, None
   
   def handle_move_file(self, media_class, file_path:str, file_name:str, folder_date: str)-> Union[str, str]:
-    """Checks if the passed date is valid, and if so, creates the new path for the image and moves it.
+    """Checks if the date argument is valid, and if so, creates the new path for the image and moves it.
 
     Args:
       media_class (ImageHelper|VideoHelper): class to which a file belongs which can be an image or a video

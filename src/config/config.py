@@ -20,3 +20,6 @@ class Config():
     return Config.checkbox_choises[key].get() == 1
   @staticmethod
   def set_sort_method(var): Config.sort_method = var
+  @staticmethod
+  def get_sort_method(key)->bool: 
+    return Config.sort_method.get() == key
