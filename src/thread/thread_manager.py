@@ -11,12 +11,11 @@ class ThreadManager():
     if(self.t != None):
       self.t = None
       
-    msg1 = "The program will delete duplicate images.\nIt will not be possible to recover them.\nContinue?"
+    msg1 = "The program will delete duplicate images and video.\nIt will not be possible to recover them.\nContinue?"
     msg2 = "Are you sure you want to delete empty folders\nfrom the starting folder?"
 
-    check_and_set_preference('DeleteDuplicates', msg1)
-    # TODO se io premo su annulla dentro la messagebox, il programma inizia uguale?
-    check_and_set_preference('DeleteEmptyFolders', msg2)
+    if check_and_set_preference('DeleteDuplicates', msg1) == False: return
+    if check_and_set_preference('DeleteEmptyFolders', msg2) == False: return
 
     Config.set_input_folder(input_folder_entry)
     Config.set_output_folder(output_folder_entry)

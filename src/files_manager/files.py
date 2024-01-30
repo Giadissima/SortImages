@@ -80,7 +80,6 @@ class File:
     date = cls.get_date_from_metadata(file_path)
     # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
     if(date != None and date[0]!=None): 
-      print("metaddata founded")
       return date 
     date = regex.extract_date_from_media(file, folder_date)
     return date

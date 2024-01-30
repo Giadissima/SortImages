@@ -53,7 +53,7 @@ class Interface():
     
   def check_and_set_preference(self, preference_name, msg):
     if Config.get_checkbox_choises(preference_name) and not self.config_manager.has_preference(preference_name):
-      self.ask_to_custom_msgbox(msg, preference_name)
+      return self.ask_to_custom_msgbox(msg, preference_name)
       
   def start_thread(self):
     """ Check if the button to start or pause the sorting process has been pressed. """
