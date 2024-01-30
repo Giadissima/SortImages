@@ -26,6 +26,8 @@ class ImageHelper(File):
       return True
     except IOError:
       return False
+    except Image.DecompressionBombError:
+      return ImageHelper.is_image_by_extension(img)
     
   @staticmethod
   def get_date_from_metadata(img:str) -> Optional[List[str]]:
@@ -74,3 +76,9 @@ class ImageHelper(File):
     original_image = Image.open(image_path)
     resized_image = original_image.resize((width, height))
     return ImageTk.PhotoImage(resized_image)
+  
+  @staticmethod
+  def is_image_by_extension(img):
+    img_extensions = {'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'tif', 'webp', 'svg', 'eps', 'raw', 'ico', 'heif', 'bpg'}
+    file_extension = img.rsplit('.',1)[1].lower()
+    return file_extension in img_extensions

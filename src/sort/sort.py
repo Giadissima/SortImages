@@ -31,6 +31,9 @@ class Sort():
       if self.logs is None:
         self.logs = LogsHelper(Config.logs_obj)
       Config.logs_obj.delete_logs()
+      self.logs.tkinter_logger.info('checking existing files in destination folder. It may takes a few minutes')
+      self.finding_duplicates_output_folder()
+      self.logs.tkinter_logger.info('initial check completed. Starting to sort...')
       self.loop_into_folders()
       self.handle_folders_deletion()
       self.logs.tkinter_logger.info('sorting completed.')
@@ -38,6 +41,7 @@ class Sort():
     except Exception as e:
       print(e)
       self.handle_exception()
+      return False, 'Error sorting images. If the error persists, report it on the GitHub project discussion'
     return True, None
 
   @staticmethod
@@ -88,19 +92,28 @@ class Sort():
       """
     for file_name in file_list:
       file_path = join(folder_path, file_name).replace('\\', '/')
-      media_class:VideoHelper|ImageHelper = Sort.identify_media(file_path)
-      if media_class == None: continue
-      
-      result, msg = self.file.handle_duplicates(file_path, file_name)
-      if result:
-        self.logs.log_tkinter('info', msg)
-        continue
+      try:
+        media_class:VideoHelper|ImageHelper = Sort.identify_media(file_path)
+        if media_class == None: continue
         
-      type_of_log, msg = self.file.handle_move_file(media_class, file_path, file_name, self.folder_date)
-      if type_of_log == 'error': self.logs.log_tkinter('error', msg)
-      else: self.logs.log_tkinter('debug',msg)
-
-  
-    
-    # TODO controllare se il file è stato mosso nel frattempo, controllare se esiste
-    # TODO acquire se sta spostando il file
+        result, msg = self.file.handle_duplicates(file_path, file_name)
+        if result:
+          self.logs.log_tkinter('info', msg)
+          continue
+          
+        type_of_log, msg = self.file.handle_move_file(media_class, file_path, file_name, self.folder_date)
+        if type_of_log == 'error': self.logs.log_tkinter('error', msg)
+        else: self.logs.log_tkinter('debug',msg)
+      except IndexError:
+        self.logs.log_tkinter('error',f"{file_name} - file without any extension, it cannot be sorted")
+      
+  def finding_duplicates_output_folder(self)->None:
+    """checks if there are media files in each subfolder and, if so, reorganizes them."""
+    for root, _, files in walk(Config.output_folder):
+      root = root.replace('\\', '/')
+      for file_name in files:
+        file_path = join(root, file_name).replace('\\', '/')
+        result, msg = self.file.handle_duplicates(file_path, file_name)
+        if result:
+          self.logs.log_tkinter('info', msg)
+          continue

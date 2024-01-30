@@ -27,7 +27,7 @@ class OptionsFrame:
   def set_generic_options(self):
     "set all checkboxes contains optional options"
     options = {
-    "DeleteDuplicates": "Delete duplicate images and videos from start folder",
+    "DeleteDuplicates": "Delete duplicate images and videos from folders",
     "DeleteEmptyFolders": "Delete empty folders after the sort process",
     "IgnoreFolderSort": "Do not consider folder names for sorting",
     "ScreenshotFolder": "Move all screenshots in a dedicated folder",
