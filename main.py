@@ -5,4 +5,4 @@ def main():
   Interface("Sort Images", "1500x900", LOGO_ICO_PATH)
 
 if __name__ == "__main__":
-    main()
+  main()

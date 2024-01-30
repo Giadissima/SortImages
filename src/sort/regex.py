@@ -138,7 +138,7 @@ class RegexMedia:
     return None
   
   @staticmethod
-  def get_year(y):
+  def get_year(y)->Optional[str]:
     """Converts the abbreviate year to a 4-digit year."""
     if int(y) < 100:
       y = '19' + y if int(y) > 90 else '20' + y

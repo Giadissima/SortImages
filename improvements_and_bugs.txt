@@ -6,11 +6,12 @@ IMPROVEMENTS:
 - docstring e rivedere i commenti
 - aggiungere lingua italiano
 - metterci la pausa
-- informare sullo spostamento in altri dischi che copia ma non sposta secondo le regole di windows
+- informare sullo spostamento in ma altri dischi che copia ma non sposta secondo le regole di windows
 - cambiare il colore dei log e metterlo più chiaro
 - mettere il contenuto di tesdt nel gitignore
 - mettere l'ordinamento di default
 - impostazione "cartella screenshot a parte"
+- CONTROLLARE DUPLICATI nella dest folder
 
 
 guardare gli assets in tutte le build
