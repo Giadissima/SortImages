@@ -107,11 +107,21 @@ class RegexMedia:
     Returns:
       Optional[List[str]]: file's date if exists, otherwise None
     """
+    print(len(self.date_file_patterns))
+    index = 0
+    dates = []
     for pattern in self.date_file_patterns:
-      match = re.search(pattern, file_name)
-      if match:
-        year, month, day = match.group(1), match.group(2), match.group(3)
-        return [RegexMedia.get_year(year), month, day]
+      if index == 2 and len(dates) > 0:
+        return self.get_latest_date(dates)
+      matches = re.findall(pattern, file_name)
+      for match in matches:
+        year, month, day = match
+        date = [RegexMedia.get_year(year), month, day]
+        if date[0] != None:
+          if index >= 2:
+            return date
+          dates.append(date)
+      index+=1
     return date
 
   def extract_date_from_folder(self, folder_name: str)->Optional[List[str]]:
@@ -174,3 +184,15 @@ class RegexMedia:
     if pattern.search(file_name):
       return True
     return False
+  
+  def get_latest_date(self, dates):
+    maxYear = 0
+    maxDateObj = []
+    
+    for date in dates:
+      year = int(date[0])
+      if year > maxYear:
+        maxYear = year
+        maxDateObj = date
+
+    return maxDateObj
