@@ -90,9 +90,11 @@ class RegexMedia:
       re.compile(r'/{}'.format(self.complete_year)),
     ]
     
-    self.specific_patterns = {
-      "PHOTO": re.compile(r'^photo_\d+@({})-({})-({})'.format(self.day_pattern, self.month_number_pattern, self.complete_year)),
-    }
+    self.specific_patterns = [
+      re.compile(r'^photo_\d+@{}-({})-{}'.format(self.day_pattern, self.month_number_pattern, self.complete_year)),
+      re.compile(r'^video_\d+@{}-({})-{}'.format(self.day_pattern, self.month_number_pattern, self.complete_year)),
+      re.compile(r'^Instasize_{}({}){}'.format(self.day_pattern, self.month_number_pattern, self.abbreviate_year)),
+    ]
     
     self.exclude_patterns = [
       re.compile(r'^PicsArt_.+'.format())
@@ -121,7 +123,7 @@ class RegexMedia:
     if self.search_exclude_patterns(file_name):
       return None
     
-    return self.search_common_patterns(file_name)
+    return self.search_common_patterns(file_name, date)
 
   def extract_date_from_folder(self, folder_name: str)->Optional[List[str]]:
     """Check if there is a date in the folder name, and if so, return it
@@ -203,10 +205,12 @@ class RegexMedia:
     Returns:
       None|List[str]
     """
-    match = re.search(self.specific_patterns["PHOTO"], file_name)
-    if match:
-      day, month, year = match.group(1), match.group(2), match.group(3)
-      return [RegexMedia.get_year(year), month, day]
+    for pattern in self.specific_patterns:
+      match = re.search(pattern, file_name)
+      if match:
+        day, month, year = match.group(1), match.group(2), match.group(3)
+        print(day, month, year)
+        return [RegexMedia.get_year(year), month, day]
     return None
   
   def search_exclude_patterns(self, file_name):
@@ -216,7 +220,7 @@ class RegexMedia:
         return True
     return False
   
-  def search_common_patterns(self, file_name):
+  def search_common_patterns(self, file_name, date):
     index = 0
     dates = []
     for pattern in self.date_file_patterns:

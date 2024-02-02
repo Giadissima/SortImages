@@ -53,7 +53,7 @@ class File:
       while True:
         data = f.read(self.BUF_SIZE)
         if not data:
-            break
+          break
         hash.update(data)
     return hash.hexdigest()
   

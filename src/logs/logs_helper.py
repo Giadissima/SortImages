@@ -10,6 +10,7 @@ class LogsHelper():
   def __init__(self, logs_obj):
     self.error_logger = self.get_error_logger()
     self.tkinter_logger = self.get_tkinter_logger(logs_obj)
+    self.debug_logger = self.get_debug_logger() # TODO rimuoverlo
     self.semaphore = SemaphoreManager()
   
   def get_error_logger(self):
@@ -25,6 +26,17 @@ class LogsHelper():
     file_logger.addHandler(file_handler)
     
     return file_logger
+  
+  def get_debug_logger(self):
+    debug_handler = logging.FileHandler("debug.log")
+    debug_handler.setLevel(logging.DEBUG)
+    debug_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s\n%(message)s'))
+    debug_logger = logging.getLogger('debug_logger')
+    debug_logger.addHandler(debug_handler)
+    debug_logger.setLevel(logging.DEBUG)
+    
+    
+    return debug_logger
     
   def get_tkinter_logger(self, logs_obj):
     """Create the log stream from tkinter widget.
@@ -45,10 +57,13 @@ class LogsHelper():
     if self.semaphore.acquired: return
     self.semaphore.acquire()
     if(level=='debug'):
+      self.debug_logger.debug(msg)
       self.tkinter_logger.debug(msg)
     elif(level=='info'):
+      self.debug_logger.info(msg)
       self.tkinter_logger.info(msg)
     elif(level=='error'):
+      self.debug_logger.error(msg)
       self.tkinter_logger.error(msg)
         
     self.screen_flush()

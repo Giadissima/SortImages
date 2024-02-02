@@ -1,6 +1,7 @@
 BUGS:
 - risolvere il problema di quando chiudi scorrettamente il programma
 - se lasci source vuota dice che non esiste più
+- a volte non looppa tutte le sottocartelle
 IMPROVEMENTS:
 - docstring e rivedere i commenti
 - aggiungere lingua italiano
@@ -11,6 +12,7 @@ IMPROVEMENTS:
 - aggiungere all'errore che blocca tutto il programma il colore rosso
 - il poter andare su con i log senza il see sull'ultima frase scritta
 - se dovesse non cancellare lle cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
+- fare gli errori custom
 
 se io metto un immagine  un file con un estensione video?
 
