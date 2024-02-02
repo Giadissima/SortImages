@@ -10,6 +10,7 @@ IMPROVEMENTS:
 - agiungere i puntini di caricamento nella fase iniziale di checking dest files
 - aggiungere all'errore che blocca tutto il programma il colore rosso
 - il poter andare su con i log senza il see sull'ultima frase scritta
+- se dovesse non cancellare lle cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
 
 se io metto un immagine  un file con un estensione video?
 

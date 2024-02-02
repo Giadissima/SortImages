@@ -90,6 +90,13 @@ class RegexMedia:
       re.compile(r'/{}'.format(self.complete_year)),
     ]
     
+    self.specific_patterns = {
+      "PHOTO": re.compile(r'^photo_\d+@({})-({})-({})'.format(self.day_pattern, self.month_number_pattern, self.complete_year)),
+    }
+    
+    self.exclude_patterns = [
+      re.compile(r'^PicsArt_.+'.format())
+    ]
     self.date_file_patterns = [
       re.compile(r'{}({}){}'.format(self.complete_year, self.month_number_pattern, self.day_pattern)),
       re.compile(r'{}\D({})\D{}'.format(self.complete_year, self.month_number_pattern, self.day_pattern)),
@@ -107,22 +114,14 @@ class RegexMedia:
     Returns:
       Optional[List[str]]: file's date if exists, otherwise None
     """
-    print(len(self.date_file_patterns))
-    index = 0
-    dates = []
-    for pattern in self.date_file_patterns:
-      if index == 2 and len(dates) > 0:
-        return self.get_latest_date(dates)
-      matches = re.findall(pattern, file_name)
-      for match in matches:
-        year, month, day = match
-        date = [RegexMedia.get_year(year), month, day]
-        if date[0] != None:
-          if index >= 2:
-            return date
-          dates.append(date)
-      index+=1
-    return date
+    specific_date = self.search_specific_patten(file_name) 
+    if specific_date != None and specific_date[0] != None: 
+      return specific_date
+    
+    if self.search_exclude_patterns(file_name):
+      return None
+    
+    return self.search_common_patterns(file_name)
 
   def extract_date_from_folder(self, folder_name: str)->Optional[List[str]]:
     """Check if there is a date in the folder name, and if so, return it
@@ -196,3 +195,40 @@ class RegexMedia:
         maxDateObj = date
 
     return maxDateObj
+  
+  def search_specific_patten(self, file_name):
+    """To make the program more robust to any files that do not follow the conventional 
+    rules of the date format, this function will check if we have encountered one of 
+    these cases and resolve it
+    Returns:
+      None|List[str]
+    """
+    match = re.search(self.specific_patterns["PHOTO"], file_name)
+    if match:
+      day, month, year = match.group(1), match.group(2), match.group(3)
+      return [RegexMedia.get_year(year), month, day]
+    return None
+  
+  def search_exclude_patterns(self, file_name):
+    for pattern in self.exclude_patterns:
+      match = re.search(pattern, file_name)
+      if match:
+        return True
+    return False
+  
+  def search_common_patterns(self, file_name):
+    index = 0
+    dates = []
+    for pattern in self.date_file_patterns:
+      if index == 2 and len(dates) > 0:
+        return self.get_latest_date(dates)
+      matches = re.findall(pattern, file_name)
+      for match in matches:
+        year, month, day = match
+        date = [RegexMedia.get_year(year), month, day]
+        if date[0] != None:
+          if index >= 2:
+            return date
+          dates.append(date)
+      index+=1
+    return date
