@@ -9,7 +9,6 @@ IMPROVEMENTS:
 - informare sullo spostamento in ma altri dischi che copia ma non sposta secondo le regole di windows
 - controllare se il file è stato mosso nel frattempo, controllare se esiste
 - agiungere i puntini di caricamento nella fase iniziale di checking dest files
-- aggiungere all'errore che blocca tutto il programma il colore rosso
 - il poter andare su con i log senza il see sull'ultima frase scritta
 - se dovesse non cancellare lle cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
 - fare gli errori custom

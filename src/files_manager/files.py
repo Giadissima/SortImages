@@ -2,6 +2,7 @@ from hashlib import md5
 from os.path import join, exists
 from os import remove, rename
 from typing import List, Optional, Union
+from src.error.error import FileNotMovedError
 from src.date_manager import DateManager
 from src.config.config import Config
 from src.thread.semaphore import SemaphoreManager
@@ -27,12 +28,10 @@ class File:
     file_dest_path = self.check_file_name(file_name, new_path)
     try:
       rename(file_path, file_dest_path)
-      return True
     except PermissionError:
-      return False
+      raise FileNotMovedError("Permission Error")
     finally:
       self.semaphore.release()
-    
       
   def isDuplicate(self, file):
     """Find if file is a duplicate by the array contains al the hash previously seen
@@ -120,18 +119,15 @@ class File:
     
     # case no date found: file not moved
     if(date == None or date[0]==None):
-      return 'error', f'{file_name} - No date found in the file: file not moved.'
+      return 'warn', f'{file_name} - No date found in the file: file not moved.'
     
     # case date_found
     dest_folder = Config.output_folder
     if Config.get_checkbox_choises("ScreenshotFolder") and RegexMedia.is_file_a_screenshot(file_name): 
       dest_folder = join(dest_folder, "Screenshot")
     date_path = DateManager.get_date_path(date, dest_folder)
-    response = self.move_file(file_path, file_name, date_path)
-    if response:
-      return 'debug', f'{file_name} - moved successfully.'
-    else: 
-      return 'error', f'{file_name} - The file could not be moved'
+    self.move_file(file_path, file_name, date_path)
+    return 'debug', f'{file_name} - moved successfully.'
     
   def check_file_name(self, file_name, new_path) -> str:
     """Check if file name already exists in destination path, if so, 

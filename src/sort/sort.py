@@ -1,5 +1,6 @@
 from os.path import join
 from typing import List, Union
+from src.error.error import FileNotMovedError, FileWithoutExtensionError
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
@@ -38,10 +39,9 @@ class Sort():
       self.handle_folders_deletion()
       self.logs.tkinter_logger.info('sorting completed.')
       self.file.HASH_LIST.clear()
-    except Exception as e:
-      print(e)
+    except Exception:
       self.handle_exception()
-      return False, 'Error sorting images. If the error persists, report it on the GitHub project discussion'
+      return False, 'Error sorting images. If the error persists, contact me on telegram at the nickname @Giadissima1234'
     return True, None
 
   @staticmethod
@@ -51,16 +51,21 @@ class Sort():
         file_path (str): The full directory of the file to be identified.
       Returns:
         ImageHelper|VideoHelper|None: None if file doesn't match any class"""
-    if ImageHelper.isImage(file_path):
-        return ImageHelper()
-    elif VideoHelper.isVideo(file_path):
-        return VideoHelper()
-    return None
+    try:
+      if ImageHelper.isImage(file_path):
+          return ImageHelper()
+      elif VideoHelper.isVideo(file_path):
+          return VideoHelper()
+      return None
+    except IndexError:
+      raise FileWithoutExtensionError()
 
   def handle_exception(self)->None:
     """Handles exceptions during file processing."""
     self.logs.log_traceback()
-    self.logs.log_tkinter('error','An error occurred: file not sorted. See more information on error_logs.log')
+    error_msg = """The program crashed. See more information on error_logs.log. If the error persists, 
+contact me on telegram at the nickname @Giadissima1234"""
+    self.logs.log_tkinter('error',error_msg)
      
   def handle_folders_deletion(self)->None:
     """Manages folder deletion."""
@@ -69,7 +74,7 @@ class Sort():
       if msg == None:
         self.logs.log_tkinter('info','Empty folders deleted')
       else:
-        self.logs.log_tkinter('error',msg)
+        self.logs.log_tkinter('warn',msg)
       
   def loop_into_folders(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
@@ -103,10 +108,12 @@ class Sort():
           continue
           
         type_of_log, msg = self.file.handle_move_file(media_class, file_path, file_name, self.folder_date)
-        if type_of_log == 'error': self.logs.log_tkinter('error', msg)
+        if type_of_log == 'warn': self.logs.log_tkinter('warn', msg)
         else: self.logs.log_tkinter('debug',msg)
-      except IndexError:
-        self.logs.log_tkinter('error',f"{file_name} - file without any extension, it cannot be sorted")
+      except FileWithoutExtensionError:
+        self.logs.log_tkinter('warn',f"{file_name} - file without any extension, it cannot be sorted")
+      except FileNotMovedError:
+        self.logs.log_tkinter('warn', f'{file_name} - The file could not be moved')
       
   def finding_duplicates_output_folder(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""

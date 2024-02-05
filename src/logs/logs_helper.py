@@ -62,6 +62,9 @@ class LogsHelper():
     elif(level=='info'):
       self.debug_logger.info(msg)
       self.tkinter_logger.info(msg)
+    elif(level=='warn'):
+      self.debug_logger.warning(msg)
+      self.tkinter_logger.warning(msg)
     elif(level=='error'):
       self.debug_logger.error(msg)
       self.tkinter_logger.error(msg)
@@ -69,8 +72,6 @@ class LogsHelper():
     self.screen_flush()
     self.semaphore.release()
     
-    
-    # TODO controllrlo
   def log_traceback(self):
     self.error_logger.error('', exc_info=True)
   

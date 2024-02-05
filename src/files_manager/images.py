@@ -24,7 +24,7 @@ class ImageHelper(File):
       with Image.open(img) as image:
         image.verify()
       return True
-    except IOError:
+    except (OSError, PermissionError, IOError):
       return False
     except Image.DecompressionBombError:
       return ImageHelper.is_image_by_extension(img)

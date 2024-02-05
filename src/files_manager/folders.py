@@ -46,8 +46,8 @@ class Folder():
     if not listdir(root):
       try:
         rmdir(root)
-      except OSError as e:
-        return f"The folder could not be deleted. {root}, Error:\n{e}"
+      except (OSError, PermissionError, IOError) as e:
+        return f"The folder could not be deleted"
     return None
   
   @staticmethod
