@@ -4,13 +4,13 @@ from src.error.error import FileNotMovedError, FileWithoutExtensionError
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
-from src.sort.regex import RegexMedia
+from src.sort.regex.regex_path import RegexPath
 from os import walk
 
 class Sort():
   """The main class responsible for organizing media."""
   def __init__(self) -> None:
-    self.regex = RegexMedia()
+    self.regex_path = RegexPath()
     self.file = File()
     self.folder = Folder()
     self.logs = None
@@ -83,7 +83,7 @@ contact me on telegram at the nickname @Giadissima1234"""
       print("dentro ", root)
       if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root): 
         continue
-      self.folder_date = self.regex.extract_date_from_folder(root)
+      self.folder_date = self.regex_path.extract_date_from_folder(root)
       self.loop_into_files(root, files)
       
   def loop_into_files(self, folder_path:str, file_list:List[str]):

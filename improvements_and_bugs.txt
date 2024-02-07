@@ -11,7 +11,7 @@ IMPROVEMENTS:
 - agiungere i puntini di caricamento nella fase iniziale di checking dest files
 - il poter andare su con i log senza il see sull'ultima frase scritta
 - se dovesse non cancellare lle cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
-- fare gli errori custom
+- aggiungere la regex per i video di facebook
 
 se io metto un immagine  un file con un estensione video?
 

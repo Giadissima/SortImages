@@ -3,7 +3,7 @@ from PIL import Image
 from PIL import ImageTk
 from PIL.ExifTags import TAGS
 from src.files_manager.files import File
-from src.sort.regex import RegexMedia
+from src.sort.regex.regex import RegexManager
 
 class ImageHelper(File):
   def __init__(self):
@@ -52,7 +52,7 @@ class ImageHelper(File):
               data = data.decode()
           # tipo data str e valore = 2023:01:31 13:19:34
           if(tag == 'DateTime'):
-            yy = RegexMedia.get_year(data[0:4])
+            yy = RegexManager.get_year(data[0:4])
             mm = data[5:7]
             dd = data[8:10]
             if not yy: return None

@@ -7,7 +7,7 @@ from src.path_manager import PathManager
 from src.config.config import Config
 from src.thread.semaphore import SemaphoreManager
 
-from src.sort.regex import RegexMedia
+from src.sort.regex.regex_file import RegexMedia
 from src.files_manager.folders import Folder
 class File:
   def __init__(self):

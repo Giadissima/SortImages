@@ -1,5 +1,5 @@
 from typing import List, Optional
-from src.sort.regex import RegexMedia
+from src.sort.regex.regex import RegexManager
 from src.files_manager.files import File
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
@@ -36,7 +36,7 @@ class VideoHelper(File):
       if metadata.has("creation_date"):
         creation_date: str = (metadata.get("creation_date").strftime("%Y %m %d")).split()
         if(creation_date and creation_date[0]!= None):
-          creation_date[0] = RegexMedia.get_year(creation_date[0])
+          creation_date[0] = RegexManager.get_year(creation_date[0])
           if(not creation_date[0]): return None
           return creation_date
         return None

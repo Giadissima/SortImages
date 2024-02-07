@@ -1,7 +1,8 @@
 from typing import Union
 from os.path import join
 from src.config.config import Config
-from src.sort.regex import RegexMedia
+from src.sort.regex.regex_path import RegexPath
+from src.sort.regex.regex_file import RegexMedia
 
 class PathManager():
   def __init__(self):
@@ -34,7 +35,6 @@ class PathManager():
       self.output_folder = join(self.output_folder, "Screenshot")
     elif RegexMedia.is_file_from_facebook(file_name):
       self.output_folder = join(self.output_folder, "Facebook")
-    elif RegexMedia.is_facebook_path(input_folder):
-      print("in")
+    elif RegexPath.is_facebook_path(input_folder):
       self.output_folder = join(self.output_folder, "Facebook")
     return self.output_folder
