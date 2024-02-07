@@ -1,5 +1,10 @@
 import re
 
+"""
+This file contains all the regex lists that can be used to exclude certain file types and to search
+for dates within certain file types or paths. Also included are dictionaries useful for regexes, for
+example, the dictionary that converts months written alphabetically into numbers
+"""
 months_italian = r'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
 months_english = r'January|February|March|April|May|June|July|August|September|October|November|December'
 months_abbreviated = r'gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic|jan|jun|jul|aug|sep|oct|dec'

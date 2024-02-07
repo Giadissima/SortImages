@@ -3,7 +3,7 @@ BUGS:
 - se lasci source vuota dice che non esiste più
 - a volte non looppa tutte le sottocartelle
 IMPROVEMENTS:
-- docstring e rivedere i commenti
+- docstring e rivedere i commenti, togliere anche gli spazi extra
 - aggiungere lingua italiano
 - metterci la pausa
 - informare sullo spostamento in ma altri dischi che copia ma non sposta secondo le regole di windows
@@ -12,6 +12,7 @@ IMPROVEMENTS:
 - il poter andare su con i log senza il see sull'ultima frase scritta
 - se dovesse non cancellare lle cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
 - aggiungere la regex per i video di facebook
+- se non ci sono file ma ci sono cartelle vuote non dà errore
 
 se io metto un immagine  un file con un estensione video?
 

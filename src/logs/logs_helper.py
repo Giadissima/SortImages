@@ -1,8 +1,8 @@
 import logging
 
-from src.logs.tkinter_logs import TkinterTextHandler
-from src.config.config import Config
 from meta.decorators import singleton
+from src.config.config import Config
+from src.logs.tkinter_logs import TkinterTextHandler
 from src.thread.semaphore import SemaphoreManager
 
 @singleton
@@ -34,7 +34,6 @@ class LogsHelper():
     debug_logger = logging.getLogger('debug_logger')
     debug_logger.addHandler(debug_handler)
     debug_logger.setLevel(logging.DEBUG)
-    
     
     return debug_logger
     
