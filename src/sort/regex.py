@@ -97,7 +97,8 @@ class RegexMedia:
     ]
     
     self.exclude_patterns = [
-      re.compile(r'^PicsArt_.+'.format())
+      re.compile(r'^PicsArt_.+'.format()),
+      re.compile(r'^FB_IMG_.+'.format())
     ]
     self.date_file_patterns = [
       re.compile(r'{}({}){}'.format(self.complete_year, self.month_number_pattern, self.day_pattern)),
@@ -236,3 +237,32 @@ class RegexMedia:
           dates.append(date)
       index+=1
     return date
+  
+  def is_file_from_facebook(file_name):
+    """Find out if a file is from Facebook
+
+    Args:
+      file_name (str): the file name
+
+    Returns:
+      bool: True if file is from Facebook
+    """
+    pattern = re.compile(r'^FB_IMG_.+')
+    if pattern.search(file_name):
+      return True
+    return False
+  
+  def is_facebook_path(input_path):
+    """Find out if a path contains 'Facebook' name
+
+    Args:
+      input_path (str): the path_to_check
+
+    Returns:
+      bool: True if path contains 'Facebook' name
+    """
+    print(input_path)
+    pattern = re.compile(r'Facebook', re.IGNORECASE)
+    if pattern.search(input_path):
+      return True
+    return False

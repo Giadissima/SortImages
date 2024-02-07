@@ -3,7 +3,7 @@ from os.path import join, exists
 from os import remove, rename
 from typing import List, Optional, Union
 from src.error.error import FileNotMovedError
-from src.date_manager import DateManager
+from src.path_manager import PathManager
 from src.config.config import Config
 from src.thread.semaphore import SemaphoreManager
 
@@ -14,6 +14,7 @@ class File:
     self.BUF_SIZE = 65536
     self.HASH_LIST = set()
     self.semaphore = SemaphoreManager()
+    self.path_manager = PathManager()
     
   def move_file(self, file_path: str, file_name: str, new_path: str):
     """Move a file in a new directory, and in case of name duplicate error, rename the file.
@@ -117,16 +118,15 @@ class File:
     """
     date = media_class.extract_date(file_path, file_name, folder_date)
     
+    dest_folder = self.path_manager.get_output_path(file_path, file_name)
     # case no date found: file not moved
-    if(date == None or date[0]==None):
-      return 'warn', f'{file_name} - No date found in the file: file not moved.'
-    
+    if date == None or date[0]==None:
+      if dest_folder==Config.output_folder:
+        return 'warn', f'{file_name} - No date found in the file: file not moved.'
+      
     # case date_found
-    dest_folder = Config.output_folder
-    if Config.get_checkbox_choises("ScreenshotFolder") and RegexMedia.is_file_a_screenshot(file_name): 
-      dest_folder = join(dest_folder, "Screenshot")
-    date_path = DateManager.get_date_path(date, dest_folder)
-    self.move_file(file_path, file_name, date_path)
+    dest_folder = self.path_manager.get_date_path(date, dest_folder)
+    self.move_file(file_path, file_name, dest_folder)
     return 'debug', f'{file_name} - moved successfully.'
     
   def check_file_name(self, file_name, new_path) -> str:
