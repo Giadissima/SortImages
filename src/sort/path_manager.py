@@ -37,4 +37,8 @@ class PathManager():
       self.output_folder = join(self.output_folder, "Facebook")
     elif RegexPath.is_facebook_path(input_folder):
       self.output_folder = join(self.output_folder, "Facebook")
+    elif not Config.get_checkbox_choises("WhatsappFolder") and RegexMedia.is_file_from_whatsapp(file_name):
+      self.output_folder = join(self.output_folder, "Whatsapp")
+    elif not Config.get_checkbox_choises("WhatsappFolder") and RegexPath.is_whatsapp_path(input_folder):
+      self.output_folder = join(self.output_folder, "Whatsapp")
     return self.output_folder

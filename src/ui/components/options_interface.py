@@ -31,6 +31,7 @@ class OptionsFrame:
     "DeleteEmptyFolders": "Delete empty folders after the sort process",
     "IgnoreFolderSort": "Do not consider folder names for sorting",
     "ScreenshotFolder": "Move all screenshots in a dedicated folder",
+    "WhatsappFolder": "If there are images coming from Whatsapp,\nDO NOT move them to a dedicated folder",
     }
 
     # `row` is the index to keep track of which row of the grid you are in.

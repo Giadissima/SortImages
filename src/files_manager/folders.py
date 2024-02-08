@@ -1,4 +1,4 @@
-from os import listdir, rmdir
+from os import listdir, rmdir, walk
 from os.path import abspath, commonpath, join, isdir, exists, isdir
 from pathlib import Path
 from typing import Union
@@ -59,7 +59,7 @@ class Folder():
     Returns:
       Union[bool, str]: 
         bool: True if the process has completed without errors, False otherwise, 
-        str: error's message, if the pricess has completed without errors, str will be None"""
+        str: error's message, if the process has completed without errors, str will be None"""
     if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
       return False, "The source or destination folder doesn't not exists anymore"
     if(input_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
@@ -68,10 +68,11 @@ class Folder():
       return False, "The source and destination folders cannot be the same"
     if Folder.is_nested_dir(output_folder, input_folder):
       return False, "The source folders cannot be a subfolder of the destination source"
-    if not listdir(input_folder) :
+    if not Folder.check_if_folder_contains_files(input_folder) :
       return False, "Start folder doesn't contain files. Process aborted."
     return True, None
   
+  @staticmethod
   def if_folder_exists(folder_path:str)->bool:
     """Compare the common path of the parent and child path with the common path of just 
       the parent path
@@ -81,3 +82,10 @@ class Folder():
     Returns:
       bool: true if folder exists, otherwise False"""
     return isdir(folder_path) and exists(folder_path)
+  
+  @staticmethod
+  def check_if_folder_contains_files(path):
+    for root, dirs, files in walk(path):
+      for file in files:
+        return True
+    return False

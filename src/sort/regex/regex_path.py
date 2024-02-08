@@ -44,3 +44,17 @@ class RegexPath(RegexManager):
     if pattern.search(input_path):
       return True
     return False
+  
+  def is_whatsapp_path(input_path):
+    """Find out if a path contains 'whatsapp' name
+
+    Args:
+      input_path (str): the path_to_check
+
+    Returns:
+      bool: True if path contains 'whatsapp' name
+    """
+    pattern = re.compile(r'whatsapp', re.IGNORECASE)
+    if pattern.search(input_path):
+      return True
+    return False

@@ -34,12 +34,12 @@ class UIManager:
   def setup_selection_folder_frame(self, parent_frame):
     folder_container_frame = ImageCard(parent_frame, "Folders selection", LOGO_IMG_PATH, side='left')
     self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, FOLDER_IMG_PATH)
-    self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew")
+    self.folder_selection_frame.frame.grid(row=0, column=0, padx=20, sticky="nsew", pady=31)
     
   def setup_options_frame(self, parent_frame):
     opt_container_frame = ImageCard(parent_frame, "Options", CAT_IMG_PATH, side='right')
     opt_frame = OptionsFrame(opt_container_frame.widget_frame)
-    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=20)
+    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=20, pady=10)
     
   def setup_title(self):
     title_img = ImageHelper.resize_image(TITLE_IMG_PATH, 344, 69)

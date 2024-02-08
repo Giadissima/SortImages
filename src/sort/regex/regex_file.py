@@ -78,3 +78,17 @@ class RegexMedia(RegexManager):
     if pattern.search(file_name):
       return True
     return False
+  
+  def is_file_from_whatsapp(file_name):
+    """Find out if a file is from Whatsapp
+
+    Args:
+      file_name (str): the file name
+
+    Returns:
+      bool: True if file is from Whatsapp
+    """
+    pattern = re.compile(r'^IMG-\d{8}-WA.+')
+    if pattern.search(file_name):
+      return True
+    return False

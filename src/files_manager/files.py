@@ -3,7 +3,7 @@ from os.path import join, exists
 from os import remove, rename
 from typing import List, Optional, Union
 from src.error.error import FileNotMovedError
-from src.path_manager import PathManager
+from src.sort.path_manager import PathManager
 from src.config.config import Config
 from src.thread.semaphore import SemaphoreManager
 
