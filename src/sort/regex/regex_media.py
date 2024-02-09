@@ -21,7 +21,7 @@ class RegexMedia(RegexManager):
     if specific_date != None and specific_date[0] != None: 
       return specific_date
     
-    if self.search_exclude_patterns(file_name):
+    if self.exclude_specific_patterns(file_name):
       return None
     
     return self.search_common_patterns(file_name, date)
@@ -41,7 +41,7 @@ class RegexMedia(RegexManager):
         return [RegexManager.get_year(year), month, day]
     return None
   
-  def search_exclude_patterns(self, file_name):
+  def exclude_specific_patterns(self, file_name):
     for pattern in exclude_patterns:
       match = re.search(pattern, file_name)
       if match:
@@ -89,6 +89,21 @@ class RegexMedia(RegexManager):
       bool: True if file is from Whatsapp
     """
     pattern = re.compile(r'^IMG-\d{8}-WA.+')
+    if pattern.search(file_name):
+      return True
+    return False
+  
+  @staticmethod
+  def is_file_a_screenshot(file_name):
+    """Find out if a file is a screenshot
+
+    Args:
+      file_name (str): the file name
+
+    Returns:
+      bool: True if file is a screenshot
+    """
+    pattern = re.compile(r'Screenshot', re.IGNORECASE)
     if pattern.search(file_name):
       return True
     return False

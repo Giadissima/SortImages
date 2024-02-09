@@ -2,7 +2,7 @@ from typing import Union
 from os.path import join
 from src.config.config import Config
 from src.sort.regex.regex_path import RegexPath
-from src.sort.regex.regex_file import RegexMedia
+from src.sort.regex.regex_media import RegexMedia
 
 class PathManager():
   def __init__(self):

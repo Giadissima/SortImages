@@ -29,21 +29,6 @@ class RegexManager:
         month = english_month_abbr_dict[month]
     return month
   
-  @staticmethod
-  def is_file_a_screenshot(file_name):
-    """Find out if a file is a screenshot
-
-    Args:
-      file_name (str): the file name
-
-    Returns:
-      bool: True if file is a screenshot
-    """
-    pattern = re.compile(r'Screenshot', re.IGNORECASE)
-    if pattern.search(file_name):
-      return True
-    return False
-  
   def get_latest_date(self, dates):
     maxYear = 0
     maxDateObj = []
