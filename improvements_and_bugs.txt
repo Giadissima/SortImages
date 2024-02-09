@@ -12,9 +12,7 @@ IMPROVEMENTS:
 - il poter andare su con i log senza il see sull'ultima frase scritta
 - se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
 - aggiungere la regex per i video di facebook
-- se non ci sono file ma ci sono cartelle vuote non dà errore
 - testare la roba di whatsapp
-- vedere se riesco a spostare la checkbox in linea con la prima riga
 
 se io metto un immagine  un file con un estensione video?
 
