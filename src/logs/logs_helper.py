@@ -1,9 +1,9 @@
-import logging
+from logging import Logger, FileHandler, ERROR, DEBUG, Formatter, getLogger
 
 from meta.decorators import singleton
-from src.config.config import Config
 from src.logs.tkinter_logs import TkinterTextHandler
 from src.thread.semaphore import SemaphoreManager
+from src.ui.components.tkinter_logs import TkinterLogs
 
 @singleton
 class LogsHelper():
@@ -19,40 +19,45 @@ class LogsHelper():
     Returns:
       Logger: The logger stream.
     """
-    file_handler = logging.FileHandler("error_logs.log")
-    file_handler.setLevel(logging.ERROR)
-    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s\n%(message)s'))
-    file_logger = logging.getLogger('file_logger')
+    file_handler = FileHandler("error_logs.log")
+    file_handler.setLevel(ERROR)
+    file_handler.setFormatter(Formatter('%(asctime)s - %(levelname)s\n%(message)s'))
+    file_logger = getLogger('file_logger')
     file_logger.addHandler(file_handler)
     
     return file_logger
   
   def get_debug_logger(self):
-    debug_handler = logging.FileHandler("debug.log")
-    debug_handler.setLevel(logging.DEBUG)
-    debug_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s\n%(message)s'))
-    debug_logger = logging.getLogger('debug_logger')
+    debug_handler = FileHandler("debug.log")
+    debug_handler.setLevel(DEBUG)
+    debug_handler.setFormatter(Formatter('%(asctime)s - %(levelname)s\n%(message)s'))
+    debug_logger = getLogger('debug_logger')
     debug_logger.addHandler(debug_handler)
-    debug_logger.setLevel(logging.DEBUG)
+    debug_logger.setLevel(DEBUG)
     
     return debug_logger
     
-  def get_tkinter_logger(self, logs_obj):
+  def get_tkinter_logger(self, logs_obj: TkinterLogs)->Logger:
     """Create the log stream from tkinter widget.
 
     Returns:
       Logger: The logger stream.
     """
     tkinter_text_handler = TkinterTextHandler(logs_obj)
-    tkinter_text_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s', '%H:%M:%S'))
-    tkinter_text_handler.setLevel(logging.DEBUG)
-    tkinter_logger = logging.getLogger('tkinter_logger')
+    tkinter_text_handler.setFormatter(Formatter('%(asctime)s - %(message)s', '%H:%M:%S'))
+    tkinter_text_handler.setLevel(DEBUG)
+    tkinter_logger = getLogger('tkinter_logger')
     tkinter_logger.addHandler(tkinter_text_handler)
-    tkinter_logger.setLevel(logging.DEBUG)
+    tkinter_logger.setLevel(DEBUG)
     
     return tkinter_logger
   
-  def log_tkinter(self, level, msg):
+  def log_tkinter(self, level:str, msg:str)->None:
+    """allows you to log on the message widget by accessing it as a 
+    sequential resource through the use of semaphores
+    Args:
+      level(str): log level. Different levels correspond to different colors displayed on the UI
+      msg(str): message to display on the UI"""
     if self.semaphore.acquired: return
     self.semaphore.acquire()
     if(level=='debug'):
@@ -67,12 +72,8 @@ class LogsHelper():
     elif(level=='error'):
       self.debug_logger.error(msg)
       self.tkinter_logger.error(msg)
-        
-    self.screen_flush()
     self.semaphore.release()
     
   def log_traceback(self):
+    """Shows the complete error that was throws and saves it to error.log"""
     self.error_logger.error('', exc_info=True)
-  
-  def screen_flush(self):
-    Config.logs_obj.log_text_field.update_idletasks()

@@ -38,6 +38,7 @@ The SortImages tool is a powerful utility designed to efficiently organize image
   - Option to ignore folder names during sorting.
   - Option to delete empty folders after sorting.
   - Option to move screenshots into a dedicated folder named "Screenshot" with organized subfolders.
+  - Option to don't move Whatsapp's files into a dedicated folder named "Whatsapp" with organized subfolders.
 
 ## How to Use
 

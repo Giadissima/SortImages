@@ -34,12 +34,14 @@ class File:
     finally:
       self.semaphore.release()
       
-  def isDuplicate(self, file):
+  def isDuplicate(self, file:str)->bool:
     """Find if file is a duplicate by the array contains al the hash previously seen
 
     Args:
       file (string): file to search duplicates
       path (string): path contains other files
+    Returns:
+      bool if file is a duplicate, false otherwise
     """ 
     file_hashed = self.hash_file(file)
     if file_hashed in self.HASH_LIST:

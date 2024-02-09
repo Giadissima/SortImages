@@ -7,7 +7,7 @@ from hachoir.parser import createParser
 class VideoHelper(File):
 
   @staticmethod
-  def isVideo(file_path):
+  def isVideo(file_path:str)->bool:
     """Check if the file is a video.
 
     Args:
@@ -22,7 +22,7 @@ class VideoHelper(File):
   
   @staticmethod
   def get_date_from_metadata(vid:str)->Optional[List[str]]:
-    """_summary_
+    """Search for the date contained in the metadata
 
     Args:
       vid (str): path of the video to extract date

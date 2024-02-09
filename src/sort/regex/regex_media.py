@@ -2,7 +2,7 @@ from src.sort.regex.regex import RegexManager
 from typing import List, Optional
 from src.sort.regex.patterns import specific_patterns, date_file_patterns, exclude_patterns
 import re
-
+# TODO da qua
 class RegexMedia(RegexManager):
   def __init__(self):
     super().__init__()

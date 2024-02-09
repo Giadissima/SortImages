@@ -6,8 +6,7 @@ class Folder():
   
   @staticmethod
   def is_nested_dir(parent_path:str, child_path:str)->bool:
-    """Compare the common path of the parent and child path with the common path of just 
-      the parent path
+    """Check if child_path is actually a subdirectory of parent_path
 
     Args:
       parent_path (str): the folder we need to check if there is child_path inside it
@@ -54,7 +53,7 @@ class Folder():
   def check_input_output_folders(input_folder, output_folder)->Union[bool, str]:
     """Check if the input and output folders are the same, 
     if the input folder is empty, 
-    and if the same folder has been passed twice.
+    and if both are the same folder.
     
     Returns:
       Union[bool, str]: 
