@@ -1,6 +1,5 @@
 from typing import Dict
 from tkinter import IntVar, StringVar
-from src.logs.tkinter_logs import TkinterTextHandler
 from src.ui.components.tkinter_logs import TkinterLogs
 
 class Config():
@@ -19,7 +18,7 @@ class Config():
 
   # series of get and set that will be used to store and display information within the program
   @staticmethod
-  def set_logs_obj(obj: TkinterTextHandler)->None: Config.logs_obj = obj
+  def set_logs_obj(obj)->None: Config.logs_obj = obj
   @staticmethod
   def set_input_folder(path:str)->None: Config.input_folder = path
   @staticmethod
