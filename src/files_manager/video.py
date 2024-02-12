@@ -16,7 +16,7 @@ class VideoHelper(File):
     Returns:
       bool: True if the file is a video, otherwise False.
     """
-    video_extensions = {'avi', 'mkv', 'mp4', 'mov', 'flv', 'wmv', 'webm'}
+    video_extensions = {'avi', 'mkv', 'mp4', 'mov', 'flv', 'wmv', 'webm', '3gp'}
     file_extension = file_path.rsplit('.',1)[1].lower()
     return file_extension in video_extensions
   

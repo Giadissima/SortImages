@@ -94,7 +94,7 @@ specific_patterns = [
   re.compile(r'^video_\d+@{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)),
   re.compile(r'^Instasize_{}({}){}'.format(day_pattern, month_number_pattern, abbreviate_year)),
   re.compile(r'^P{}-({})-{}_.+'.format(day_pattern, month_number_pattern, abbreviate_year)),
-  re.compile(r'^{}-({})-{}_\d{4}.jpg'.format(day_pattern, month_number_pattern, abbreviate_year)),
+  re.compile(r'^{}-({})-{}_\d\d\d\d.jpg'.format(day_pattern, month_number_pattern, abbreviate_year)),
 ]
 
 exclude_patterns = [

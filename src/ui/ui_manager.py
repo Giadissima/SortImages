@@ -32,18 +32,18 @@ class UIManager:
     configure_weight(form_frame, [0], [0,1])
 
   def setup_selection_folder_frame(self, parent_frame):
-    folder_container_frame = ImageCard(parent_frame, "Folders selection", LOGO_IMG_PATH, side='left')
+    folder_container_frame = ImageCard(parent_frame, "Folders selection", "assets/prova3.jpeg", side='left', img_width=235)
     self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, FOLDER_IMG_PATH)
-    self.folder_selection_frame.frame.grid(row=0, column=0, padx=20, sticky="nsew", pady=31)
+    self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew", pady=31)
     
   def setup_options_frame(self, parent_frame):
-    opt_container_frame = ImageCard(parent_frame, "Options", CAT_IMG_PATH, side='right')
+    opt_container_frame = ImageCard(parent_frame, "Options", CAT_IMG_PATH, side='right', img_width=235)
     opt_frame = OptionsFrame(opt_container_frame.widget_frame)
-    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=20, pady=10)
+    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=10, pady=10)
     
   def setup_title(self):
     title_img = ImageHelper.resize_image(TITLE_IMG_PATH, 344, 69)
-    title = Label(self.root, background=main_color, image=title_img)
+    title = Label(self.root, background=main_color, image=title_img, padding=0)
     title.image= title_img
     return title
   

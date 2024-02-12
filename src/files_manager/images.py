@@ -1,3 +1,4 @@
+import imghdr
 from typing import List, Optional
 from PIL import Image
 from PIL import ImageTk
@@ -10,7 +11,7 @@ class ImageHelper(File):
     super().__init__()
     
   @staticmethod
-  def isImage(img:str) -> bool:
+  def isImage(img: str) -> bool:
     """ 
     Return True if the file is an image and can be accessed.
 
@@ -21,9 +22,12 @@ class ImageHelper(File):
       bool: True if is an image, otherwise False
     """
     try:
-      with Image.open(img) as image:
-        image.verify()
-      return True
+      image_type = imghdr.what(img)
+      if image_type is None:
+        return False
+
+      with Image.open(img):
+        return ImageHelper.is_image_by_extension(img)
     except (OSError, PermissionError, IOError):
       return False
     except Image.DecompressionBombError:

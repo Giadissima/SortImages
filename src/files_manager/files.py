@@ -101,9 +101,9 @@ class File:
     if self.isDuplicate(file_path): 
       if(Config.get_checkbox_choises('DeleteDuplicates')):
         remove(file_path)
-        return True, f'{file_name} - Duplicated detected: successfully deleted.'
+        return True, 'Duplicated detected: successfully deleted.'
       else:
-        return True, f'{file_name} - Duplicated detected: file not moved.'
+        return True, 'Duplicated detected: file not moved.'
     return False, None
   
   def handle_move_file(self, media_class, file_path:str, file_name:str, folder_date: str)-> Union[str, str]:
@@ -124,12 +124,16 @@ class File:
     # case no date found: file not moved
     if date == None or date[0]==None:
       if dest_folder==Config.output_folder:
-        return 'warn', f'{file_name} - No date found in the file: file not moved.'
+        if Config.get_checkbox_choises("UnknownFolder"):
+          dest_folder = join(dest_folder, 'Unknown')
+          self.move_file(file_path, file_name, dest_folder)
+          return 'warn', 'No date found: file moved in unknown folder'
+        return 'warn', 'No date found: file not moved.'
       
     # case date_found
     dest_folder = self.path_manager.get_date_path(date, dest_folder)
     self.move_file(file_path, file_name, dest_folder)
-    return 'debug', f'{file_name} - moved successfully.'
+    return 'debug', f'moved successfully.'
     
   def check_file_name(self, file_name, new_path) -> str:
     """Check if file name already exists in destination path, if so, 

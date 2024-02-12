@@ -32,6 +32,7 @@ class OptionsFrame:
     "IgnoreFolderSort": "Do not consider folder names for sorting",
     "ScreenshotFolder": "Move all screenshots in a dedicated folder",
     "WhatsappFolder": "Don't move all Whatsapp media in a dedicated folder",
+    "UnknownFolder": "Move all unrecognized files to a folder named 'Unknown'.",
     }
 
     # `row` is the index to keep track of which row of the grid you are in.

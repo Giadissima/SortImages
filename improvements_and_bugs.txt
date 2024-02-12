@@ -14,7 +14,6 @@ IMPROVEMENTS:
 - aggiungere la regex per i video di facebook
 - testare la roba di whatsapp
 -aggiungere l'opzione di spostare i file che non è riuscito a filtrare in una cartella chiamata unknown
-- mi butta anche altri tipi di file in whatsapp
 
 se io metto un immagine  un file con un estensione video?
 

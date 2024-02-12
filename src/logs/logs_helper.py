@@ -11,6 +11,7 @@ class LogsHelper():
     self.error_logger = self.get_error_logger()
     self.tkinter_logger = self.get_tkinter_logger(logs_obj)
     self.debug_logger = self.get_debug_logger() # TODO rimuoverlo
+    self.file_name:None|str = None
     self.semaphore = SemaphoreManager()
   
   def get_error_logger(self):
@@ -52,13 +53,14 @@ class LogsHelper():
     
     return tkinter_logger
   
-  def log_tkinter(self, level:str, msg:str)->None:
+  def log_tkinter(self, level:str, msg:str, file_name=True)->None:
     """allows you to log on the message widget by accessing it as a 
     sequential resource through the use of semaphores
     Args:
       level(str): log level. Different levels correspond to different colors displayed on the UI
       msg(str): message to display on the UI"""
     if self.semaphore.acquired: return
+    if file_name: msg = f"{self.file_name} - " + msg
     self.semaphore.acquire()
     if(level=='debug'):
       self.debug_logger.debug(msg)

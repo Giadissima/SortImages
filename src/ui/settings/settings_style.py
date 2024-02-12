@@ -29,4 +29,4 @@ def configure_style():
   style.configure("MsgBoxTitle.TCheckbutton", font=('Verdana', 11), foreground='white', background=main_color)
   
   #subtitle style
-  style.configure("CardTitle.TLabel", font=('Verdana', 15, 'bold'), background=card_color, padding=(0,13))
+  style.configure("CardTitle.TLabel", font=('Verdana', 14, 'bold'), background=card_color, padding=(0,11))
