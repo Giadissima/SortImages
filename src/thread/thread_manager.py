@@ -1,11 +1,17 @@
+from typing import Callable
 from src.config.config import Config
 from src.thread.custom_thead import CustomThread
+from tkinter.ttk import Button
 
 class ThreadManager():
   def __init__(self) -> None:
     self.t:CustomThread = None
     
-  def start_thread(self, input_folder_entry:str, output_folder_entry:str, check_and_set_preference, btn):
+  # TODO vedere se funziona la tipizzazione
+  def start_thread(self, input_folder_entry:str, output_folder_entry:str, check_and_set_preference: Callable, btn: Button)->None:
+    """This function handles the start of the sorting thread and is responsible for
+    displaying any message boxes containing buttons to click in order to save their
+    preference in the config.ini file."""
     # controllo se il thread precedente è stato chiuso correttamente, se non è così esco
     if(self.t != None and self.t.is_alive()): return
     if(self.t != None):
@@ -24,6 +30,7 @@ class ThreadManager():
     self.t.start()
     
   def kill_thread(self):
+    """kill sorting thread"""
     if(self.t != None and self.t.is_alive()):
       self.t.kill()
       if(self.t.is_alive()):

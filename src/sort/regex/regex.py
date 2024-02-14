@@ -1,5 +1,4 @@
-import re
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
 from src.sort.regex.patterns import italian_month_dict, italian_month_abbr_dict, english_month_dict, english_month_abbr_dict
 class RegexManager:
@@ -29,7 +28,15 @@ class RegexManager:
         month = english_month_abbr_dict[month]
     return month
   
-  def get_latest_date(self, dates):
+  def get_latest_date(self, dates:List[List[str]])-> List[str]:
+    """Among the various matches that the file name may have generated,
+    the most recent date will be the most relevant.
+    This function searches for the most recent date and returns it.
+    Args:
+      dates (List[List[str]]): list of patterns matches
+
+    Returns:
+      List[str]: list of the most recent date. if no dates were passed, then an empty list is returned"""
     maxYear = 0
     maxDateObj = []
     

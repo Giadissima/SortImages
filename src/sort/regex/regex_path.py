@@ -31,7 +31,7 @@ class RegexPath(RegexManager):
           return [RegexManager.get_year(groups[0])]
     return None
   
-  def is_facebook_path(input_path):
+  def is_facebook_path(input_path:str)->bool:
     """Find out if a path contains 'Facebook' name
 
     Args:
@@ -45,7 +45,7 @@ class RegexPath(RegexManager):
       return True
     return False
   
-  def is_whatsapp_path(input_path):
+  def is_whatsapp_path(input_path:str)->bool:
     """Find out if a path contains 'whatsapp' name
 
     Args:

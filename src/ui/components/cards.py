@@ -1,7 +1,7 @@
 from tkinter.ttk import Frame, Label
 from src.ui.settings.settings_style import main_color, card_color
 from src.files_manager.images import ImageHelper
-
+# TODO da qui
 class Card():
   def __init__(self, father_frame, title, side=None, padding=0, fill=None, expand=None, card_color='Card.TFrame') -> None:
     self.card_color = card_color

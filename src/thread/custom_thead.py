@@ -16,17 +16,7 @@ class CustomThread(threading.Thread):
     self.img_res_calc = MediaResultCalculator()
   
   def run(self):
-    """Starts the thread that will organize the files.
-
-    Args:
-      main_button (Button): The button inside the graphical interface whose text needs to be changed.
-    
-    Args:
-        input_folder_entry (str): the text entry containing the input folder path
-        text_entry2 (str): the text entry containing the output folder path
-        check_and_set_preference (function): Check the saved user preferences.'
-        main_button (Button): The button inside the graphical interface whose text needs to be changed.
-    """
+    """Starts the thread that will organize the files."""
     
     self.btn.config(state="disabled")
     result, msg = self.sort.start_sort()
@@ -44,8 +34,7 @@ Total folders deleted: {self.img_res_calc.TOTAL_FOLDER_DELETED}"""
     self.btn.config(state="normal")
       
   def get_id(self):
-    
-    # returns id of the respective thread
+    """returns id of the respective thread"""
     if hasattr(self, '_thread_id'):
       return self._thread_id
     for id, thread in threading._active.items():
@@ -53,6 +42,7 @@ Total folders deleted: {self.img_res_calc.TOTAL_FOLDER_DELETED}"""
         return id
 
   def kill(self):
+    """kills thread"""
     if self.semaphore: self.semaphore.wait_until_acquired()
     self.semaphore.wait_until_acquired()
     thread_id = self.get_id()

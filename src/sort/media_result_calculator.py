@@ -1,9 +1,18 @@
 from meta.decorators import singleton
 
 
+"""This class is used to save information about the media organization
+process and then display a summary in the message box that notifies that
+the sorting is completed. This information includes:
+
+- the total media found
+- duplicates found
+- media moved
+- media without date found
+- media deleted
+- folders deleted."""
 @singleton
 class MediaResultCalculator():
-  
   def __init__(self):
     self.reset_total_results()
   
