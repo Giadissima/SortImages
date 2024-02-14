@@ -7,3 +7,7 @@ class FileNotMovedError(IOError):
 class FileWithoutExtensionError(IOError):
   def __init__(self):
     super().__init__()
+    
+class InvalidParameters(TypeError):
+  def __init__(self):
+    super().__init__()

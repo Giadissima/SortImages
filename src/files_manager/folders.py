@@ -2,8 +2,12 @@ from os import listdir, rmdir, walk
 from os.path import abspath, commonpath, join, isdir, exists, isdir
 from pathlib import Path
 from typing import Union
+
+from src.sort.media_result_calculator import MediaResultCalculator
 class Folder():
-  
+  def __init__(self):
+    self.img_res_calc = MediaResultCalculator()
+    
   @staticmethod
   def is_nested_dir(parent_path:str, child_path:str)->bool:
     """Check if child_path is actually a subdirectory of parent_path
@@ -33,6 +37,8 @@ class Folder():
     Args:
       root (str): initial folder
     """
+    self.img_res_calc.increment_total_folder_deleted()
+    
     if root == None or not isdir(root): return None
     
     # For each item in the folder, check if it is a directory; if so, recursively call the function.

@@ -10,7 +10,7 @@ class TkinterLogs():
         self.FRAME = frame
 
         self.log_text_field = ScrolledText(
-            self.FRAME, state=DISABLED, height=10
+            self.FRAME, state=DISABLED, height=13
         )
 
         self.log_text_field.config(bg=gray)

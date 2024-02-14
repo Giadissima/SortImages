@@ -1,5 +1,6 @@
 from tkinter.ttk import Button
 from tkinter import messagebox
+from src.sort.media_result_calculator import MediaResultCalculator
 from src.sort.sort import Sort
 import threading
 import ctypes
@@ -12,6 +13,7 @@ class CustomThread(threading.Thread):
     self.sort = Sort()
     self.btn:Button = btn
     self.semaphore = SemaphoreManager()
+    self.img_res_calc = MediaResultCalculator()
   
   def run(self):
     """Starts the thread that will organize the files.
@@ -26,12 +28,17 @@ class CustomThread(threading.Thread):
         main_button (Button): The button inside the graphical interface whose text needs to be changed.
     """
     
-    # TODO disabilita il bottone finché non termina il thread
-    
     self.btn.config(state="disabled")
     result, msg = self.sort.start_sort()
     if result:
-      messagebox.showinfo(title="Success", message="Sort completed")
+      msg = f"""Sort completed.\n
+Total founded: {self.img_res_calc.TOTAL_IMG}
+Total moved: {self.img_res_calc.TOTAL_IMG_MOVED}
+Total without date: {self.img_res_calc.TOTAL_UNRECOGNIZED_IMG}
+Total duplicates: {self.img_res_calc.TOTAL_MEDIA_DUPLICATES_FOUND}
+Total deleted: {self.img_res_calc.TOTAL_IMG_DELETED}
+Total folders deleted: {self.img_res_calc.TOTAL_FOLDER_DELETED}"""
+      messagebox.showinfo(title="Success", message=msg)
     else:
       messagebox.showerror(title="Error", message=msg)
     self.btn.config(state="normal")

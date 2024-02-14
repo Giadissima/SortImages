@@ -23,8 +23,8 @@ class ImageHelper(File):
     """
     try:
       image_type = imghdr.what(img)
-      if image_type is None:
-        return False
+      if image_type is not None:
+        return True
 
       with Image.open(img):
         return ImageHelper.is_image_by_extension(img)

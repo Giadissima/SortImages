@@ -12,8 +12,10 @@ IMPROVEMENTS:
 - il poter andare su con i log senza il see sull'ultima frase scritta
 - se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
 - aggiungere la regex per i video di facebook
-- testare la roba di whatsapp
--aggiungere l'opzione di spostare i file che non è riuscito a filtrare in una cartella chiamata unknown
+- se il pc ha un monitor piccolo, mettere il programma in full screen in automatico
+- se non deve considerare i folder names, allora non deve considerare nemmeno i "whatsapp" "facebook" e così via
+- fare la stessa cosa dei whatsapp folder con screenshot
+- empty folders controllare
 
 se io metto un immagine  un file con un estensione video?
 

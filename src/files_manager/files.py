@@ -2,6 +2,7 @@ from hashlib import md5
 from os.path import join, exists
 from os import remove, rename
 from typing import List, Optional, Union
+from src.sort.media_result_calculator import MediaResultCalculator
 from src.error.error import FileNotMovedError
 from src.sort.path_manager import PathManager
 from src.config.config import Config
@@ -15,6 +16,7 @@ class File:
     self.HASH_LIST = set()
     self.semaphore = SemaphoreManager()
     self.path_manager = PathManager()
+    self.img_res_calc = MediaResultCalculator()
     
   def move_file(self, file_path: str, file_name: str, new_path: str):
     """Move a file in a new directory, and in case of name duplicate error, rename the file.
@@ -29,6 +31,7 @@ class File:
     file_dest_path = self.check_file_name(file_name, new_path)
     try:
       rename(file_path, file_dest_path)
+      self.img_res_calc.increment_total_media_moved()
     except PermissionError:
       raise FileNotMovedError("Permission Error")
     finally:
@@ -45,6 +48,7 @@ class File:
     """ 
     file_hashed = self.hash_file(file)
     if file_hashed in self.HASH_LIST:
+      self.img_res_calc.increment_total_media_duplicates_found()
       return True
     self.HASH_LIST.add(file_hashed)
     return False
@@ -101,6 +105,7 @@ class File:
     if self.isDuplicate(file_path): 
       if(Config.get_checkbox_choises('DeleteDuplicates')):
         remove(file_path)
+        self.img_res_calc.increment_total_media_deleted()
         return True, 'Duplicated detected: successfully deleted.'
       else:
         return True, 'Duplicated detected: file not moved.'
@@ -124,6 +129,7 @@ class File:
     # case no date found: file not moved
     if date == None or date[0]==None:
       if dest_folder==Config.output_folder:
+        self.img_res_calc.increment_total_unrecognized_media()
         if Config.get_checkbox_choises("UnknownFolder"):
           dest_folder = join(dest_folder, 'Unknown')
           self.move_file(file_path, file_name, dest_folder)

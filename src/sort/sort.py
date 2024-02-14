@@ -1,5 +1,6 @@
 from os.path import join
 from typing import List, Union
+from src.sort.media_result_calculator import MediaResultCalculator
 from src.error.error import FileNotMovedError, FileWithoutExtensionError
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
@@ -14,6 +15,7 @@ class Sort():
     self.file = File()
     self.folder = Folder()
     self.logs = None
+    self.img_res_calc = MediaResultCalculator()
 
   def start_sort(self)->Union[bool, str]:
     """Set up everything necessary to start image sorting,
@@ -32,6 +34,7 @@ class Sort():
       if self.logs is None:
         self.logs = LogsHelper(Config.logs_obj)
       Config.logs_obj.delete_logs()
+      self.img_res_calc.reset_total_results()
       self.logs.log_tkinter("info", 'checking existing files in destination folder. It may takes a few minutes', file_name=False)
       self.finding_duplicates_output_folder()
       self.logs.log_tkinter("info", 'initial check completed. Starting to sort...', file_name=False)
@@ -104,6 +107,8 @@ contact me on telegram at the nickname @Giadissima1234"""
         if media_class == None: 
           self.logs.log_tkinter('warn', "Unrecognized file type: not moved.")
           continue
+        
+        self.img_res_calc.increment_total_media()
         
         result, msg = self.file.handle_duplicates(file_path, file_name)
         if result:
