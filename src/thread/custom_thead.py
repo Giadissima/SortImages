@@ -32,7 +32,7 @@ class CustomThread(threading.Thread):
     result, msg = self.sort.start_sort()
     if result:
       msg = f"""Sort completed.\n
-Total founded: {self.img_res_calc.TOTAL_IMG}
+Total media founded: {self.img_res_calc.TOTAL_IMG}
 Total moved: {self.img_res_calc.TOTAL_IMG_MOVED}
 Total without date: {self.img_res_calc.TOTAL_UNRECOGNIZED_IMG}
 Total duplicates: {self.img_res_calc.TOTAL_MEDIA_DUPLICATES_FOUND}

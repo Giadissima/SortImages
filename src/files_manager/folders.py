@@ -37,9 +37,10 @@ class Folder():
     Args:
       root (str): initial folder
     """
-    self.img_res_calc.increment_total_folder_deleted()
-    
-    if root == None or not isdir(root): return None
+    print("dentro a ", root)
+    if root is None or not isdir(root): 
+      print(root, "vuota")
+      return None
     
     # For each item in the folder, check if it is a directory; if so, recursively call the function.
     for foldername in listdir(root):
@@ -51,8 +52,10 @@ class Folder():
     if not listdir(root):
       try:
         rmdir(root)
+        self.img_res_calc.increment_total_folder_deleted()
       except (OSError, PermissionError, IOError) as e:
         return f"The folder could not be deleted"
+    print("fine di ", root)
     return None
   
   @staticmethod
@@ -65,10 +68,10 @@ class Folder():
       Union[bool, str]: 
         bool: True if the process has completed without errors, False otherwise, 
         str: error's message, if the process has completed without errors, str will be None"""
-    if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
-      return False, "The source or destination folder doesn't not exists anymore"
     if(input_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
       return False, "The source and destination folders cannot be empty"
+    if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
+      return False, "The source or destination folder doesn't not exists anymore"
     if(input_folder == output_folder):
       return False, "The source and destination folders cannot be the same"
     if Folder.is_nested_dir(output_folder, input_folder):

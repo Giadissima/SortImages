@@ -7,7 +7,7 @@ class ThreadManager():
     
   def start_thread(self, input_folder_entry:str, output_folder_entry:str, check_and_set_preference, btn):
     # controllo se il thread precedente è stato chiuso correttamente, se non è così esco
-    if(self.t != None and self.t.is_alive()): return # TODO forse qua ci devi fare la join?
+    if(self.t != None and self.t.is_alive()): return
     if(self.t != None):
       self.t = None
       

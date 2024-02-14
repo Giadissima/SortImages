@@ -1,25 +1,16 @@
 BUGS:
 - risolvere il problema di quando chiudi scorrettamente il programma
-- se lasci source vuota dice che non esiste più
 - a volte non looppa tutte le sottocartelle
+- se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
 IMPROVEMENTS:
 - docstring e rivedere i commenti, togliere anche gli spazi extra
 - aggiungere lingua italiano
 - metterci la pausa
-- informare sullo spostamento in ma altri dischi che copia ma non sposta secondo le regole di windows
-- controllare se il file è stato mosso nel frattempo, controllare se esiste
-- agiungere i puntini di caricamento nella fase iniziale di checking dest files
+- aggiungere i puntini di caricamento nella fase iniziale di checking dest files
 - il poter andare su con i log senza il see sull'ultima frase scritta
-- se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
+TODO:
+- informare sullo spostamento in altri dischi che copia ma non sposta secondo le regole di windows
 - aggiungere la regex per i video di facebook
-- se il pc ha un monitor piccolo, mettere il programma in full screen in automatico
-- se non deve considerare i folder names, allora non deve considerare nemmeno i "whatsapp" "facebook" e così via
-- fare la stessa cosa dei whatsapp folder con screenshot
-- empty folders controllare
-
-se io metto un immagine  un file con un estensione video?
-
-guardare gli assets in tutte le build
 
 per generare l'exe:
 pyinstaller.exe --icon=assets/logo.ico -F --noconsole main.py
