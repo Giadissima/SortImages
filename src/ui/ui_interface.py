@@ -11,6 +11,10 @@ from src.thread.thread_manager import ThreadManager
 from src.ui.components.buttons import create_rounded_button
 
 class Interface():
+  """
+  This class generates the program window and communicates
+  with UiManager to initialize internal components as well.
+  """
   def __init__(self, title: str, size: str, icon_path: str):
     self.icon_path = icon_path
     self.root = Tk()
@@ -18,9 +22,7 @@ class Interface():
     self.config_manager = ConfigManager()
     self.ui_manager = UIManager(self.root, size, title, icon_path)
     self.thread_manager = ThreadManager()
-    
     self.root.protocol("WM_DELETE_WINDOW", self.on_close)
-    
     self.main_frame()
 
   def main_frame(self):
@@ -58,5 +60,5 @@ class Interface():
   def start_thread(self):
     """ Check if the button to start or pause the sorting process has been pressed. """
     # Check if the sorting thread is already running
-    input_folder, output_folder = self.ui_manager.get_text_entries()
+    input_folder, output_folder = self.ui_manager.get_folders_path()
     self.thread_manager.start_thread(input_folder, output_folder, self.check_and_set_preference, self.btn)

@@ -3,6 +3,10 @@ from tkinter.ttk import Frame
 from tkinter.scrolledtext import ScrolledText
 from src.ui.settings.settings_style import gray
 class TkinterLogs():
+  """
+  This class is responsible for communicating with
+  the widget that will serve as the Tkinter logger.
+  """
   def __init__(self, frame: Frame):
     """Configure initial tags and the logs widget
     Args:
@@ -10,7 +14,7 @@ class TkinterLogs():
     self.FRAME = frame
 
     self.log_text_field = ScrolledText(
-        self.FRAME, state=DISABLED, height=13
+      self.FRAME, state=DISABLED, height=13
     )
 
     self.log_text_field.config(bg=gray)

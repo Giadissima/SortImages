@@ -3,6 +3,10 @@ from tkinter import W, IntVar, StringVar
 
 from src.config.config import Config
 class OptionsFrame:
+  """
+  This class generates a frame containing the selection of
+  options about sorting methods, duplicates management ecc
+  """
   def __init__(self, frame):
     self.row = 0
     self.parent_frame = frame
@@ -11,7 +15,10 @@ class OptionsFrame:
     self.create_opt_frame()
     
   def create_opt_frame(self):
-    """Creates a Frame containing checkboxes and radiobuttons that include all user-customized sorting options."""
+    """
+    Creates a Frame containing checkboxes and radiobuttons
+    that include all user-customized sorting options.
+    """
     sub_title = Label(self.frame, text="Options", style="CardTitle.TLabel")
     sub_title.grid(row=0, sticky='w')
 
@@ -43,7 +50,7 @@ class OptionsFrame:
     Config.set_checkbox_choises(self.choices)
     
   def set_sorting_method(self):
-    "set radiobuttons contains sorting method. The default sorting method generate a path by year/month/day"
+    "set radiobuttons contains sorting method. The default sorting method generate a path by year/month"
     sort_method = StringVar(value="YearMonth")
     sorting_method = {
     "YearMonthDay": "Moves images in 'year/month/day' folders path",

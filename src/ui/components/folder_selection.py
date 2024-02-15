@@ -5,6 +5,10 @@ from src.files_manager.images import ImageHelper
 from src.ui.utility.utility import configure_weight
 
 class FolderSelection():
+  """
+  This class generates a frame containing the selection of input
+  and output folders, along with hints regarding them.
+  """
   def __init__(self, parent_frame, folder_icon_path):
     self.frame = Frame(parent_frame, style='Card.TFrame')
     self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)

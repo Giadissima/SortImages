@@ -1,4 +1,4 @@
-from tkinter.ttk import Frame, Label, Button, Checkbutton
+from tkinter.ttk import Frame, Label, Checkbutton
 from tkinter import BooleanVar, LEFT, RIGHT, Toplevel
 from assets.load_img import OK_BUTTON_PATH, UNDO_BUTTON_PATH, WARNING_IMG_PATH
 from src.files_manager.images import ImageHelper
@@ -6,7 +6,12 @@ from src.ui.settings.settings_style import main_color
 from src.ui.components.buttons import create_rounded_button
 
 class CustomMessageBox(Toplevel):
-  def __init__(self, parent: Frame, title:str, message:str, icon=None):
+  """
+  This class generates a custom messagebox that asks the user if they are
+  sure about a certain decision passed as a parameter. The user will have
+  the option to respond by choosing to proceed or cancel through two buttons.
+  """
+  def __init__(self, parent: Frame, title:str, message:str, icon=None)->None:
     super().__init__(parent)
     self.title(title)
     self.ok_button = False
@@ -17,11 +22,10 @@ class CustomMessageBox(Toplevel):
       self.iconbitmap(default=icon)
 
     self.geometry("550x400")
-
     self.create_widgets()
       
-  def create_widgets(self):
-    """ Creates buttons and labels necessary to interface"""
+  def create_widgets(self)->None:
+    """Creates buttons and labels necessary to interface"""
     self.warning_img_path = ImageHelper.resize_image(WARNING_IMG_PATH, 120, 100)
     label = Label(self, text="Warning", style='MsgBoxTitle.TLabel')
     
