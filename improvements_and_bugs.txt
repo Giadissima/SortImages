@@ -2,6 +2,7 @@ BUGS:
 - risolvere il problema di quando chiudi scorrettamente il programma
 - a volte non looppa tutte le sottocartelle
 - se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
+- RIMUVERE CONFIG.INI
 IMPROVEMENTS:
 - docstring e rivedere i commenti, togliere anche gli spazi extra
 - aggiungere lingua italiano
