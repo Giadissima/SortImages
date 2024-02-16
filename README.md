@@ -1,7 +1,7 @@
 
 # SortImages
 <p align="center">
-  <a href="https://nestjs.com/" target="blank"><img src="assets/logo.png" width="120" alt="Nest Logo" /></a>
+  <img src="assets/logo.png" width="120" alt="Nest Logo" />
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
