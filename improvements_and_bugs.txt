@@ -2,6 +2,9 @@ BUGS:
 - risolvere il problema di quando chiudi scorrettamente il programma
 - a volte non looppa tutte le sottocartelle
 - se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
+- i duplicati, li controlla solo quando ho controllato il tipo dell'immagine, vero? 
+- i file tmp li sposta in whatsapp
+- levare l'icona se sei in linux
 - RIMUVERE CONFIG.INI
 IMPROVEMENTS:
 - docstring e rivedere i commenti, togliere anche gli spazi extra

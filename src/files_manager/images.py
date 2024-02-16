@@ -1,6 +1,6 @@
 import imghdr
 from typing import List, Optional
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from PIL import ImageTk
 from PIL.ExifTags import TAGS
 from src.files_manager.files import File
@@ -22,16 +22,15 @@ class ImageHelper(File):
       bool: True if is an image, otherwise False
     """
     try:
-      image_type = imghdr.what(img)
-      if image_type is not None:
-        return True
-
-      with Image.open(img):
+      with Image.open(img) as i:
+        i.verify()
         return ImageHelper.is_image_by_extension(img)
     except (OSError, PermissionError, IOError):
       return False
     except Image.DecompressionBombError:
       return ImageHelper.is_image_by_extension(img)
+    except UnidentifiedImageError:
+      return False
     
   @staticmethod
   def get_date_from_metadata(img:str) -> Optional[List[str]]:
