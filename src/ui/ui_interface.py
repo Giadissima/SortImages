@@ -15,12 +15,11 @@ class Interface():
   This class generates the program window and communicates
   with UiManager to initialize internal components as well.
   """
-  def __init__(self, title: str, size: str, icon_path: str):
-    self.icon_path = icon_path
+  def __init__(self, title: str, size: str):
     self.root = Tk()
     configure_style() 
     self.config_manager = ConfigManager()
-    self.ui_manager = UIManager(self.root, size, title, icon_path)
+    self.ui_manager = UIManager(self.root, size, title)
     self.thread_manager = ThreadManager()
     self.root.protocol("WM_DELETE_WINDOW", self.on_close)
     self.main_frame()
@@ -40,7 +39,6 @@ class Interface():
       self.root,
       title,
       message,
-      icon=self.icon_path
     )
     self.root.wait_window(custom_message_box)
 

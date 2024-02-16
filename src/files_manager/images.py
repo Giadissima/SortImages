@@ -1,4 +1,3 @@
-import imghdr
 from typing import List, Optional
 from PIL import Image, UnidentifiedImageError
 from PIL import ImageTk
@@ -83,7 +82,7 @@ class ImageHelper(File):
   @staticmethod
   def is_image_by_extension(img):
     """
-    Define an alternative way to recognized a photo by its extension.
+    Recognized a photo by its extension.
     Args:
       img(str): name of the possibly image
     Returns:

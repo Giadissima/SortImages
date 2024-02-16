@@ -1,6 +1,6 @@
-from tkinter import BOTH
+from tkinter import BOTH, Image, PhotoImage
 from tkinter.ttk import Frame, Label
-from assets.load_img import CAT_IMG_PATH, FOLDER_IMG_PATH, TITLE_IMG_PATH
+from assets.load_img import CAT_IMG_PATH, FOLDER_IMG_PATH, LINUX_ICON, WINDOWS_ICON, TITLE_IMG_PATH
 from src.ui.components.options_interface import OptionsFrame
 from src.ui.components.tkinter_logs import TkinterLogs
 from src.ui.components.folder_selection import FolderSelection
@@ -11,7 +11,7 @@ from src.config.config import Config
 from src.files_manager.images import ImageHelper
 
 class UIManager:
-  def __init__(self, root: Frame, size:str, title:str, icon_path:str):
+  def __init__(self, root: Frame, size:str, title:str):
     """
     This class is responsible for initializing all the graphical components inside the main frame.
 
@@ -19,12 +19,10 @@ class UIManager:
       root (Frame): the main frame
       size (str): a string of main frame's size with '<width>x<height>' format (es. 500x600)
       title (str): The title of the main frame
-      icon_path (str): the icon of the main frame
     """
     self.root: Frame = root
     self.size = size
     self.title = title
-    self.icon_path = icon_path
 
   def setup_ui(self):
     title = self.setup_title()
@@ -74,5 +72,8 @@ class UIManager:
     """setup general options of the main frame"""
     self.root.title(self.title)
     self.root.geometry(self.size)
-    self.root.iconbitmap(self.icon_path)
+    if Config.os_system == 'Windows': self.root.iconbitmap(WINDOWS_ICON)
+    else: 
+      img = Image("photo", file=LINUX_ICON)
+      self.root.iconphoto(False, img)
     self.root.configure(bg=main_color)

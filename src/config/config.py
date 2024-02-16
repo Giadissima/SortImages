@@ -1,6 +1,7 @@
 from typing import Dict
 from tkinter import IntVar, StringVar
 from src.ui.components.tkinter_logs import TkinterLogs
+import platform
 
 class Config():
   """
@@ -15,6 +16,7 @@ class Config():
   input_folder: str = None
   output_folder: str = None
   sort_method: int = 0
+  os_system = platform.system()
 
   # series of get and set that will be used to store and display information within the program
   @staticmethod
