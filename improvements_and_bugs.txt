@@ -22,3 +22,6 @@ pyinstaller.exe --icon=assets/logo.ico -F --noconsole main.py
 
 Linux:
 pyinstaller --onefile --icon=assets/logo.png -F main.py --hidden-import='PIL._tkinter_finder'
+
+MacOs:
+pyinstaller --onefile --icon=assets/logo.icns -F main.py

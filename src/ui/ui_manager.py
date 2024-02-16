@@ -1,6 +1,6 @@
 from tkinter import BOTH, Image, PhotoImage
 from tkinter.ttk import Frame, Label
-from assets.load_img import CAT_IMG_PATH, FOLDER_IMG_PATH, LINUX_ICON, WINDOWS_ICON, TITLE_IMG_PATH
+from assets.load_img import CAT_IMG_PATH, FOLDER_IMG_PATH, LINUX_ICON, MAC_ICON, WINDOWS_ICON, TITLE_IMG_PATH
 from src.ui.components.options_interface import OptionsFrame
 from src.ui.components.tkinter_logs import TkinterLogs
 from src.ui.components.folder_selection import FolderSelection
@@ -73,7 +73,10 @@ class UIManager:
     self.root.title(self.title)
     self.root.geometry(self.size)
     if Config.os_system == 'Windows': self.root.iconbitmap(WINDOWS_ICON)
-    else: 
+    elif Config.os_system == 'Linux': 
       img = Image("photo", file=LINUX_ICON)
+      self.root.iconphoto(False, img)
+    else:
+      img = Image("photo", file=MAC_ICON)
       self.root.iconphoto(False, img)
     self.root.configure(bg=main_color)
