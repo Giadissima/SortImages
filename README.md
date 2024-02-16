@@ -30,8 +30,15 @@
 
 The SortImages tool is a powerful utility designed to efficiently organize images based on various parameters, including image names, metadata, and folder names. It extends its functionality to subdirectories, providing a comprehensive solution for image organization.
 
+### Main interface
+
 ![Representative image of the project](assets/screenshot-v.1.0.0.png?raw=true "SortImages Screenshot")
+
+### Result counters example
+
 ![Representative image of the end of a project](assets/result.png?raw=true "SortImages Screenshot")
+
+###  Result of sort process example
 ![Representative image of sorting process](assets/example-dest-photos.png?raw=true "SortImages Screenshot")
 
 ## Features
@@ -64,6 +71,17 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 
 4. **Review Log:**
    - Check the log for information on duplicate images and any skipped folders.
+
+5. **Process Summary:**
+   - After the sorting process is complete, a messagebox will display with the following counters:
+     - Total media found: X
+     - Total media without date found: Y
+     - Total media without any date: Z
+     - Total duplicate media found: W
+     - Total media deleted: P
+     - Total folders deleted: Q
+
+   - These counters provide a quick summary of the results and help you understand the impact of the sorting process.
 
 ## Download
 
