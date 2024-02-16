@@ -6,7 +6,7 @@ from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
 from src.sort.regex.regex_path import RegexPath
-from os import walk
+from os import walk, remove
 
 class Sort():
   """The main class responsible for organizing media."""
@@ -28,6 +28,10 @@ class Sort():
         bool: True if the process has completed without errors, False otherwise, 
         str: error's message, if the pricess has completed without errors, str will be None
       """
+    try:
+      remove("debug.log")  
+    except Exception:
+      print("failed removing debug.log")
     result, msg = Folder.check_input_output_folders(Config.input_folder, Config.output_folder)
     if result == False: return result, msg
     try:
