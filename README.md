@@ -18,8 +18,8 @@
 
 <br>
 <div align="center">
-<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Windows.zip" target="_blank"><img src="assets/windows_icon.png" height=50/></a>
-<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Linux.zip" target="_blank"><img src="assets/linux_icon.png" height=50/></a>
+<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Windows.zip" target="_blank"><img src="assets/windows_icon.png" height=50 style="padding-right:20px"/></a>
+<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Linux.zip" target="_blank"><img src="assets/linux_icon.png" height=50 style="padding-right:20px"/></a>
 <a align="center", href="https://github.com/Giadissima/SortImages/releases/download/beta-0.5/SortImage.Beta.0.5.zip" target="_blank"><img src="assets/mac_icon.png" height=50/></a>
 </div>
 
@@ -62,9 +62,9 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 
 You can effortlessly download the project by clicking the following button:
 
-<div align="center">
-<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Windows.zip" target="_blank"><img src="assets/windows_icon.png" height=50/></a>
-<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Linux.zip" target="_blank"><img src="assets/linux_icon.png" height=50/></a>
+<div style>
+<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Windows.zip" target="_blank"><img src="assets/windows_icon.png" height=50 style="padding-right:20px"/></a>
+<a align="center", href="https://github.com/Giadissima/SortImages/releases/download/1.0.0/Linux.zip" target="_blank"><img src="assets/linux_icon.png" height=50 style="padding-right:20px"/></a>
 <a align="center", href="https://github.com/Giadissima/SortImages/releases/download/beta-0.5/SortImage.Beta.0.5.zip" target="_blank"><img src="assets/mac_icon.png" height=50/></a>
 </div>
 
