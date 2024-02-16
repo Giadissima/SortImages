@@ -32,6 +32,7 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 
 ![Representative image of the project](assets/screenshot-v.1.0.0.png?raw=true "SortImages Screenshot")
 ![Representative image of the end of a project](assets/result.png?raw=true "SortImages Screenshot")
+![Representative image of sorting process](assets/example-dest-photos.png?raw=true "SortImages Screenshot")
 
 ## Features
 
@@ -44,8 +45,10 @@ The SortImages tool is a powerful utility designed to efficiently organize image
   - Option to choose the hierarchical structure based on year, year/month, or year/month/day.
   - Option to ignore folder names during sorting.
   - Option to delete empty folders after sorting.
+  - Option to delete duplicates founded.
   - Option to move screenshots into a dedicated folder named "Screenshot" with organized subfolders.
   - Option to don't move Whatsapp's files into a dedicated folder named "Whatsapp" with organized subfolders.
+  - Option to move files without date in a folder named "Unknown"
 
 ## How to Use
 
