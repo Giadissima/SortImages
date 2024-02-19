@@ -1,6 +1,6 @@
 from tkinter import BOTH, Image, PhotoImage
 from tkinter.ttk import Frame, Label
-from assets.load_img import CAT_IMG_PATH, FOLDER_IMG_PATH, LINUX_ICON, MAC_ICON, WINDOWS_ICON, TITLE_IMG_PATH
+from assets.load_img import CAT_IMG_PATH, FOLDER_CARD_IMG_PATH, FOLDER_IMG_PATH, LINUX_ICON, MAC_ICON, WINDOWS_ICON, TITLE_IMG_PATH
 from src.ui.components.options_interface import OptionsFrame
 from src.ui.components.tkinter_logs import TkinterLogs
 from src.ui.components.folder_selection import FolderSelection
@@ -40,7 +40,7 @@ class UIManager:
 
   def setup_selection_folder_frame(self, parent_frame:Frame):
     """generate a card with an image containing the input and output folders selection"""
-    folder_container_frame = ImageCard(parent_frame, "Folders selection", "assets/prova3.jpeg", side='left', img_width=235)
+    folder_container_frame = ImageCard(parent_frame, "Folders selection", FOLDER_CARD_IMG_PATH, side='left', img_width=235)
     self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, FOLDER_IMG_PATH)
     self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew", pady=31)
     
