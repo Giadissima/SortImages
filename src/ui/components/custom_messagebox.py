@@ -1,9 +1,11 @@
 from tkinter.ttk import Frame, Label, Checkbutton
 from tkinter import BooleanVar, LEFT, RIGHT, Toplevel
-from assets.load_img import OK_BUTTON_PATH, UNDO_BUTTON_PATH, WARNING_IMG_PATH, WINDOWS_ICON
+from assets.load_img import OK_BUTTON_PATH, UNDO_BUTTON_PATH, WARNING_IMG_PATH, WINDOWS_ICON, LINUX_ICON, MAC_ICON
 from src.files_manager.images import ImageHelper
 from src.ui.settings.settings_style import main_color
 from src.ui.components.buttons import create_rounded_button
+from src.config.config import Config
+from tkinter import BOTH, Image, PhotoImage
 
 class CustomMessageBox(Toplevel):
   """
@@ -18,8 +20,15 @@ class CustomMessageBox(Toplevel):
     self.message = message
     self.config(bg=main_color)
 
-    self.iconbitmap(default=WINDOWS_ICON)
-
+    if Config.os_system == 'Windows': self.iconbitmap(WINDOWS_ICON)
+    elif Config.os_system == 'Linux': 
+      img = Image("photo", file=LINUX_ICON)
+      self.iconphoto(False, img)
+    else: # TODO fix icon throwing error
+      # img = Image("photo", file=MAC_ICON)
+      # self.iconphoto(False, img)
+      pass
+    
     self.geometry("550x400")
     self.create_widgets()
       

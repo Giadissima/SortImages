@@ -76,7 +76,9 @@ class UIManager:
     elif Config.os_system == 'Linux': 
       img = Image("photo", file=LINUX_ICON)
       self.root.iconphoto(False, img)
-    else:
-      img = Image("photo", file=MAC_ICON)
-      self.root.iconphoto(False, img)
+    else: # TODO fix icon throwing error
+      # img = Image("photo", file=MAC_ICON)
+      # self.root.iconphoto(False, img)
+      pass
+    self.root.configure(bg=main_color)
     self.root.configure(bg=main_color)

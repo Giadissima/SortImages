@@ -36,7 +36,7 @@ class OptionsFrame:
     options = {
     "DeleteDuplicates": "Delete duplicate images and videos from folders",
     "DeleteEmptyFolders": "Delete empty folders after the sort process",
-    "IgnoreFolderSort": "Do not consider the dates contained in the folders",
+    "IgnoreFolderSort": "Do not consider the dates contained in the folders' name",
     "ScreenshotFolder": "Move all screenshots in a dedicated folder",
     "WhatsappFolder": "Don't move all Whatsapp media in a dedicated folder",
     "UnknownFolder": "Move all unrecognized files to a folder named 'Unknown'.",
