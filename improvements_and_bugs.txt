@@ -4,6 +4,7 @@ BUGS:
 - se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
 - non funziona l'icona del MacOs
 - il programma per mac si può avviare solo per shell
+- diminuire la dimensione degli input text per linux
 IMPROVEMENTS:
 - docstring e rivedere i commenti, togliere anche gli spazi extra
 - aggiungere lingua italiano
@@ -16,13 +17,13 @@ TODO:
 - aggiungere la regex per i video di facebook
 
 per generare l'exe:
-pyinstaller.exe --icon=assets/logo.ico -F --noconsole --name SortImages main.py
+pyinstaller.exe --icon=assets/logo.ico -F --noconsole --distpath ./dist/windows --name SortImages main.py
 
 Linux:
-pyinstaller --onefile --icon=assets/logo.png -F --name SortImages main.py --hidden-import='PIL._tkinter_finder'
+pyinstaller --onefile --icon=assets/logo.png -F --name SortImages --distpath ./dist/linux main.py --hidden-import='PIL._tkinter_finder'
 
 MacOs:
-pyinstaller --onefile --icon=assets/logo.icns -F --name SortImages main.
+pyinstaller --onefile --icon=assets/logo.icns -F --distpath ./dist/MacOs --name SortImages main.
 
 
 Nuova release:
