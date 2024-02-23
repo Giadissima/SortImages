@@ -16,10 +16,16 @@ TODO:
 - aggiungere la regex per i video di facebook
 
 per generare l'exe:
-pyinstaller.exe --icon=assets/logo.ico -F --noconsole main.py
+pyinstaller.exe --icon=assets/logo.ico -F --noconsole --name SortImages main.py
 
 Linux:
-pyinstaller --onefile --icon=assets/logo.png -F main.py --hidden-import='PIL._tkinter_finder'
+pyinstaller --onefile --icon=assets/logo.png -F --name SortImages main.py --hidden-import='PIL._tkinter_finder'
 
 MacOs:
-pyinstaller --onefile --icon=assets/logo.icns -F main.py
+pyinstaller --onefile --icon=assets/logo.icns -F --name SortImages main.
+
+
+Nuova release:
+- aggiornare gli screenshot
+- fare gli installer
+- cambiare tutti i pulsanti
