@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">A program to organize your photos and videos</p> 
-<p align="center">Version 1.0.0</p>
+<p align="center">Version 1.0.1</p>
 <div align="center">
 <a href="LICENSE.md" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
 <a href="https://paypal.me/Giadissima1234?country.x=IT&locale.x=it_IT" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
@@ -152,7 +152,9 @@ If you wish to view the source code follow these steps:
 
 ## Contributing
 
-Contributions are welcome! Add everything you want 😉
+Contributions are welcome! Add everything you want 😉.
+
+See how to contribute in [CONTRIBUTE.md](CONTRIBUTE.md) file
 
 ## License
 
