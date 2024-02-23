@@ -116,7 +116,7 @@ If you wish to view the source code follow these steps:
 3. Run the tool:
 
    ```bash
-   python main.py
+   py main.py
 
 ### Installation on Linux
 
@@ -131,19 +131,31 @@ If you wish to view the source code follow these steps:
    pip install -r requirements.txt
    sudo apt-get install python-tk
 
-3. Make the SortImages script executable:
+3. Run the tool:
 
    ```bash
-   chmod +x SortImages
+   python3 main.py
 
-4. Run the tool:
+### Installation on MacOs
+
+1. Clone the repository:
 
    ```bash
-   ./SortImages
+   git clone https://github.com/Giadissima/SortImages
+
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+
+3. Run the tool:
+
+   ```bash
+   python3 main.py
 
 ## Contributing
 
-Contributions are welcome! You can easily fork my repository and add everything you want 😉
+Contributions are welcome! Add everything you want 😉
 
 ## License
 
