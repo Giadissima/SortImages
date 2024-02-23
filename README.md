@@ -1,11 +1,8 @@
 
 # SortImages
 <p align="center">
-  <img src="assets/logo.png" width="120" alt="Nest Logo" />
+  <img src="assets/logo.png" width="120" alt="SortImages Logo" />
 </p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
 <p align="center">A program to organize your photos and videos</p> 
 <p align="center">Version 1.0.0</p>
