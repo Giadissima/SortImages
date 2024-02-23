@@ -28,10 +28,10 @@ class Sort():
         bool: True if the process has completed without errors, False otherwise, 
         str: error's message, if the pricess has completed without errors, str will be None
       """
-    try:
-      remove("debug.log")  
-    except Exception:
-      print("failed removing debug.log")
+    # try:
+    #   remove("debug.log")  
+    # except Exception:
+    #   print("failed removing debug.log")
     result, msg = Folder.check_input_output_folders(Config.input_folder, Config.output_folder)
     if result == False: return result, msg
     try:

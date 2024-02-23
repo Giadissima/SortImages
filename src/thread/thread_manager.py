@@ -7,7 +7,6 @@ class ThreadManager():
   def __init__(self) -> None:
     self.t:CustomThread = None
     
-  # TODO vedere se funziona la tipizzazione
   def start_thread(self, input_folder_entry:str, output_folder_entry:str, check_and_set_preference: Callable, btn: Button)->None:
     """This function handles the start of the sorting thread and is responsible for
     displaying any message boxes containing buttons to click in order to save their

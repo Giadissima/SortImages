@@ -1,7 +1,6 @@
 from tkinter.ttk import Frame, Label
 from src.ui.settings.settings_style import main_color
 from src.files_manager.images import ImageHelper
-# TODO da qui
 class Card():
   """This class mimics the concept of a card in the context of web development.
   It creates a differently colored frame compared to the background with a title and components inside."""

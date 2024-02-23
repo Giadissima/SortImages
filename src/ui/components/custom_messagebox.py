@@ -24,7 +24,7 @@ class CustomMessageBox(Toplevel):
     elif Config.os_system == 'Linux': 
       img = Image("photo", file=LINUX_ICON)
       self.iconphoto(False, img)
-    else: # TODO fix icon throwing error
+    else:
       # img = Image("photo", file=MAC_ICON)
       # self.iconphoto(False, img)
       pass
