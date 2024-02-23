@@ -87,6 +87,6 @@ class ImageHelper(File):
       img(str): name of the possibly image
     Returns:
       bool, True if file has an image extension, False otherwise"""
-    img_extensions = {'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'tif', 'webp', 'svg', 'eps', 'raw', 'ico', 'heif', 'bpg', 'jfif'}
+    img_extensions = {'jpg', 'jpeg', 'png', 'gif', 'icns', 'bmp', 'tiff', 'tif', 'webp', 'svg', 'eps', 'raw', 'ico', 'heif', 'bpg', 'jfif'}
     file_extension = img.rsplit('.',1)[1].lower()
     return file_extension in img_extensions
