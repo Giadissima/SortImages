@@ -38,10 +38,10 @@ class FolderSelection():
     label.grid(row=row, column=0, sticky='w')
 
     self.folder_path_entries[entry_name] = StringVar()
-    if Config.os_system == 'Linux': 
-      path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name], width=20)
-    else:
+    if Config.os_system == 'Windows': 
       path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name], width=40)
+    else:
+      path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name], width=20)
     path_entry.grid(row=row, column=1, pady=10, sticky='we')
 
     browse_button = Button(self.frame, image=self.folder_icon_path, command=lambda: self.open_folder_dialog(path_entry))

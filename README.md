@@ -32,7 +32,7 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 
 ### Main interface
 
-![Representative image of the project](assets/screenshot-v.1.0.0.png?raw=true "SortImages Screenshot")
+![Representative image of the project](assets/screenshot-v.1.0.1.png?raw=true "SortImages Screenshot")
 
 ### Result counters example
 
