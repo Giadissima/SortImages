@@ -41,7 +41,7 @@ Hello! Follow the steps below to contribute to my repository. Also, in case of a
 
 ### Running the Code
 
-Find instructions in the [README.md](https://chat.openai.com/c/README.md) file.
+Find instructions in the [README.md](README.md) file.
 
 ### Creating a Pull Request
 
@@ -51,7 +51,7 @@ A Pull Request (**PR**) is a request to push your code to my repository. Once su
 
 - **Increment version numbers in README.md** to the new version representing this Pull Request. The versioning scheme is [SemVer](https://semver.org/) (Major.Minor.Patch).
 
-- **Ensure your code is up to date with mine on your repository**, if not, refer to the steps [below](https://github.com/Giadissima/SortImages/blob/main/CONTRIBUTE.md#aggiornamento-del-mio-codice-sulla-tua-repository).
+- **Ensure your code is up to date with mine on your repository**, if not, refer to the steps [below](https://github.com/Giadissima/SortImages/blob/main/CONTRIBUTE.md#updating-your-code-with-mine).
 
 - **Push your changes to your fork on GitHub:**
 
