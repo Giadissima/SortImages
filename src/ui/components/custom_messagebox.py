@@ -1,44 +1,59 @@
-from tkinter.ttk import Frame, Label, Button, Checkbutton
+from tkinter.ttk import Frame, Label, Checkbutton
 from tkinter import BooleanVar, LEFT, RIGHT, Toplevel
-from assets.load_img import WARNING_IMG_PATH
+from assets.load_img import OK_BUTTON_PATH, UNDO_BUTTON_PATH, WARNING_IMG_PATH, WINDOWS_ICON, LINUX_ICON, MAC_ICON
 from src.files_manager.images import ImageHelper
+from src.ui.settings.settings_style import main_color
+from src.ui.components.buttons import create_rounded_button
+from src.config.config import Config
+from tkinter import BOTH, Image, PhotoImage
 
 class CustomMessageBox(Toplevel):
-  def __init__(self, parent: Frame, title:str, message:str, icon=None):
-    self.buttons = {
-      "OK": {"text": "OK", "command": lambda self: self.button_pressed(True)},
-      "Cancel": {"text": "Cancel", "command": lambda self: self.button_pressed(False)}
-    }
+  """
+  This class generates a custom messagebox that asks the user if they are
+  sure about a certain decision passed as a parameter. The user will have
+  the option to respond by choosing to proceed or cancel through two buttons.
+  """
+  def __init__(self, parent: Frame, title:str, message:str)->None:
     super().__init__(parent)
     self.title(title)
-    self.ok_button = True
+    self.ok_button = False
     self.message = message
+    self.config(bg=main_color)
 
-    if icon:
-      self.iconbitmap(default=icon)
-
-    self.geometry("350x180")
-
+    if Config.os_system == 'Windows': self.iconbitmap(WINDOWS_ICON)
+    elif Config.os_system == 'Linux': 
+      img = Image("photo", file=LINUX_ICON)
+      self.iconphoto(False, img)
+    else:
+      # img = Image("photo", file=MAC_ICON)
+      # self.iconphoto(False, img)
+      pass
+    
+    self.geometry("550x400")
     self.create_widgets()
       
-  def create_widgets(self):
-    """ Creates buttons and labels necessary to interface"""
-    self.warning_img_path = ImageHelper.resize_image(WARNING_IMG_PATH, 70, 50)
-    label1 = Label(self, image=self.warning_img_path)
+  def create_widgets(self)->None:
+    """Creates buttons and labels necessary to interface"""
+    self.warning_img_path = ImageHelper.resize_image(WARNING_IMG_PATH, 120, 100)
+    label = Label(self, text="Warning", style='MsgBoxTitle.TLabel')
+    
+    label1 = Label(self, image=self.warning_img_path, background=main_color, padding=15)
     label1.image = self.warning_img_path
+    label.pack()
     label1.pack()
 
-    self.message_label = Label(self, text=self.message, padding=10)
+    self.message_label = Label(self, text=self.message, padding=10, style="MsgBoxSubtitle.TLabel")
     self.message_label.pack()
 
     self.checkbox_var = BooleanVar()
-    self.dont_show_again_checkbox = Checkbutton(self, text="Don't show again", variable=self.checkbox_var)
+    self.dont_show_again_checkbox = Checkbutton(self, text="Don't show again", variable=self.checkbox_var, style='MsgBoxTitle.TCheckbutton')
     self.dont_show_again_checkbox.pack()
 
-    for button_name, button_info in self.buttons.items():
-      button = Button(self, text=button_info["text"], command=lambda: button_info["command"](self))
+    button1 = create_rounded_button(self, UNDO_BUTTON_PATH, 135, 50, command=lambda: self.button_pressed(False))
+    button2 = create_rounded_button(self, OK_BUTTON_PATH, 135, 50, command=lambda: self.button_pressed(True))
 
-      button.pack(side=LEFT if button_name == "OK" else RIGHT, padx=35, ipadx=10)
+    button1.pack(side=LEFT, padx=35, ipadx=10)
+    button2.pack(side=RIGHT, padx=35, ipadx=10)
 
   def button_pressed(self, is_ok:bool):
     """Quit the custom messagebox

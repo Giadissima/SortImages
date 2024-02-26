@@ -11,21 +11,22 @@ from src.thread.thread_manager import ThreadManager
 from src.ui.components.buttons import create_rounded_button
 
 class Interface():
-  def __init__(self, title: str, size: str, icon_path: str):
-    self.icon_path = icon_path
+  """
+  This class generates the program window and communicates
+  with UiManager to initialize internal components as well.
+  """
+  def __init__(self, title: str, size: str):
     self.root = Tk()
     configure_style() 
     self.config_manager = ConfigManager()
-    self.ui_manager = UIManager(self.root, size, title, icon_path)
+    self.ui_manager = UIManager(self.root, size, title)
     self.thread_manager = ThreadManager()
-    
     self.root.protocol("WM_DELETE_WINDOW", self.on_close)
-    
     self.main_frame()
 
   def main_frame(self):
     self.ui_manager.setup_ui()
-    self.btn = create_rounded_button(self.root, ROUNDED_BUTTON_IMG_PATH, 230, 65, command=self.start_thread)
+    self.btn = create_rounded_button(self.root, ROUNDED_BUTTON_IMG_PATH, 210, 55, command=self.start_thread)
     self.btn.pack(side='bottom')
 
     try:
@@ -38,7 +39,6 @@ class Interface():
       self.root,
       title,
       message,
-      icon=self.icon_path
     )
     self.root.wait_window(custom_message_box)
 
@@ -53,10 +53,10 @@ class Interface():
     
   def check_and_set_preference(self, preference_name, msg):
     if Config.get_checkbox_choises(preference_name) and not self.config_manager.has_preference(preference_name):
-      self.ask_to_custom_msgbox(msg, preference_name)
+      return self.ask_to_custom_msgbox(msg, preference_name)
       
   def start_thread(self):
     """ Check if the button to start or pause the sorting process has been pressed. """
     # Check if the sorting thread is already running
-    input_folder, output_folder = self.ui_manager.get_text_entries()
+    input_folder, output_folder = self.ui_manager.get_folders_path()
     self.thread_manager.start_thread(input_folder, output_folder, self.check_and_set_preference, self.btn)

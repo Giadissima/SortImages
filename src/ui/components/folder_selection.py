@@ -1,10 +1,15 @@
 from tkinter.ttk import Button, Frame, Entry, Label
 from tkinter import END, StringVar, filedialog
 from assets.load_img import INPUT_FOLDER_IMG_PATH, OUPUT_FOLDER_IMG_PATH
+from src.config.config import Config
 from src.files_manager.images import ImageHelper
 from src.ui.utility.utility import configure_weight
 
 class FolderSelection():
+  """
+  This class generates a frame containing the selection of input
+  and output folders, along with hints regarding them.
+  """
   def __init__(self, parent_frame, folder_icon_path):
     self.frame = Frame(parent_frame, style='Card.TFrame')
     self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
@@ -33,7 +38,10 @@ class FolderSelection():
     label.grid(row=row, column=0, sticky='w')
 
     self.folder_path_entries[entry_name] = StringVar()
-    path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name], width=40)
+    if Config.os_system == 'Windows': 
+      path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name], width=40)
+    else:
+      path_entry = Entry(self.frame, textvariable=self.folder_path_entries[entry_name], width=20)
     path_entry.grid(row=row, column=1, pady=10, sticky='we')
 
     browse_button = Button(self.frame, image=self.folder_icon_path, command=lambda: self.open_folder_dialog(path_entry))

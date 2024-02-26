@@ -2,6 +2,9 @@ from threading import Semaphore
 
 from meta.decorators import singleton
 
+"""This class is a singleton wrapper of the threading.Semaphore library.
+It adds a boolean that indicates whether the semaphore is green or red,
+and a function that waits until the semaphore turns green."""
 @singleton
 class SemaphoreManager():
   def __init__(self):

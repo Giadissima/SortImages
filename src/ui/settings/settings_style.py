@@ -20,8 +20,13 @@ def configure_style():
   style.configure("TCheckbutton", font=('Verdana', 11), background=card_color)
   style.configure("TLabel", font=('Verdana', 11), background=card_color)
   style.configure('TFrame', background=main_color)
+  style.configure('TRadiobutton', font=('Verdana', 11), background=card_color)
   style.configure('Card.TFrame', background=card_color)
   
+  # messageboxes style
+  style.configure("MsgBoxTitle.TLabel", font=('Verdana', 25, 'bold'), background=main_color, foreground='white', padding=(0,13), justify="center")
+  style.configure("MsgBoxSubtitle.TLabel", font=('Verdana', 11), background=main_color, foreground='white', justify="center")
+  style.configure("MsgBoxTitle.TCheckbutton", font=('Verdana', 11), foreground='white', background=main_color)
   
   #subtitle style
-  style.configure("CardTitle.TLabel", font=('Verdana', 15, 'bold'), background=card_color, padding=(0,17))
+  style.configure("CardTitle.TLabel", font=('Verdana', 14, 'bold'), background=card_color, padding=(0,11))

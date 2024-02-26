@@ -1,13 +1,16 @@
-from os import listdir, rmdir
+from os import listdir, rmdir, walk
 from os.path import abspath, commonpath, join, isdir, exists, isdir
 from pathlib import Path
 from typing import Union
+
+from src.sort.media_result_calculator import MediaResultCalculator
 class Folder():
-  
+  def __init__(self):
+    self.img_res_calc = MediaResultCalculator()
+    
   @staticmethod
   def is_nested_dir(parent_path:str, child_path:str)->bool:
-    """Compare the common path of the parent and child path with the common path of just 
-      the parent path
+    """Check if child_path is actually a subdirectory of parent_path
 
     Args:
       parent_path (str): the folder we need to check if there is child_path inside it
@@ -34,7 +37,10 @@ class Folder():
     Args:
       root (str): initial folder
     """
-    if root == None or not isdir(root): return None
+    print("dentro a ", root)
+    if root is None or not isdir(root): 
+      print(root, "vuota")
+      return None
     
     # For each item in the folder, check if it is a directory; if so, recursively call the function.
     for foldername in listdir(root):
@@ -46,32 +52,35 @@ class Folder():
     if not listdir(root):
       try:
         rmdir(root)
-      except OSError as e:
-        return f"The folder could not be deleted. {root}, Error:\n{e}"
+        self.img_res_calc.increment_total_folder_deleted()
+      except (OSError, PermissionError, IOError) as e:
+        return f"The folder could not be deleted"
+    print("fine di ", root)
     return None
   
   @staticmethod
   def check_input_output_folders(input_folder, output_folder)->Union[bool, str]:
     """Check if the input and output folders are the same, 
     if the input folder is empty, 
-    and if the same folder has been passed twice.
+    and if both are the same folder.
     
     Returns:
       Union[bool, str]: 
         bool: True if the process has completed without errors, False otherwise, 
-        str: error's message, if the pricess has completed without errors, str will be None"""
-    if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
-      return False, "The source or destination folder doesn't not exists anymore"
+        str: error's message, if the process has completed without errors, str will be None"""
     if(input_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
       return False, "The source and destination folders cannot be empty"
+    if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
+      return False, "The source or destination folder doesn't not exists anymore"
     if(input_folder == output_folder):
       return False, "The source and destination folders cannot be the same"
     if Folder.is_nested_dir(output_folder, input_folder):
       return False, "The source folders cannot be a subfolder of the destination source"
-    if not listdir(input_folder) :
+    if not Folder.check_if_folder_contains_files(input_folder) :
       return False, "Start folder doesn't contain files. Process aborted."
     return True, None
   
+  @staticmethod
   def if_folder_exists(folder_path:str)->bool:
     """Compare the common path of the parent and child path with the common path of just 
       the parent path
@@ -81,3 +90,10 @@ class Folder():
     Returns:
       bool: true if folder exists, otherwise False"""
     return isdir(folder_path) and exists(folder_path)
+  
+  @staticmethod
+  def check_if_folder_contains_files(path):
+    for root, dirs, files in walk(path):
+      for file in files:
+        return True
+    return False

@@ -1,13 +1,32 @@
 BUGS:
 - risolvere il problema di quando chiudi scorrettamente il programma
-- se premo su X nella msgbox, non deve prenderlo come "ok"
-
+- a volte non looppa tutte le sottocartelle
+- se dovesse non cancellare le cartelle vuote potrebbe essere un problema dei file che non li ho chiusi correttamente?
+- non funziona l'icona del MacOs
+- il programma per mac si può avviare solo per shell
+- diminuire la dimensione degli input text per linux
 IMPROVEMENTS:
-- docstring e rivedere i commenti
-- aggiungere lingua- italiano
+- docstring e rivedere i commenti, togliere anche gli spazi extra
+- aggiungere lingua italiano
 - metterci la pausa
-- mettere la repository modificabile da tutti
+- aggiungere i puntini di caricamento nella fase iniziale di checking dest files
+- il poter andare su con i log senza il see sull'ultima frase scritta
+- mettere i messaggi in un file a parte
+TODO:
 - informare sullo spostamento in altri dischi che copia ma non sposta secondo le regole di windows
-- cambiare il colore dei log e metterlo più chiaro
-- mettere il contenuto di tesdt nel gitignore
-- mettere python dalla versione 3.11 in poi
+- aggiungere la regex per i video di facebook
+
+per generare l'exe:
+pyinstaller.exe --icon=assets/logo.ico -F --noconsole --distpath ./dist/windows --name SortImages main.py
+
+Linux:
+pyinstaller --onefile --icon=assets/logo.png -F --name SortImages --distpath ./dist/linux main.py --hidden-import='PIL._tkinter_finder'
+
+MacOs:
+pyinstaller --onefile --icon=assets/logo.icns -F --distpath ./dist/macos --name SortImages main.py
+
+
+Nuova release:
+- aggiornare gli screenshot
+- fare gli installer
+- cambiare tutti i pulsanti

@@ -1,15 +1,16 @@
 from typing import List, Optional
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from PIL import ImageTk
 from PIL.ExifTags import TAGS
 from src.files_manager.files import File
+from src.sort.regex.regex import RegexManager
 
 class ImageHelper(File):
   def __init__(self):
     super().__init__()
     
   @staticmethod
-  def isImage(img:str) -> bool:
+  def isImage(img: str) -> bool:
     """ 
     Return True if the file is an image and can be accessed.
 
@@ -20,16 +21,20 @@ class ImageHelper(File):
       bool: True if is an image, otherwise False
     """
     try:
-      with Image.open(img) as image:
-        image.verify()
-      return True
-    except IOError:
+      with Image.open(img) as i:
+        i.verify()
+        return ImageHelper.is_image_by_extension(img)
+    except (OSError, PermissionError, IOError):
+      return False
+    except Image.DecompressionBombError:
+      return ImageHelper.is_image_by_extension(img)
+    except UnidentifiedImageError:
       return False
     
   @staticmethod
   def get_date_from_metadata(img:str) -> Optional[List[str]]:
     """
-    It takes an image and returns the creation date gathered from its metadata
+    It takes an image and returns the creation date collected from its metadata
 
     Args:
       img (str): image's full path
@@ -49,12 +54,13 @@ class ImageHelper(File):
               data = data.decode()
           # tipo data str e valore = 2023:01:31 13:19:34
           if(tag == 'DateTime'):
-            yy = data[0:4]
+            yy = RegexManager.get_year(data[0:4])
             mm = data[5:7]
             dd = data[8:10]
+            if not yy: return None
             return [yy, mm, dd]
         return None
-    except (IOError, KeyError, AttributeError):
+    except (IOError, KeyError, AttributeError, UnicodeDecodeError):
       return None
     
   @staticmethod
@@ -72,3 +78,15 @@ class ImageHelper(File):
     original_image = Image.open(image_path)
     resized_image = original_image.resize((width, height))
     return ImageTk.PhotoImage(resized_image)
+  
+  @staticmethod
+  def is_image_by_extension(img):
+    """
+    Recognized a photo by its extension.
+    Args:
+      img(str): name of the possibly image
+    Returns:
+      bool, True if file has an image extension, False otherwise"""
+    img_extensions = {'jpg', 'jpeg', 'png', 'gif', 'icns', 'bmp', 'tiff', 'tif', 'webp', 'svg', 'eps', 'raw', 'ico', 'heif', 'bpg', 'jfif'}
+    file_extension = img.rsplit('.',1)[1].lower()
+    return file_extension in img_extensions

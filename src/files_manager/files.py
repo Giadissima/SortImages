@@ -2,17 +2,21 @@ from hashlib import md5
 from os.path import join, exists
 from os import remove, rename
 from typing import List, Optional, Union
-from src.date_manager import DateManager
+from src.sort.media_result_calculator import MediaResultCalculator
+from src.error.error import FileNotMovedError
+from src.sort.path_manager import PathManager
 from src.config.config import Config
 from src.thread.semaphore import SemaphoreManager
 
-from src.sort.regex import RegexMedia
+from src.sort.regex.regex_media import RegexMedia
 from src.files_manager.folders import Folder
 class File:
   def __init__(self):
     self.BUF_SIZE = 65536
     self.HASH_LIST = set()
     self.semaphore = SemaphoreManager()
+    self.path_manager = PathManager()
+    self.img_res_calc = MediaResultCalculator()
     
   def move_file(self, file_path: str, file_name: str, new_path: str):
     """Move a file in a new directory, and in case of name duplicate error, rename the file.
@@ -27,22 +31,24 @@ class File:
     file_dest_path = self.check_file_name(file_name, new_path)
     try:
       rename(file_path, file_dest_path)
-      return True
+      self.img_res_calc.increment_total_media_moved()
     except PermissionError:
-      return False
+      raise FileNotMovedError("Permission Error")
     finally:
       self.semaphore.release()
-    
       
-  def isDuplicate(self, file):
+  def isDuplicate(self, file:str)->bool:
     """Find if file is a duplicate by the array contains al the hash previously seen
 
     Args:
       file (string): file to search duplicates
       path (string): path contains other files
+    Returns:
+      bool if file is a duplicate, false otherwise
     """ 
     file_hashed = self.hash_file(file)
     if file_hashed in self.HASH_LIST:
+      self.img_res_calc.increment_total_media_duplicates_found()
       return True
     self.HASH_LIST.add(file_hashed)
     return False
@@ -53,7 +59,7 @@ class File:
       while True:
         data = f.read(self.BUF_SIZE)
         if not data:
-            break
+          break
         hash.update(data)
     return hash.hexdigest()
   
@@ -99,13 +105,14 @@ class File:
     if self.isDuplicate(file_path): 
       if(Config.get_checkbox_choises('DeleteDuplicates')):
         remove(file_path)
-        return True, f'{file_name} - Duplicated detected: successfully deleted.'
+        self.img_res_calc.increment_total_media_deleted()
+        return True, 'Duplicated detected: successfully deleted.'
       else:
-        return True, f'{file_name} - Duplicated detected: file not moved.'
+        return True, 'Duplicated detected: file not moved.'
     return False, None
   
   def handle_move_file(self, media_class, file_path:str, file_name:str, folder_date: str)-> Union[str, str]:
-    """Checks if the passed date is valid, and if so, creates the new path for the image and moves it.
+    """Checks if the date argument is valid, and if so, creates the new path for the image and moves it.
 
     Args:
       media_class (ImageHelper|VideoHelper): class to which a file belongs which can be an image or a video
@@ -118,17 +125,21 @@ class File:
     """
     date = media_class.extract_date(file_path, file_name, folder_date)
     
+    dest_folder = self.path_manager.get_output_path(file_path, file_name)
     # case no date found: file not moved
-    if(date == None or date[0]==None):
-      return 'error', f'{file_name} - No date found in the file: file not moved.'
-    
+    if date == None or date[0]==None:
+      if dest_folder==Config.output_folder:
+        self.img_res_calc.increment_total_unrecognized_media()
+        if Config.get_checkbox_choises("UnknownFolder"):
+          dest_folder = join(dest_folder, 'Unknown')
+          self.move_file(file_path, file_name, dest_folder)
+          return 'warn', 'No date found: file moved in unknown folder'
+        return 'warn', 'No date found: file not moved.'
+      
     # case date_found
-    date_path = DateManager.get_date_path(date, Config.output_folder)
-    response = self.move_file(file_path, file_name, date_path)
-    if response:
-      return 'debug', f'{file_name} - moved successfully.'
-    else: 
-      return 'error', f'{file_name} - The file could not be moved'
+    dest_folder = self.path_manager.get_date_path(date, dest_folder)
+    self.move_file(file_path, file_name, dest_folder)
+    return 'debug', f'moved successfully.'
     
   def check_file_name(self, file_name, new_path) -> str:
     """Check if file name already exists in destination path, if so, 
