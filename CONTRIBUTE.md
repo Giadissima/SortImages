@@ -6,7 +6,7 @@ Ciao! Segui i seguenti passaggi per contribuire alla mia repository. Inoltre, pe
 
 ### Come effettuare il setup della repository
 
-1) Fai un *fork* della repository, cliccando sul pulsante in alto, oppure [qui](https://github.com/Giadissima1/SortImages/fork)
+1) Fai un *fork* della repository, cliccando [qui](https://github.com/Giadissima1/SortImages/fork).
 
 2) Effettua un *clone* della repository digitando il seguente comando:
 
@@ -14,13 +14,13 @@ Ciao! Segui i seguenti passaggi per contribuire alla mia repository. Inoltre, pe
    git clone https://github.com/Giadissima/SortImages
    ```
 
-3. Aggiungi la repository originale come remoto al tuo repository:
+3. Collega la mia repository alla tua:
 
    ```
    git remote add upstream https://github.com/Giadissima/SortImages
    ```
 
-4. Digita il seguente comando per verificare il corretto collegamento con la mia repository e la tua:
+4. Digita il seguente comando per verificare il corretto collegamento con la mia repository:
 
    ```bash
    git remote -v
@@ -28,13 +28,13 @@ Ciao! Segui i seguenti passaggi per contribuire alla mia repository. Inoltre, pe
 
 ​	Dovresti avere sia "origin" (il tuo fork) che "upstream" (la repository originale).
 
-5. Crea un nuovo branch. Assicurati di essere nel branch giusto (ad esempio, il branch principale) e crea un nuovo branch per le tue modifiche:
+5. (Facoltativo) Crea un nuovo branch. Assicurati di essere nel branch giusto (ad esempio, il branch principale) e crea un nuovo branch per le tue modifiche:
 
    ```bash
    git checkout -b nome-del-tuo-branch
    ```
 
-6. Ora puoi eseguire il codice e modificarlo
+6. Ora puoi eseguire il codice e modificarlo.
 
 ### Come eseguire il codice
 
@@ -42,9 +42,7 @@ Trovi le istruzioni nel file [README.md](README.md).
 
 ### Come effettuare una Pull Request 
 
-#### (Richiesta di push del tuo codice sulla mia repository)
-
-Puoi unire la Pull Request una volta ottenuto la mia approvazione, nel caso non te la dia e non hai capito il motivo, non esitare a contattarmi. Segui i seguenti passaggi per effettuarne una:
+Una Pull Request (**PR**), è una richiesta di push del tuo codice sulla mia repository. Una volta effettuata, avrai bisogno della mia approvazione perché io accetti la modifica sulla mia repository. Nel caso non te la dia e non hai capito il motivo, non esitare a contattarmi. Segui i seguenti passaggi per effettuarne una PR:
 
 - **Aggiorna il README.md** con i dettagli delle modifiche che hai effettuato.
 
@@ -52,13 +50,13 @@ Puoi unire la Pull Request una volta ottenuto la mia approvazione, nel caso non 
 
 - **Controlla di avere il mio codice aggiornato sulla tua repository**, in caso contrario, consulta i passaggi [sottostanti](CONTRIBUTE.md#Aggiornamento del mio codice sulla tua repository).
 
-- **Push delle tue modifiche sul tuo fork su GitHub:**
+- **Effettua il push delle tue modifiche sul tuo fork su GitHub:**
 
   ```bash
   git push origin nome-del-tuo-branch
   ```
 
-- **Crea la Pull Request su GitHub:**
+- **Crea la PR su GitHub:**
 
   - Vai sulla pagina principale della tua repository su GitHub.
   - Cambia il branch in quello che hai usato per modificare il codice.
