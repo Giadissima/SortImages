@@ -71,12 +71,12 @@ A Pull Request (**PR**) is a request to push your code to my repository. Once su
 
 ### Updating Your Code with Mine
 
-If I made changes after you forked the program, you won't be able to create a pull request. Here are the steps to update your code:
+If I made changes after you forked the program, you won't be able to create a pull request. Here are the steps to update your code (Make sure to replace `main` with the name of your main branch if it's different.) : 
 
 1. Ensure you have the latest version of my code by pulling:
 
    ```bash
-   git pull upstream
+   git pull upstream main
    ```
 
 2. Switch to your main branch (usually `main`):
@@ -90,8 +90,6 @@ If I made changes after you forked the program, you won't be able to create a pu
    ```bash
    git merge upstream/main
    ```
-
-   Make sure to replace `main` with the name of your main branch if it's different.
 
 4. Resolve any merging conflicts, if present.
 
