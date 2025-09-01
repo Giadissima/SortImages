@@ -32,9 +32,9 @@ class ImageHelper(File):
       return False
     
   @staticmethod
-  def get_date_from_metadata(img:str) -> Optional[List[str]]:
+  def get_date_from_metadata(img: str) -> Optional[List[str]]:
     """
-    It takes an image and returns the creation date collected from its metadata
+    It takes an image and returns the acquisition date collected from its metadata
 
     Args:
       img (str): image's full path
@@ -43,25 +43,39 @@ class ImageHelper(File):
       Optional[year(str), month(str), day(str)]: date extracted from image's metadata
     """
     try:
-      with Image.open(img) as image:
-        exifdata = image.getexif()
-        for tag_id in exifdata:
-          # get the tag name, instead of human unreadable tag id
-          tag = TAGS.get(tag_id, tag_id)
-          data = exifdata.get(tag_id)
-          # decode bytes 
-          if isinstance(data, bytes):
-              data = data.decode()
-          # tipo data str e valore = 2023:01:31 13:19:34
-          if(tag == 'DateTime'):
-            yy = RegexManager.get_year(data[0:4])
-            mm = data[5:7]
-            dd = data[8:10]
-            if not yy: return None
-            return [yy, mm, dd]
-        return None
+        with Image.open(img) as image:
+            exifdata = image.getexif()
+            print(exifdata)  # ti mostra tutti gli ID presenti
+
+            # ID numerici EXIF in ordine di priorità
+            date_tags_priority = [36867, 36868]  # DateTimeOriginal, DateTimeDigitized
+
+            for tag_id in date_tags_priority:
+                data = exifdata.get(tag_id)
+                if not data:
+                  continue
+
+                if isinstance(data, bytes):
+                  data = data.decode("utf-8", errors="ignore")
+                
+
+                # formato tipico 'YYYY:MM:DD HH:MM:SS'
+                if isinstance(data, str) and len(data) >= 10 and data[4] == ":" and data[7] == ":":
+                  year_part = data[0:4]
+                  try:
+                    yy = RegexManager.get_year(year_part)
+                    mm = data[5:7]
+                    dd = data[8:10]
+                    if not yy:
+                      continue
+                    return [yy, mm, dd]
+                  except ValueError:
+                      continue  # metadato corrotto, passo al prossimo
+            # se nessuno dei campi è stato trovato
+            return None
     except (IOError, KeyError, AttributeError, UnicodeDecodeError):
-      return None
+        return None
+
     
   @staticmethod
   def resize_image(image_path:str, width:int, height:int)->Image:
