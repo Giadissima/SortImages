@@ -90,20 +90,32 @@ date_folder_patterns = [
 ]
 
 specific_patterns = [
-  re.compile(r'^photo_\d+@{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)),
-  re.compile(r'^video_\d+@{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)),
-  re.compile(r'^Instasize_{}({}){}'.format(day_pattern, month_number_pattern, abbreviate_year)),
-  re.compile(r'^P{}-({})-{}_.+'.format(day_pattern, month_number_pattern, abbreviate_year)),
-  re.compile(r'^{}-({})-{}_\d\d\d\d.jpg'.format(day_pattern, month_number_pattern, abbreviate_year)),
+  # day-month-year order
+  (re.compile(r'^photo_\d+@{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year')),
+  (re.compile(r'^video_\d+@{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year')),
+  (re.compile(r'^{}-({})-{}_\d\d\d\d\.jpg$'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year')),
+  
+  # year-month-day order
+  (re.compile(r'^{}({}){}_\d\d\d\d\d\d\.jpg$'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
+  
+  # day-month-abbreviate year order
+  (re.compile(r'^Instasize_{}({}){}'.format(day_pattern, month_number_pattern, abbreviate_year)), ('day', 'month', 'year')),
+  (re.compile(r'^P{}-({})-{}_.+'.format(day_pattern, month_number_pattern, abbreviate_year)), ('day', 'month', 'year')),
 ]
 
 exclude_patterns = [
-  re.compile(r'^PicsArt_.+'.format()),
-  re.compile(r'^FB_IMG_.+'.format())
+  re.compile(r'^PicsArt_.+'),
+  re.compile(r'^FB_IMG_.+'),
+  re.compile(r'^received_+'),
 ]
+
 date_file_patterns = [
-  re.compile(r'{}({}){}'.format(complete_year, month_number_pattern, day_pattern)),
-  re.compile(r'{}\D({})\D{}'.format(complete_year, month_number_pattern, day_pattern)),
-  re.compile(r'{}({}){}'.format(abbreviate_year, month_number_pattern, day_pattern)),
-  re.compile(r'{}\D({})\D{}'.format(abbreviate_year, month_number_pattern, day_pattern)),
+  # day-month-year order
+  (re.compile(r'{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year')),
+  
+  # year-month-day order
+  (re.compile(r'{}({}){}'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
+  (re.compile(r'{}\D({})\D{}'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
+  (re.compile(r'{}({}){}'.format(abbreviate_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
+  (re.compile(r'{}\D({})\D{}'.format(abbreviate_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
 ]

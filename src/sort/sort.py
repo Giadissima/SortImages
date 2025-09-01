@@ -87,7 +87,6 @@ contact me on telegram at the nickname @Giadissima1234"""
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
     for root, _, files in walk(Config.input_folder):
       root = root.replace('\\', '/')
-      print("dentro ", root)
       if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root): 
         continue
       self.folder_date = self.regex_path.extract_date_from_folder(root)
@@ -126,6 +125,8 @@ contact me on telegram at the nickname @Giadissima1234"""
         self.logs.log_tkinter('warn',"file without any extension, it cannot be sorted")
       except FileNotMovedError:
         self.logs.log_tkinter('warn', 'The file could not be moved')
+      except PermissionError:
+        self.logs.log_tkinter('warn', 'I do not have permission to access the file')
       
   def finding_duplicates_output_folder(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""

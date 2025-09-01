@@ -33,11 +33,14 @@ class RegexMedia(RegexManager):
     Returns:
       None|List[str]
     """
-    for pattern in specific_patterns:
+    for pattern, group_order in specific_patterns:
       match = re.search(pattern, file_name)
+      print("Testing pattern:", pattern.pattern)
       if match:
-        day, month, year = match.group(1), match.group(2), match.group(3)
-        print(day, month, year)
+        groups = match.groups()
+        data = {name: groups[i] for i, name in enumerate(group_order)}
+        day, month, year = data['day'], data['month'], data['year']
+        print("match", day, month, year)
         return [RegexManager.get_year(year), month, day]
     return None
   
@@ -62,20 +65,21 @@ class RegexMedia(RegexManager):
     Returns:
       Optional[List[str]]: if the date is found, it returns it as a list of strings
     """
-    index = 0
-    dates = []
-    for pattern in date_file_patterns:
-      if index == 2 and len(dates) > 0:
-        return self.get_latest_date(dates)
+    dates = [] # It may find multiple incorrect dates, and the most recent one is more likely to be the true one.
+    for pattern, group_order in date_file_patterns:
+      print("Testing pattern:", pattern.pattern)
       matches = re.findall(pattern, file_name)
       for match in matches:
-        year, month, day = match
-        date = [RegexManager.get_year(year), month, day]
-        if date[0] != None:
-          if index >= 2:
-            return date
-          dates.append(date)
-      index+=1
+        data = {name: match[i] for i, name in enumerate(group_order)}
+        day = data.get('day')
+        month = data.get('month')
+        year = data.get('year')
+        print("Match:", day, month, year)
+        result_date = [RegexManager.get_year(year), month, day]
+        if result_date[0] is not None:
+          dates.append(result_date)
+    if dates:
+      return self.get_latest_date(dates)
     return date
   
   def is_file_from_facebook(file_name:str)->bool:

@@ -5,6 +5,7 @@ BUGS:
 - non funziona l'icona del MacOs
 - il programma per mac si può avviare solo per shell
 - diminuire la dimensione degli input text per linux
+- riguardare le regex per i video
 IMPROVEMENTS:
 - docstring e rivedere i commenti, togliere anche gli spazi extra
 - aggiungere lingua italiano
