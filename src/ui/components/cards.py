@@ -5,9 +5,9 @@ class Card():
   """This class mimics the concept of a card in the context of web development.
   It creates a differently colored frame compared to the background with a title and components inside."""
   def __init__(self, father_frame:Frame, title:str,
-               side:str|None=None, padding:int=0,
-               fill:str=None, expand:bool=None,
-               card_color:str='Card.TFrame') -> None:
+              side:str|None=None, padding:int=0,
+              fill:str=None, expand:bool=None,
+              card_color:str='Card.TFrame') -> None:
     """Args:
         father_frame (Frame): the frame where to insert the card
         title (str): the title to insert on the card

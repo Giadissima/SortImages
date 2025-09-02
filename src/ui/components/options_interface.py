@@ -19,12 +19,12 @@ class OptionsFrame:
     Creates a Frame containing checkboxes and radiobuttons
     that include all user-customized sorting options.
     """
-    sub_title = Label(self.frame, text="Options", style="CardTitle.TLabel")
+    sub_title = Label(self.frame, text="Options", style="Title.TLabel")
     sub_title.grid(row=0, sticky='w')
 
     self.set_generic_options()
 
-    sub_title = Label(self.frame, text="Sorting Method", style="CardTitle.TLabel")
+    sub_title = Label(self.frame, text="Sorting Method", style="Title.TLabel")
     sub_title.grid(row=self.row + 1, sticky='w')
     self.row += 2
     

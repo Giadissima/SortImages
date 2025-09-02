@@ -19,7 +19,7 @@ class FolderSelection():
     self.create_widgets()
 
   def create_widgets(self):
-    Label(self.frame, text="Select folders", style="TLabel").grid(row=0,column=0, sticky='we')
+    Label(self.frame, text="Select folders", style="Title.TLabel").grid(row=0,column=0, sticky='e')
     """ Creates buttons and labels necessary to interface"""
     self.create_folder_row(1, "Start folder:", "input_folder")
     self.create_folder_row(2, "Destination folder:", "output_folder")
@@ -59,7 +59,7 @@ class FolderSelection():
       entry.insert(0, folder_path)
       
   def create_hints(self):
-    Label(self.frame, text="Hints", style="CardTitle.TLabel").grid(row=4,column=0, sticky='we')
+    Label(self.frame, text="Hints").grid(row=4,column=0, sticky='we')
     Label(self.frame, text="Start folder").grid(row=5,column=0, sticky='we')
     Label(self.frame, text="Destination folder").grid(row=5,column=1, sticky='we')
     Label(self.frame, image=self.input_folder_img).grid(row=6,column=0, sticky='we')
