@@ -11,16 +11,15 @@ class FolderSelection():
   and output folders, along with hints regarding them.
   """
   def __init__(self, parent_frame, folder_icon_path):
-    self.frame = Frame(parent_frame, style='Card.TFrame')
+    self.frame = Frame(parent_frame)
     self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
     self.input_folder_img = ImageHelper.resize_image(INPUT_FOLDER_IMG_PATH, 80,60)
     self.output_folder_img = ImageHelper.resize_image(OUPUT_FOLDER_IMG_PATH, 80,60)
     self.folder_path_entries = {}
     self.create_widgets()
-    self.create_hints()
 
   def create_widgets(self):
-    Label(self.frame, text="Select folders", style="CardTitle.TLabel").grid(row=0,column=0, sticky='we')
+    Label(self.frame, text="Select folders", style="TLabel").grid(row=0,column=0, sticky='we')
     """ Creates buttons and labels necessary to interface"""
     self.create_folder_row(1, "Start folder:", "input_folder")
     self.create_folder_row(2, "Destination folder:", "output_folder")

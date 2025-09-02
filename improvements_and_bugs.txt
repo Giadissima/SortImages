@@ -8,14 +8,18 @@ BUGS:
 - riguardare le regex per i video
 IMPROVEMENTS:
 - docstring e rivedere i commenti, togliere anche gli spazi extra
+- aggiungere tema rufus
 - aggiungere lingua italiano
 - metterci la pausa
+- aggiungere gli hint
+- lasciare il pulsante start disabilitato finché non vengono scelte start e dest
 - aggiungere i puntini di caricamento nella fase iniziale di checking dest files
 - il poter andare su con i log senza il see sull'ultima frase scritta
 - mettere i messaggi in un file a parte
 - aggiungere una percentuale di caricamento quando analizza i file
 - aggiungere info sull'errore, tipo nome del file che lo ha causato
 - rendersi conto di quando non riesce a eliminare la cartella perché ha dentro dei file nascosti
+- 2 check aggiuntivi: dare priorità ai metadati o alla data contenuta nel nome
 TODO:
 - informare sullo spostamento in altri dischi che copia ma non sposta secondo le regole di windows
 - aggiungere la regex per i video di facebook

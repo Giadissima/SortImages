@@ -49,9 +49,9 @@ class Card():
 class ImageCard(Card):
   """It extends the card class by creating one with an image to the left relative to the rest of the components."""
   def __init__(self, father_frame:Frame, title:str,
-               img_path:str, side:str=None, card_color:str='Card.TFrame',
-               padding:int=0, fill:str=None, expand:bool=None,
-               img_width:int=200, img_height:int=350) -> None:
+              img_path:str, side:str=None, card_color:str='Card.TFrame',
+              padding:int=0, fill:str=None, expand:bool=None,
+              img_width:int=200, img_height:int=350) -> None:
     """Args:
         father_frame (Frame): the frame where to insert the card
         title (str): the title to insert on the card

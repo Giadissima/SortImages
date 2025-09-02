@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from PIL import Image, UnidentifiedImageError
 from PIL import ImageTk
 from PIL.ExifTags import TAGS
@@ -32,7 +32,7 @@ class ImageHelper(File):
       return False
     
   @staticmethod
-  def get_date_from_metadata(img: str) -> Optional[List[str]]:
+  def get_date_from_metadata(img: str) ->Optional[Tuple[str, str, str]]:
     """
     It takes an image and returns the acquisition date collected from its metadata
 

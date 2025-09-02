@@ -10,7 +10,7 @@ class OptionsFrame:
   def __init__(self, frame):
     self.row = 0
     self.parent_frame = frame
-    self.frame = Frame(self.parent_frame, style='Card.TFrame')
+    self.frame = Frame(self.parent_frame)
     self.choices = {}
     self.create_opt_frame()
     

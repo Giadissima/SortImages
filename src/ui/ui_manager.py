@@ -25,8 +25,7 @@ class UIManager:
     self.title = title
 
   def setup_ui(self):
-    title = self.setup_title()
-    title.pack(side='top', pady=(10,0))
+    self.setup_title()
 
     form_frame = Frame(self.root)
     form_frame.pack(expand=True, fill=BOTH, padx=50)
@@ -39,23 +38,23 @@ class UIManager:
     configure_weight(form_frame, [0], [0,1])
 
   def setup_selection_folder_frame(self, parent_frame:Frame):
-    """generate a card with an image containing the input and output folders selection"""
-    folder_container_frame = ImageCard(parent_frame, "Folders selection", FOLDER_CARD_IMG_PATH, side='left', img_width=235)
-    self.folder_selection_frame = FolderSelection(folder_container_frame.widget_frame, FOLDER_IMG_PATH)
-    self.folder_selection_frame.frame.grid(row=0, column=0, padx=10, sticky="nsew", pady=31)
+    self.folder_container_frame = Frame(parent_frame)
+    # self.folder_container_frame = Frame(parent_frame, style=self.card_color) # TODO
+    self.folder_container_frame.pack()
+    self.folder_selection_frame = FolderSelection(self.folder_container_frame, FOLDER_IMG_PATH).frame.pack()
     
   def setup_options_frame(self, parent_frame):
     """generate a card with an image containing the various sorting options"""
-    opt_container_frame = ImageCard(parent_frame, "Options", CAT_IMG_PATH, side='right', img_width=235)
-    opt_frame = OptionsFrame(opt_container_frame.widget_frame)
-    opt_frame.frame.grid(row=0, column=1, sticky="new", padx=10, pady=10)
+    opt_container_frame = Frame(parent_frame).pack()
+    opt_frame = OptionsFrame(opt_container_frame)
+    opt_frame.frame.pack()
     
   def setup_title(self):
     """generate a Label containing title's img"""
     title_img = ImageHelper.resize_image(TITLE_IMG_PATH, 344, 69)
     title = Label(self.root, background=main_color, image=title_img, padding=0)
     title.image= title_img
-    return title
+    title.pack(side='top', pady=(10,0))
   
   def setup_logs_widget(self, parent_frame):
     """Create a card containing a read-only textarea that will serve as the program logger."""
@@ -77,7 +76,7 @@ class UIManager:
       img = Image("photo", file=LINUX_ICON)
       self.root.iconphoto(False, img)
     else:
-      # img = Image("photo", file=MAC_ICON)
+      # img = Image("photo", file=MAC_ICON) # TODO bug
       # self.root.iconphoto(False, img)
       pass
     self.root.configure(bg=main_color)

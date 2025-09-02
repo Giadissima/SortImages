@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from src.sort.regex.regex import RegexManager
 from src.files_manager.files import File
 from hachoir.metadata import extractMetadata
@@ -21,15 +21,16 @@ class VideoHelper(File):
     return file_extension in video_extensions
   
   @staticmethod
-  def get_date_from_metadata(vid:str)->Optional[List[str]]:
+  def get_date_from_metadata(vid:str)->Optional[Tuple[str, str, str]]:
     """Search for the date contained in the metadata
 
     Args:
       vid (str): path of the video to extract date
 
     Returns:
-      Optional[List[str]]: the date if video has metadata
+      Optional[Tuple[str, str, str]]: the date if video has metadata
     """
+    parser = None
     try:
       parser = createParser(vid)
       metadata = extractMetadata(parser)
