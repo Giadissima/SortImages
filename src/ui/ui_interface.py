@@ -26,7 +26,7 @@ class Interface():
 
   def main_frame(self):
     self.ui_manager.setup_ui()
-    self.btn = create_rounded_button(self.root, ROUNDED_BUTTON_IMG_PATH, 210, 55, command=self.start_thread)
+    self.btn = create_rounded_button(self.root, ROUNDED_BUTTON_IMG_PATH, 100, 40, command=self.start_thread)
     self.btn.pack(side='bottom')
 
     try:

@@ -13,8 +13,8 @@ class FolderSelection():
   def __init__(self, parent_frame, folder_icon_path):
     self.frame = Frame(parent_frame)
     self.folder_icon_path = ImageHelper.resize_image(folder_icon_path, 13, 13)
-    self.input_folder_img = ImageHelper.resize_image(INPUT_FOLDER_IMG_PATH, 80,60)
-    self.output_folder_img = ImageHelper.resize_image(OUPUT_FOLDER_IMG_PATH, 80,60)
+    # self.input_folder_img = ImageHelper.resize_image(INPUT_FOLDER_IMG_PATH, 80,60)
+    # self.output_folder_img = ImageHelper.resize_image(OUPUT_FOLDER_IMG_PATH, 80,60)
     self.folder_path_entries = {}
     self.create_widgets()
 
@@ -57,11 +57,3 @@ class FolderSelection():
     if folder_path:
       entry.delete(0, END)
       entry.insert(0, folder_path)
-      
-  def create_hints(self):
-    Label(self.frame, text="Hints").grid(row=4,column=0, sticky='we')
-    Label(self.frame, text="Start folder").grid(row=5,column=0, sticky='we')
-    Label(self.frame, text="Destination folder").grid(row=5,column=1, sticky='we')
-    Label(self.frame, image=self.input_folder_img).grid(row=6,column=0, sticky='we')
-    Label(self.frame, image=self.output_folder_img).grid(row=6,column=1, sticky='we')
-    

@@ -12,6 +12,7 @@ IMPROVEMENTS:
 - aggiungere lingua italiano
 - metterci la pausa
 - aggiungere gli hint
+- aggiungere configurazioni preimpostate es (lavoro video con preferenze di settings caricate)
 - lasciare il pulsante start disabilitato finché non vengono scelte start e dest
 - aggiungere i puntini di caricamento nella fase iniziale di checking dest files
 - il poter andare su con i log senza il see sull'ultima frase scritta

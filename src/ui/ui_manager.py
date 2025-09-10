@@ -25,7 +25,7 @@ class UIManager:
     self.title = title
 
   def setup_ui(self):
-    self.setup_title()
+    # self.setup_title()
 
     form_frame = Frame(self.root)
     form_frame.pack(expand=True, fill=BOTH, padx=50)
