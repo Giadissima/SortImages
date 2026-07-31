@@ -61,7 +61,18 @@ class UIManager:
 
     def on_mousewheel(event):
       canvas.yview_scroll(int(-1 * (event.delta / 120)), 'units')
-    canvas.bind_all('<MouseWheel>', on_mousewheel)
+
+    # Only hijack the mouse wheel while the pointer is actually over this
+    # canvas, otherwise scrolling anywhere else (e.g. the Logs textbox)
+    # would move this scrollbar too since bind_all is global.
+    def bind_mousewheel(event):
+      canvas.bind_all('<MouseWheel>', on_mousewheel)
+
+    def unbind_mousewheel(event):
+      canvas.unbind_all('<MouseWheel>')
+
+    canvas.bind('<Enter>', bind_mousewheel)
+    canvas.bind('<Leave>', unbind_mousewheel)
 
     canvas.pack(side='left', fill=BOTH, expand=True)
     scrollbar.pack(side='right', fill='y')
