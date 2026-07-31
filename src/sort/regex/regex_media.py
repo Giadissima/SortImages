@@ -35,12 +35,12 @@ class RegexMedia(RegexManager):
     """
     for pattern, group_order in specific_patterns:
       match = re.search(pattern, file_name)
-      print("Testing pattern:", pattern.pattern)
+      # print("Testing pattern:", pattern.pattern) # Removed debug print
       if match:
         groups = match.groups()
         data = {name: groups[i] for i, name in enumerate(group_order)}
         day, month, year = data['day'], data['month'], data['year']
-        print("match", day, month, year)
+        # print("match", day, month, year) # Removed debug print
         return [RegexManager.get_year(year), month, day]
     return None
   
@@ -57,24 +57,24 @@ class RegexMedia(RegexManager):
         return True
     return False
   
-  def search_common_pattern(self, file_name:str, date:str|None)->Optional[List[str]]:
+  def search_common_pattern(self, file_name:str, date:Optional[List[str]])->Optional[List[str]]: # Changed type hint
     """search for a generalized pattern in which a format of the type YYYY-MM-DD is searched for
     Args:
       file_name (str): the name of the file
-      date (str | None): folder's date previously founded
+      date (Optional[List[str]]): folder's date previously founded # Changed type hint
     Returns:
       Optional[List[str]]: if the date is found, it returns it as a list of strings
     """
     dates = [] # It may find multiple incorrect dates, and the most recent one is more likely to be the true one.
     for pattern, group_order in date_file_patterns:
-      print("Testing pattern:", pattern.pattern)
+      # print("Testing pattern:", pattern.pattern) # Removed debug print
       matches = re.findall(pattern, file_name)
       for match in matches:
         data = {name: match[i] for i, name in enumerate(group_order)}
         day = data.get('day')
         month = data.get('month')
         year = data.get('year')
-        print("Match:", day, month, year)
+        # print("Match:", day, month, year) # Removed debug print
         result_date = [RegexManager.get_year(year), month, day]
         if result_date[0] is not None:
           dates.append(result_date)

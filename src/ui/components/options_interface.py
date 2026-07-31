@@ -2,13 +2,13 @@ from tkinter.ttk import Checkbutton, Frame, Label, Radiobutton
 from tkinter import W, E, IntVar, StringVar
 
 from src.config.config import Config
+
 class OptionsFrame:
   """
   This class generates a frame containing the selection of
   options about sorting methods, duplicates management ecc
   """
   def __init__(self, frame):
-    self.row = 0
     self.parent_frame = frame
     self.opt_main_container_frame = Frame(self.parent_frame)
     self.opt_main_container_frame.pack(fill="x", padx=10)
@@ -22,49 +22,50 @@ class OptionsFrame:
     self.opt_main_container_frame.columnconfigure(0, weight=1)
     self.opt_main_container_frame.columnconfigure(1, weight=1)
 
-
-    self.choices = {}
-    self.create_left_opt_frame()
-    self.create_right_opt_frame()
+    self.current_row_left = 0
+    self.current_row_right = 0
+    self.create_dynamic_options()
     
-  def create_left_opt_frame(self):
-    """
-    Creates a Frame containing checkboxes and radiobuttons
-    that include all user-customized sorting options.
-    """
-    sub_title = Label(self.left_opt_container_frame, text="Sorting Method", style="Title.TLabel")
-    sub_title.grid(row=0, sticky='w')
-    
-    self.set_sorting_method()
-    
-  def create_right_opt_frame(self):
-    row = 0
-    sub_title = Label(self.right_opt_container_frame, text="Metadata Priority", style="Title.TLabel")
-    sub_title.grid(row=row, sticky='w')
+  def create_dynamic_options(self):
+    right_column_groups = ["Metadata Priority", "Conflict Resolution"]
+    for option_group in Config.UI_OPTIONS_DEFINITIONS:
+      group_label = option_group["group_label"]
+      option_type = option_group["type"]
 
-    self.set_metadata_priority_options(row)
+      if group_label in right_column_groups: # Place Metadata Priority and Conflict Resolution on the right side
+        container_frame = self.right_opt_container_frame
+        current_row_attr = "current_row_right"
+      else: # Place others on the left side
+        container_frame = self.left_opt_container_frame
+        current_row_attr = "current_row_left"
 
-  def set_sorting_method(self):
-    "set radiobuttons contains sorting method. The default sorting method generate a path by year/month"
-    sort_method = StringVar(value="YearMonth")
-    sorting_method = {
-    "YearMonthDay": "Moves images in 'year/month/day' folders path",
-    "YearMonth": "Moves images in 'year/month' folders path",
-    "Year": "Moves images in year folders",
-    }
-    Radiobutton(self.left_opt_container_frame, text=sorting_method["YearMonthDay"], variable=sort_method, value="YearMonthDay").grid(row=1, sticky=W)
-    Radiobutton(self.left_opt_container_frame, text=sorting_method["YearMonth"], variable=sort_method, value="YearMonth").grid(row=2, sticky=W)
-    Radiobutton(self.left_opt_container_frame, text=sorting_method["Year"], variable=sort_method, value="Year").grid(row=3, sticky=W)
-    Config.set_sort_method(sort_method)
+      # Add group label
+      if getattr(self, current_row_attr) > 0: # Add padding if not the first group
+        setattr(self, current_row_attr, getattr(self, current_row_attr) + 1) # Add a row for padding
+      
+      Label(container_frame, text=group_label, style="Title.TLabel").grid(row=getattr(self, current_row_attr), sticky=W)
+      setattr(self, current_row_attr, getattr(self, current_row_attr) + 1)
+      
+      if option_type == "radio":
+        config_key = option_group["config_key"]
+        default_value = option_group["default"]
+        options = option_group["options"]
 
-  def set_metadata_priority_options(self, row):
-    "set radiobuttons contains images' metadata priority. The default metadata priority is to prioritize image metadata over filename"
-    images_metadata_priority = StringVar(value="metadata")
-    metadata_priority = {
-    "metadata": "Prioritize image metadata over filename",
-    "file_name": "Prioritize filename over image metadata"
-    }
-    Radiobutton(self.right_opt_container_frame, text=metadata_priority["metadata"], variable=images_metadata_priority, value="metadata").grid(row=row+1, sticky=W)
-    Radiobutton(self.right_opt_container_frame, text=metadata_priority["file_name"], variable=images_metadata_priority, value="file_name").grid(row=row+2, sticky=W)
-    row += 2
-    Config.set_images_metadata_priority(images_metadata_priority)
+        var = StringVar(value=default_value)
+        Config.UI_OPTION_VARS[config_key] = var
+
+        for value, text in options.items():
+          Radiobutton(container_frame, text=text, variable=var, value=value).grid(row=getattr(self, current_row_attr), sticky=W)
+          setattr(self, current_row_attr, getattr(self, current_row_attr) + 1)
+      
+      elif option_type == "checkbox_group":
+        for checkbox_def in option_group["options"]:
+          key = checkbox_def["key"]
+          label = checkbox_def["label"]
+          default = checkbox_def["default"]
+
+          var = IntVar(value=1 if default else 0)
+          Config.UI_OPTION_VARS[key] = var
+          
+          Checkbutton(container_frame, text=label, variable=var).grid(row=getattr(self, current_row_attr), sticky=W)
+          setattr(self, current_row_attr, getattr(self, current_row_attr) + 1)

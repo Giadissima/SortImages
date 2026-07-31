@@ -19,13 +19,13 @@ class PathManager():
     if len(date) == 1 and date[0] != None:
       return join(output_folder, date[0])
     elif len(date) == 2 and date[0] != None and date[1] != None:
-      if Config.get_sort_method("Year"):
+      if Config.UI_OPTION_VARS['sort_method'].get() == "Year": # Changed
         return join(output_folder, date[0])
       return join(output_folder, date[0], date[1])
     elif len(date) == 3 and date[0] != None and date[1] != None and date[2] != None:
-      if Config.get_sort_method("Year"):
+      if Config.UI_OPTION_VARS['sort_method'].get() == "Year": # Changed
         return join(output_folder, date[0])
-      elif Config.get_sort_method("YearMonth"):
+      elif Config.UI_OPTION_VARS['sort_method'].get() == "YearMonth": # Changed
         return join(output_folder, date[0], date[1])
       return join(output_folder, date[0], date[1], date[2])
     return output_folder
@@ -42,8 +42,8 @@ class PathManager():
       self.output_folder = join(self.output_folder, "Facebook")
     elif RegexPath.is_facebook_path(input_folder):
       self.output_folder = join(self.output_folder, "Facebook")
-    elif not Config.get_checkbox_choises("WhatsappFolder") and RegexMedia.is_file_from_whatsapp(file_name):
+    elif Config.get_checkbox_choises("WhatsappFolder") and RegexMedia.is_file_from_whatsapp(file_name): # Removed not
       self.output_folder = join(self.output_folder, "Whatsapp")
-    elif not Config.get_checkbox_choises("WhatsappFolder") and RegexPath.is_whatsapp_path(input_folder):
+    elif Config.get_checkbox_choises("WhatsappFolder") and RegexPath.is_whatsapp_path(input_folder): # Removed not
       self.output_folder = join(self.output_folder, "Whatsapp")
     return self.output_folder

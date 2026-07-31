@@ -3,6 +3,7 @@ from src.sort.regex.regex import RegexManager
 from src.files_manager.files import File
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
+import os # Added import
 
 class VideoHelper(File):
 
@@ -19,7 +20,7 @@ class VideoHelper(File):
     video_extensions = {'avi', 'mkv', 'mp4', 'mov', 'flv', 'wmv', 'webm', '3gp'}
     file_extension = file_path.rsplit('.',1)[1].lower()
     return file_extension in video_extensions
-  
+
   @staticmethod
   def get_date_from_metadata(vid:str)->Optional[Tuple[str, str, str]]:
     """Search for the date contained in the metadata
@@ -30,11 +31,14 @@ class VideoHelper(File):
     Returns:
       Optional[Tuple[str, str, str]]: the date if video has metadata
     """
+    if not os.path.exists(vid) or os.path.getsize(vid) == 0:
+        return None
+
     parser = None
     try:
       parser = createParser(vid)
       metadata = extractMetadata(parser)
-      if metadata.has("creation_date"):
+      if metadata is not None and metadata.has("creation_date"): # Added metadata is not None
         creation_date: str = (metadata.get("creation_date").strftime("%Y %m %d")).split()
         if(creation_date and creation_date[0]!= None):
           creation_date[0] = RegexManager.get_year(creation_date[0])

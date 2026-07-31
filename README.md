@@ -37,10 +37,9 @@ The SortImages tool is a powerful utility designed to efficiently organize image
 
 ###  Result of sort process example
 ![Representative image of sorting process](assets/example-dest-photos.png?raw=true "SortImages Screenshot")
-
 ## Features
 
-- **Intelligent Sorting:** The tool intelligently organizes images by analyzing their names, metadata, and parent folder names.
+- **Intelligent Sorting:** The tool intelligently organizes images by analyzing their names, metadata, and parent folder names. It automatically detects and organizes photos and videos from Facebook into a dedicated "Facebook" folder.
 - **Hierarchical Structure:** After specifying source and destination folders, images are structured into subfolders based on user-defined preferences, including the options to organize by `year`, `year/month`, or `year/month/day`.
 - **Duplicate Recognition:** The tool recognizes duplicate images and offers user-selectable options to handle them:
   - Default: Leaves duplicates in the source folder and logs the detection.
@@ -51,7 +50,7 @@ The SortImages tool is a powerful utility designed to efficiently organize image
   - Option to delete empty folders after sorting.
   - Option to delete duplicates founded.
   - Option to move screenshots into a dedicated folder named "Screenshot" with organized subfolders.
-  - Option to don't move Whatsapp's files into a dedicated folder named "Whatsapp" with organized subfolders.
+  - Option to automatically move recognized Whatsapp files into a dedicated folder named "Whatsapp" with organized subfolders.
   - Option to move files without date in a folder named "Unknown"
 
 ## How to Use

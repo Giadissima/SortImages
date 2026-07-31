@@ -42,11 +42,13 @@ class UIManager:
     self.folder_container_frame = Frame(parent_frame)
     # self.folder_container_frame = Frame(parent_frame, style=self.card_color) # TODO
     self.folder_container_frame.pack()
-    self.folder_selection_frame = FolderSelection(self.folder_container_frame, FOLDER_IMG_PATH).frame.pack()
+    self.folder_selection_frame = FolderSelection(self.folder_container_frame, FOLDER_IMG_PATH)
+    self.folder_selection_frame.frame.pack()
     
   def setup_options_frame(self, parent_frame):
     """generate a card with an image containing the various sorting options"""
-    opt_container_frame = Frame(parent_frame).pack()
+    opt_container_frame = Frame(parent_frame)
+    opt_container_frame.pack()
     OptionsFrame(opt_container_frame)
     
   def setup_title(self):

@@ -1,7 +1,7 @@
 from hashlib import md5
 from os.path import join, exists
 from os import remove, rename
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union # Added Union for Optional
 from src.sort.media_result_calculator import MediaResultCalculator
 from src.error.error import FileNotMovedError
 from src.sort.path_manager import PathManager
@@ -18,20 +18,28 @@ class File:
     self.path_manager = PathManager()
     self.img_res_calc = MediaResultCalculator()
     
-  def move_file(self, file_path: str, file_name: str, new_path: str):
+  def move_file(self, file_path: str, file_name: str, new_path: str) -> bool: # Return bool
     """Move a file in a new directory, and in case of name duplicate error, rename the file.
     Args:
       file_path (string): old file's path,
       file_name(string): name of the file
       new_path (string): new file's path
+    Returns:
+      bool: True if the file was moved, False if it was skipped.
     """
-    if self.semaphore.acquired: return
+    if self.semaphore.acquired: return False # Indicates not moved
     self.semaphore.acquire()
     Folder.create_nested_dir(new_path)
-    file_dest_path = self.check_file_name(file_name, new_path)
+    file_dest_path = self.check_file_name(file_name, new_path) # Can be None now
+
+    if file_dest_path is None: # File should be skipped
+        self.semaphore.release()
+        return False # File was skipped
+
     try:
       rename(file_path, file_dest_path)
       self.img_res_calc.increment_total_media_moved()
+      return True
     except PermissionError:
       raise FileNotMovedError("Permission Error")
     finally:
@@ -81,14 +89,33 @@ class File:
       [year(str), month(str), day(str)]: date extracted from file and folder
     """
     regex = RegexMedia()
-    if(folder_date != None and len(folder_date) == 3 and folder_date[0]!=None): 
+    
+    # Priority 1: folder_date if available and complete
+    if folder_date is not None and len(folder_date) == 3 and folder_date[0] is not None: 
       return folder_date
-    date = cls.get_date_from_metadata(file_path)
-    # se la data non era contenuta nei metadati allora guardo se la trovo nel nome del media
-    if(date != None and date[0]!=None): 
-      return date 
-    date = regex.extract_date_from_media(file, folder_date)
-    return date
+
+    metadata_priority = Config.UI_OPTION_VARS['images_metadata_priority'].get()
+
+    date_from_metadata = None
+    date_from_filename = None
+
+    if metadata_priority == "metadata":
+        date_from_metadata = cls.get_date_from_metadata(file_path)
+        if date_from_metadata is not None and date_from_metadata[0] is not None:
+            return date_from_metadata
+        date_from_filename = regex.extract_date_from_media(file, folder_date) # Pass folder_date as fallback for filename regex
+        if date_from_filename is not None and date_from_filename[0] is not None:
+            return date_from_filename
+    else: # priority is "file_name"
+        date_from_filename = regex.extract_date_from_media(file, folder_date) # Pass folder_date as fallback for filename regex
+        if date_from_filename is not None and date_from_filename[0] is not None:
+            return date_from_filename
+        date_from_metadata = cls.get_date_from_metadata(file_path)
+        if date_from_metadata is not None and date_from_metadata[0] is not None:
+            return date_from_metadata
+
+    # If nothing found, return None
+    return None
   
   def handle_duplicates(self, file_path, file_name)->Union[bool, str|None]:
     """Checks if the passed file is a duplicate and, 
@@ -132,32 +159,54 @@ class File:
         self.img_res_calc.increment_total_unrecognized_media()
         if Config.get_checkbox_choises("UnknownFolder"):
           dest_folder = join(dest_folder, 'Unknown')
-          self.move_file(file_path, file_name, dest_folder)
-          return 'warn', 'No date found: file moved in unknown folder'
+          if self.move_file(file_path, file_name, dest_folder): # Check if moved
+            return 'warn', 'No date found: file moved in unknown folder'
+          else:
+            return 'warn', f"File '{file_name}' skipped due to conflict resolution setting."
         return 'warn', 'No date found: file not moved.'
       
     # case date_found
-    dest_folder = self.path_manager.get_date_path(date, dest_folder)
-    self.move_file(file_path, file_name, dest_folder)
-    return 'debug', f'moved successfully.'
+    was_moved = self.move_file(file_path, file_name, dest_folder)
     
-  def check_file_name(self, file_name, new_path) -> str:
+    if was_moved:
+        return 'debug', f'moved successfully.'
+    else:
+        # If not moved, it means it was skipped due to conflict resolution
+        return 'info', f"File '{file_name}' skipped due to conflict resolution setting."
+    
+  def check_file_name(self, file_name, new_path) -> Optional[str]: # Return Optional[str]
     """Check if file name already exists in destination path, if so, 
-    find another name and return it
+    find another name and return it based on conflict resolution setting.
     
     Args:
       file_name(str): the name of the file
-      new_path(str): the path to whitch move the file
+      new_path(str): the path to which move the file
     
     Return:
-      str: the new path with name checked
+      Optional[str]: the new path with name checked, or None if file should be skipped
     """
     file_dest_path = join(new_path, file_name)
-    file_list = file_name.rsplit('.', 1)
     
-    i = 0
-    while exists(file_dest_path):
-      file_name = f"{file_list[0]}.{i}.{file_list[1]}"
-      file_dest_path = join(new_path, file_name) 
-      i+=1
-    return file_dest_path
+    if not exists(file_dest_path):
+        return file_dest_path
+
+    # File exists, apply conflict resolution
+    conflict_resolution = Config.UI_OPTION_VARS['conflict_resolution_method'].get()
+
+    if conflict_resolution == "overwrite":
+        return file_dest_path # Overwrite
+    elif conflict_resolution == "skip":
+        return None # Skip
+    elif conflict_resolution == "rename":
+        file_list = file_name.rsplit('.', 1)
+        i = 0
+        while exists(file_dest_path):
+            # Ensure we handle files without extensions correctly
+            if len(file_list) > 1:
+                file_name = f"{file_list[0]}.{i}.{file_list[1]}"
+            else: # No extension, just append counter
+                file_name = f"{file_list[0]}.{i}"
+            file_dest_path = join(new_path, file_name) 
+            i+=1
+        return file_dest_path
+    return file_dest_path # Default to rename if something unexpected happens
