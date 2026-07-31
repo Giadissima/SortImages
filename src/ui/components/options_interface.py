@@ -1,7 +1,10 @@
 from tkinter.ttk import Checkbutton, Frame, Label, Radiobutton
 from tkinter import W, E, IntVar, StringVar
+from textwrap import fill
 
 from src.config.config import Config
+
+WRAP_WIDTH = 30 # characters, ttk Radiobutton/Checkbutton have no wraplength option
 
 class OptionsFrame:
   """
@@ -55,9 +58,10 @@ class OptionsFrame:
         Config.UI_OPTION_VARS[config_key] = var
 
         for value, text in options.items():
-          Radiobutton(container_frame, text=text, variable=var, value=value).grid(row=getattr(self, current_row_attr), sticky=W)
+          Radiobutton(container_frame, text=fill(text, WRAP_WIDTH), variable=var,
+                      value=value).grid(row=getattr(self, current_row_attr), sticky=W)
           setattr(self, current_row_attr, getattr(self, current_row_attr) + 1)
-      
+
       elif option_type == "checkbox_group":
         for checkbox_def in option_group["options"]:
           key = checkbox_def["key"]
@@ -66,6 +70,7 @@ class OptionsFrame:
 
           var = IntVar(value=1 if default else 0)
           Config.UI_OPTION_VARS[key] = var
-          
-          Checkbutton(container_frame, text=label, variable=var).grid(row=getattr(self, current_row_attr), sticky=W)
+
+          Checkbutton(container_frame, text=fill(label, WRAP_WIDTH), variable=var).grid(
+                      row=getattr(self, current_row_attr), sticky=W)
           setattr(self, current_row_attr, getattr(self, current_row_attr) + 1)
