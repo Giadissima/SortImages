@@ -95,8 +95,10 @@ specific_patterns = [
   (re.compile(r'^video_\d+@{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year')),
   (re.compile(r'^{}-({})-{}_\d\d\d\d\.jpg$'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year')),
   
-  # year-month-day order
-  (re.compile(r'^{}({}){}_\d\d\d\d\d\d\.jpg$'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
+  # year-month-day order (e.g. 20131128_150404.jpg, also matches suffixes
+  # like 20131128_150404.0.jpg or 20131128_150404(1).jpg since we don't
+  # anchor the ending anymore - only the leading date_time is checked)
+  (re.compile(r'^{}({}){}_\d{{6}}'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
   
   # day-month-abbreviate year order
   (re.compile(r'^Instasize_{}({}){}'.format(day_pattern, month_number_pattern, abbreviate_year)), ('day', 'month', 'year')),
@@ -110,12 +112,19 @@ exclude_patterns = [
 ]
 
 date_file_patterns = [
+  # (pattern, group_order, has_separators, year_is_full) - has_separators marks patterns
+  # where the day/month/year are delimited by non-digit characters, which are far less
+  # likely to match a coincidental run of digits (like a time or serial number) than a
+  # pattern that just concatenates digits with no delimiter. year_is_full marks patterns
+  # with an explicit 4-digit year, which is far less ambiguous than a 2-digit one (e.g. an
+  # abbreviated year can easily collide with an hour/minute/second from a timestamp).
+
   # day-month-year order
-  (re.compile(r'{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year')),
-  
+  (re.compile(r'{}-({})-{}'.format(day_pattern, month_number_pattern, complete_year)), ('day', 'month', 'year'), True, True),
+
   # year-month-day order
-  (re.compile(r'{}({}){}'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
-  (re.compile(r'{}\D({})\D{}'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
-  (re.compile(r'{}({}){}'.format(abbreviate_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
-  (re.compile(r'{}\D({})\D{}'.format(abbreviate_year, month_number_pattern, day_pattern)), ('year', 'month', 'day')),
+  (re.compile(r'{}({}){}'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day'), False, True),
+  (re.compile(r'{}\D({})\D{}'.format(complete_year, month_number_pattern, day_pattern)), ('year', 'month', 'day'), True, True),
+  (re.compile(r'{}({}){}'.format(abbreviate_year, month_number_pattern, day_pattern)), ('year', 'month', 'day'), False, False),
+  (re.compile(r'{}\D({})\D{}'.format(abbreviate_year, month_number_pattern, day_pattern)), ('year', 'month', 'day'), True, False),
 ]

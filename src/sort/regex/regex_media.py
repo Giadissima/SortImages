@@ -65,21 +65,20 @@ class RegexMedia(RegexManager):
     Returns:
       Optional[List[str]]: if the date is found, it returns it as a list of strings
     """
-    dates = [] # It may find multiple incorrect dates, and the most recent one is more likely to be the true one.
-    for pattern, group_order in date_file_patterns:
-      # print("Testing pattern:", pattern.pattern) # Removed debug print
+    candidates = [] # It may find multiple incorrect dates - choose_best_date picks the most trustworthy one.
+    for pattern, group_order, has_separators, year_is_full in date_file_patterns:
       matches = re.findall(pattern, file_name)
       for match in matches:
         data = {name: match[i] for i, name in enumerate(group_order)}
         day = data.get('day')
         month = data.get('month')
-        year = data.get('year')
-        # print("Match:", day, month, year) # Removed debug print
-        result_date = [RegexManager.get_year(year), month, day]
-        if result_date[0] is not None:
-          dates.append(result_date)
-    if dates:
-      return self.get_latest_date(dates)
+        year = RegexManager.get_year(data.get('year'))
+        if year is not None:
+          candidates.append(([year, month, day], has_separators, year_is_full))
+    if candidates:
+      best = self.choose_best_date(candidates)
+      if best:
+        return best
     return date
   
   def is_file_from_facebook(file_name:str)->bool:
