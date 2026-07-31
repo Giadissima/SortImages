@@ -166,6 +166,7 @@ class File:
         return 'warn', 'No date found: file not moved.'
       
     # case date_found
+    dest_folder = self.path_manager.get_date_path(date, dest_folder)
     was_moved = self.move_file(file_path, file_name, dest_folder)
     
     if was_moved:
