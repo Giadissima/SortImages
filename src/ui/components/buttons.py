@@ -22,6 +22,7 @@ def create_rounded_button(father_frame:Frame, image_path:str, width:int, height:
     roundedbutton.image = image_resized  # Save a reference to the image to avoid premature destruction
     roundedbutton["bg"] = main_color
     roundedbutton["border"] = "0"
+
     return roundedbutton
   else:
     print("Errore nel caricamento dell'immagine.")

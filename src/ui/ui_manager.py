@@ -11,7 +11,8 @@ from src.config.config import Config
 from src.files_manager.images import ImageHelper
 
 class UIManager:
-  def __init__(self, root: Frame, size:str, title:str):
+  def __init__(self, root: Frame, title:str):
+  # def __init__(self, root: Frame, size:str, title:str):
     """
     This class is responsible for initializing all the graphical components inside the main frame.
 
@@ -21,14 +22,14 @@ class UIManager:
       title (str): The title of the main frame
     """
     self.root: Frame = root
-    self.size = size
+    # self.size = size
     self.title = title
 
   def setup_ui(self):
     # self.setup_title()
 
     form_frame = Frame(self.root)
-    form_frame.pack(expand=True, fill=BOTH, padx=50)
+    form_frame.pack(expand=True, fill=BOTH, padx=20, pady=20)
 
     self.setup_main_frame()
     self.setup_selection_folder_frame(form_frame)
@@ -46,8 +47,7 @@ class UIManager:
   def setup_options_frame(self, parent_frame):
     """generate a card with an image containing the various sorting options"""
     opt_container_frame = Frame(parent_frame).pack()
-    opt_frame = OptionsFrame(opt_container_frame)
-    opt_frame.frame.pack()
+    OptionsFrame(opt_container_frame)
     
   def setup_title(self):
     """generate a Label containing title's img"""
@@ -70,7 +70,7 @@ class UIManager:
   def setup_main_frame(self):
     """setup general options of the main frame"""
     self.root.title(self.title)
-    self.root.geometry(self.size)
+    # self.root.geometry(self.size)
     if Config.os_system == 'Windows': self.root.iconbitmap(WINDOWS_ICON)
     elif Config.os_system == 'Linux': 
       img = Image("photo", file=LINUX_ICON)

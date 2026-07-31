@@ -15,11 +15,12 @@ class Interface():
   This class generates the program window and communicates
   with UiManager to initialize internal components as well.
   """
-  def __init__(self, title: str, size: str):
+  # def __init__(self, title: str, size: str):
+  def __init__(self, title: str):
     self.root = Tk()
     configure_style() 
     self.config_manager = ConfigManager()
-    self.ui_manager = UIManager(self.root, size, title)
+    self.ui_manager = UIManager(self.root, title)
     self.thread_manager = ThreadManager()
     self.root.protocol("WM_DELETE_WINDOW", self.on_close)
     self.main_frame()
@@ -27,7 +28,7 @@ class Interface():
   def main_frame(self):
     self.ui_manager.setup_ui()
     self.btn = create_rounded_button(self.root, ROUNDED_BUTTON_IMG_PATH, 100, 40, command=self.start_thread)
-    self.btn.pack(side='bottom')
+    self.btn.pack(side='bottom', pady=20)
 
     try:
       self.root.mainloop()

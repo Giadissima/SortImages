@@ -16,6 +16,7 @@ class Config():
   input_folder: str = None
   output_folder: str = None
   sort_method: int = 0
+  images_metadata_priority: int = 0
   os_system = platform.system()
 
   # series of get and set that will be used to store and display information within the program
@@ -31,5 +32,7 @@ class Config():
   def get_checkbox_choises(key:str)->bool: return Config.checkbox_choises[key].get() == 1
   @staticmethod
   def set_sort_method(var: StringVar)->None: Config.sort_method = var
+  @staticmethod
+  def set_images_metadata_priority(var: StringVar)->None: Config.images_metadata_priority = var
   @staticmethod
   def get_sort_method(key:str)->bool: return Config.sort_method.get() == key

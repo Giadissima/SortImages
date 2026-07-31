@@ -33,10 +33,10 @@ class Card():
       fill (str, optional): the axis where to fill the card. Defaults to None.
       expand (bool, optional): Set True to make the card occupy more space. Defaults to False.
     """
-    self.card_container = Frame(father_frame)
-    self.card_container.pack(side=side, fill=fill, expand=expand)
+    self.card_container = Frame(father_frame, borderwidth=1, relief="solid")
+    self.card_container.pack(side=side, fill=fill, expand=expand, pady=10)
     
-    title_label = Label(self.card_container, text=self.title, background=main_color, foreground='white', padding=padding)
+    title_label = Label(self.card_container, text=self.title, style="CardTitle.TLabel")
     title_label.grid(column=0, row=0, sticky='w')
     self.card = Frame(self.card_container, style=self.card_color)
     self.card.grid(column=0, row=1, sticky='ewsn')

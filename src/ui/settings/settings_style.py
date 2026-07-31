@@ -8,26 +8,26 @@ from tkinter.ttk import Style
   and the custom styles, which must be specified when creating the widget
   via the style='custom.style' property
 """
-main_color = '#2A2A2A'
+main_color = "#70878d"
 secondary_color = '#FF6B00'
-gray = '#474747'
-card_color = '#E5E5E5'
+gray = '#626d75'
+text_color = "#F7F7F7"
 
 def configure_style():
   style = Style()
   
   # configure default styles
-  style.configure("TCheckbutton", font=('Verdana', 11), foreground='white', background=main_color)
-  style.configure("TLabel", font=('Verdana', 11), background=main_color, foreground='white')
-  style.configure("Title.TLabel", font=('Verdana', 14, 'bold'), padding=(0,11), background=main_color, foreground='white')
+  style.configure("TCheckbutton", font=('Verdana', 11), foreground=text_color, background=main_color)
+  style.configure("TLabel", font=('Verdana', 11), background=main_color, foreground=text_color)
+  style.configure("Title.TLabel", font=('Verdana', 14, 'bold'), padding=(0,11), background=main_color, foreground=text_color)
   style.configure('TFrame', background=main_color)
-  style.configure('TRadiobutton', font=('Verdana', 11), foreground='white', background=main_color)
+  style.configure('TRadiobutton', font=('Verdana', 11), foreground=text_color, background=main_color)
   
   # card style
-  style.configure('Card.TFrame', background=card_color)
-  style.configure("CardTitle.TLabel", font=('Verdana', 14, 'bold'), background=card_color, padding=(0,11))
+  # style.configure('Card.TFrame', background=card_color)
+  # style.configure("CardTitle.TLabel", font=('Verdana', 14, 'bold'), background=card_color, padding=(0,11))
   
   # messageboxes style
-  style.configure("MsgBoxTitle.TLabel", font=('Verdana', 25, 'bold'), background=main_color, foreground='white', padding=(0,13), justify="center")
-  style.configure("MsgBoxSubtitle.TLabel", font=('Verdana', 11), background=main_color, foreground='white', justify="center")
-  style.configure("MsgBoxTitle.TCheckbutton", font=('Verdana', 11), foreground='white', background=main_color)
+  style.configure("MsgBoxTitle.TLabel", font=('Verdana', 25, 'bold'), background=main_color, foreground=text_color, padding=(0,13), justify="center")
+  style.configure("MsgBoxSubtitle.TLabel", font=('Verdana', 11), background=main_color, foreground=text_color, justify="center")
+  style.configure("MsgBoxTitle.TCheckbutton", font=('Verdana', 11), foreground=text_color, background=main_color)
