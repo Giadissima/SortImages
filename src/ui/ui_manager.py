@@ -1,5 +1,5 @@
-from tkinter import BOTH, Image, PhotoImage
-from tkinter.ttk import Frame, Label
+from tkinter import BOTH, Canvas, Image, PhotoImage
+from tkinter.ttk import Frame, Label, Scrollbar
 from assets.load_img import CAT_IMG_PATH, FOLDER_CARD_IMG_PATH, FOLDER_IMG_PATH, LINUX_ICON, MAC_ICON, WINDOWS_ICON, TITLE_IMG_PATH
 from src.ui.components.options_interface import OptionsFrame
 from src.ui.components.tkinter_logs import TkinterLogs
@@ -27,16 +27,46 @@ class UIManager:
 
   def setup_ui(self):
     # self.setup_title()
+    self.setup_main_frame()
 
-    form_frame = Frame(self.root)
+    # Fixed footer (logs + start button) is packed first so it always keeps
+    # its space and never gets pushed out when the window is shrunk.
+    self.footer_frame = Frame(self.root)
+    self.footer_frame.pack(side='bottom', fill='x')
+    self.setup_logs_widget(self.footer_frame)
+
+    scrollable_frame = self.setup_scrollable_area(self.root)
+    form_frame = Frame(scrollable_frame)
     form_frame.pack(expand=True, fill=BOTH, padx=20, pady=20)
 
-    self.setup_main_frame()
     self.setup_selection_folder_frame(form_frame)
     self.setup_options_frame(form_frame)
-    self.setup_logs_widget(self.root)
 
     configure_weight(form_frame, [0], [0,1])
+
+  def setup_scrollable_area(self, parent_frame):
+    """Wrap the sortable content in a canvas so that a scrollbar appears
+    instead of clipping widgets when the window is smaller than the content."""
+    container = Frame(parent_frame)
+    container.pack(side='top', fill=BOTH, expand=True)
+
+    canvas = Canvas(container, background=main_color, highlightthickness=0)
+    scrollbar = Scrollbar(container, orient='vertical', command=canvas.yview)
+    scrollable_frame = Frame(canvas)
+
+    scrollable_frame.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox('all')))
+    canvas_window = canvas.create_window((0, 0), window=scrollable_frame, anchor='nw')
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind('<Configure>', lambda e: canvas.itemconfig(canvas_window, width=e.width))
+
+    def on_mousewheel(event):
+      canvas.yview_scroll(int(-1 * (event.delta / 120)), 'units')
+    canvas.bind_all('<MouseWheel>', on_mousewheel)
+
+    canvas.pack(side='left', fill=BOTH, expand=True)
+    scrollbar.pack(side='right', fill='y')
+
+    return scrollable_frame
 
   def setup_selection_folder_frame(self, parent_frame:Frame):
     self.folder_container_frame = Frame(parent_frame)
@@ -60,7 +90,7 @@ class UIManager:
   
   def setup_logs_widget(self, parent_frame):
     """Create a card containing a read-only textarea that will serve as the program logger."""
-    log_card = Card(parent_frame, "Logs", side='bottom', expand=False, fill='x', card_color='TFrame', padding=(10,0))
+    log_card = Card(parent_frame, "Logs", side='bottom', expand=False, fill='x', padding=(10,0))
     Config.set_logs_obj(TkinterLogs(log_card.card))
 
   def get_folders_path(self):
@@ -72,7 +102,8 @@ class UIManager:
   def setup_main_frame(self):
     """setup general options of the main frame"""
     self.root.title(self.title)
-    # self.root.geometry(self.size)
+    self.root.geometry("680x600")
+    self.root.minsize(520, 420)
     if Config.os_system == 'Windows': self.root.iconbitmap(WINDOWS_ICON)
     elif Config.os_system == 'Linux': 
       img = Image("photo", file=LINUX_ICON)

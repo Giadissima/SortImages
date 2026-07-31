@@ -37,7 +37,7 @@ class Card():
     self.card_container.pack(side=side, fill=fill, expand=expand, pady=10)
     
     title_label = Label(self.card_container, text=self.title, style="CardTitle.TLabel")
-    title_label.grid(column=0, row=0, sticky='w')
+    title_label.grid(column=0, row=0, sticky='ew')
     self.card = Frame(self.card_container, style=self.card_color)
     self.card.grid(column=0, row=1, sticky='ewsn')
   

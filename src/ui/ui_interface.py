@@ -1,5 +1,5 @@
 from tkinter import Tk
-from assets.load_img import ROUNDED_BUTTON_IMG_PATH
+from tkinter.ttk import Button, Frame
 
 from src.config.config import Config
 from src.config.user_config import ConfigManager
@@ -8,7 +8,6 @@ from src.ui.settings.settings_style import configure_style
 from src.ui.components.custom_messagebox import CustomMessageBox
 from src.ui.ui_manager import UIManager
 from src.thread.thread_manager import ThreadManager
-from src.ui.components.buttons import create_rounded_button
 
 class Interface():
   """
@@ -27,8 +26,15 @@ class Interface():
 
   def main_frame(self):
     self.ui_manager.setup_ui()
-    self.btn = create_rounded_button(self.root, ROUNDED_BUTTON_IMG_PATH, 100, 40, command=self.start_thread)
-    self.btn.pack(side='bottom', pady=20)
+
+    button_row = Frame(self.ui_manager.footer_frame)
+    button_row.pack(side='bottom', pady=10)
+
+    self.btn = Button(button_row, text="Start", style="Start.TButton", command=self.start_thread)
+    self.btn.pack(side='left', padx=(0, 8))
+
+    self.pause_btn = Button(button_row, text="Pause", style="Pause.TButton", command=self.toggle_pause, state="disabled")
+    self.pause_btn.pack(side='left')
 
     try:
       self.root.mainloop()
@@ -60,4 +66,13 @@ class Interface():
     """ Check if the button to start or pause the sorting process has been pressed. """
     # Check if the sorting thread is already running
     input_folder, output_folder = self.ui_manager.get_folders_path()
-    self.thread_manager.start_thread(input_folder, output_folder, self.check_and_set_preference, self.btn)
+    self.thread_manager.start_thread(input_folder, output_folder, self.check_and_set_preference, self.btn, self.pause_btn)
+
+  def toggle_pause(self):
+    """Pause or resume the currently running sort thread."""
+    if self.thread_manager.is_paused():
+      self.thread_manager.resume_thread()
+      self.pause_btn.config(text="Pause")
+    else:
+      self.thread_manager.pause_thread()
+      self.pause_btn.config(text="Resume")

@@ -2,23 +2,35 @@ from tkinter.ttk import Button
 from tkinter import messagebox
 from src.sort.media_result_calculator import MediaResultCalculator
 from src.sort.sort import Sort
+from src.thread.pause import Pause
 import threading
 import ctypes
 from src.thread.semaphore import SemaphoreManager
 
 class CustomThread(threading.Thread):
-  def __init__(self, btn) -> None:
+  def __init__(self, btn, pause_btn=None) -> None:
     super().__init__()
     self.sort_thread = None
-    self.sort = Sort()
+    self.pause = Pause(on_pause=self._log_paused, on_resume=self._log_resumed)
+    self.sort = Sort(self.pause)
     self.btn:Button = btn
+    self.pause_btn:Button = pause_btn
     self.semaphore = SemaphoreManager()
     self.img_res_calc = MediaResultCalculator()
-  
+
+  def _log_paused(self)->None:
+    logs = self.sort.logs
+    if logs: logs.log_tkinter('info', 'Sorting paused. Waiting for resume...', file_name=False)
+
+  def _log_resumed(self)->None:
+    logs = self.sort.logs
+    if logs: logs.log_tkinter('info', 'Sorting resumed', file_name=False)
+
   def run(self):
     """Starts the thread that will organize the files."""
-    
+
     self.btn.config(state="disabled")
+    if self.pause_btn: self.pause_btn.config(state="normal", text="Pause")
     result, msg = self.sort.start_sort()
     if result:
       msg = f"""Sort completed.\n
@@ -32,7 +44,8 @@ Total folders deleted: {self.img_res_calc.TOTAL_FOLDER_DELETED}"""
     else:
       messagebox.showerror(title="Error", message=msg)
     self.btn.config(state="normal")
-      
+    if self.pause_btn: self.pause_btn.config(state="disabled", text="Pause")
+
   def get_id(self):
     """returns id of the respective thread"""
     if hasattr(self, '_thread_id'):
@@ -43,6 +56,7 @@ Total folders deleted: {self.img_res_calc.TOTAL_FOLDER_DELETED}"""
 
   def kill(self):
     """kills thread"""
+    self.pause.resume() # don't leave the thread stuck waiting on the pause event
     if self.semaphore: self.semaphore.wait_until_acquired()
     self.semaphore.wait_until_acquired()
     thread_id = self.get_id()

@@ -1,21 +1,23 @@
 from os.path import join
-from typing import List, Union
+from typing import List, Optional, Union
 from src.sort.media_result_calculator import MediaResultCalculator
 from src.error.error import FileNotMovedError, FileWithoutExtensionError
 from src.logs.logs_helper import LogsHelper
 from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
 from src.sort.regex.regex_path import RegexPath
+from src.thread.pause import Pause
 from os import walk, remove
 
 class Sort():
   """The main class responsible for organizing media."""
-  def __init__(self) -> None:
+  def __init__(self, pause: Optional[Pause] = None) -> None:
     self.regex_path = RegexPath()
     self.file = File()
     self.folder = Folder()
     self.logs = None
     self.img_res_calc = MediaResultCalculator()
+    self.pause = pause
 
   def start_sort(self)->Union[bool, str]:
     """Set up everything necessary to start image sorting,
@@ -38,9 +40,12 @@ class Sort():
       if self.logs is None:
         self.logs = LogsHelper(Config.logs_obj)
       Config.logs_obj.delete_logs()
+      Config.logs_obj.reset_progress()
       self.img_res_calc.reset_total_results()
       self.logs.log_tkinter("info", 'checking existing files in destination folder. It may takes a few minutes', file_name=False)
       self.finding_duplicates_output_folder()
+      total_files = self.count_total_files()
+      Config.logs_obj.set_progress_max(total_files)
       self.logs.log_tkinter("info", 'initial check completed. Starting to sort...', file_name=False)
       self.loop_into_folders()
       self.handle_folders_deletion()
@@ -83,41 +88,57 @@ contact me on telegram at the nickname @Giadissima1234"""
       else:
         self.logs.log_tkinter('warn',msg, file_name=False)
       
+  def count_total_files(self)->int:
+    """Counts every file that loop_into_folders will walk through, so the progress
+    bar can show real percentages. Mirrors the same folder exclusion rules.
+
+    Returns:
+      int: total number of files to be scanned
+    """
+    total = 0
+    for root, _, files in walk(Config.input_folder):
+      root = root.replace('\\', '/')
+      if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root):
+        continue
+      total += len(files)
+    return total
+
   def loop_into_folders(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
     for root, _, files in walk(Config.input_folder):
       root = root.replace('\\', '/')
-      if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root): 
+      if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root):
         continue
       self.folder_date = self.regex_path.extract_date_from_folder(root)
       self.loop_into_files(root, files)
-      
+
   def loop_into_files(self, folder_path:str, file_list:List[str]):
     """Reorganizes each individual media by reading metadata and using regex in the file name.
-    
+
     Args:
-      folder_path (str): Folder to which the file is stored. 
+      folder_path (str): Folder to which the file is stored.
       file_list List[str]: List of files contained within the folder.
 
     Returns:
       Optional[List[str]]: file's date if exists, otherwise None
       """
     for file_name in file_list:
+      if self.pause: self.pause.wait_if_paused()
       file_path = join(folder_path, file_name).replace('\\', '/')
       self.logs.file_name = file_name
       try:
         media_class:VideoHelper|ImageHelper = Sort.identify_media(file_path)
-        if media_class == None: 
+        if media_class == None:
           self.logs.log_tkinter('warn', "Unrecognized file type: not moved.")
           continue
-        
+
         self.img_res_calc.increment_total_media()
-        
+
         result, msg = self.file.handle_duplicates(file_path, file_name)
         if result:
           self.logs.log_tkinter('info', msg)
           continue
-          
+
         type_of_log, msg = self.file.handle_move_file(media_class, file_path, file_name, self.folder_date)
         if type_of_log == 'warn': self.logs.log_tkinter('warn', msg)
         else: self.logs.log_tkinter('debug',msg)
@@ -127,6 +148,8 @@ contact me on telegram at the nickname @Giadissima1234"""
         self.logs.log_tkinter('warn', 'The file could not be moved')
       except PermissionError:
         self.logs.log_tkinter('warn', 'I do not have permission to access the file')
+      finally:
+        Config.logs_obj.increment_progress()
       
   def finding_duplicates_output_folder(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
