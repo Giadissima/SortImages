@@ -43,9 +43,13 @@ class ThreadManager():
     return self.t != None and self.t.is_alive() and self.t.pause.is_paused()
 
   def kill_thread(self):
-    """kill sorting thread"""
+    """Stop the sorting thread. Asks it to stop cooperatively first (reliable,
+    but needs the loop to notice it), and only falls back to a forced kill
+    if it somehow didn't exit in time."""
     if(self.t != None and self.t.is_alive()):
-      self.t.kill()
+      self.t.request_stop()
+      self.t.join(timeout=2)
       if(self.t.is_alive()):
+        self.t.kill()
         self.t.join(timeout=1)
       self.t = None

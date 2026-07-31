@@ -7,17 +7,19 @@ from src.config.config import Config
 from src.files_manager import ImageHelper, VideoHelper, Folder, File
 from src.sort.regex.regex_path import RegexPath
 from src.thread.pause import Pause
+from src.thread.stop import Stop
 from os import walk, remove
 
 class Sort():
   """The main class responsible for organizing media."""
-  def __init__(self, pause: Optional[Pause] = None) -> None:
+  def __init__(self, pause: Optional[Pause] = None, stop: Optional[Stop] = None) -> None:
     self.regex_path = RegexPath()
     self.file = File()
     self.folder = Folder()
     self.logs = None
     self.img_res_calc = MediaResultCalculator()
     self.pause = pause
+    self.stop = stop
 
   def start_sort(self)->Union[bool, str]:
     """Set up everything necessary to start image sorting,
@@ -44,10 +46,12 @@ class Sort():
       self.img_res_calc.reset_total_results()
       self.logs.log_tkinter("info", 'checking existing files in destination folder. It may takes a few minutes', file_name=False)
       self.finding_duplicates_output_folder()
+      if self.is_stop_requested(): return True, None
       total_files = self.count_total_files()
       Config.logs_obj.set_progress_max(total_files)
       self.logs.log_tkinter("info", 'initial check completed. Starting to sort...', file_name=False)
       self.loop_into_folders()
+      if self.is_stop_requested(): return True, None
       self.handle_folders_deletion()
       self.logs.log_tkinter("info", 'sorting completed.', file_name=False)
       self.file.HASH_LIST.clear()
@@ -79,6 +83,9 @@ class Sort():
 contact me on telegram at the nickname @Giadissima1234"""
     self.logs.log_tkinter('error',error_msg, file_name=False)
      
+  def is_stop_requested(self)->bool:
+    return self.stop is not None and self.stop.is_requested()
+
   def handle_folders_deletion(self)->None:
     """Manages folder deletion."""
     if Config.get_checkbox_choises('DeleteEmptyFolders'):
@@ -97,6 +104,7 @@ contact me on telegram at the nickname @Giadissima1234"""
     """
     total = 0
     for root, _, files in walk(Config.input_folder):
+      if self.is_stop_requested(): return total
       root = root.replace('\\', '/')
       if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root):
         continue
@@ -106,6 +114,7 @@ contact me on telegram at the nickname @Giadissima1234"""
   def loop_into_folders(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
     for root, _, files in walk(Config.input_folder):
+      if self.is_stop_requested(): return
       root = root.replace('\\', '/')
       if Config.output_folder == root or Folder.is_nested_dir(Config.output_folder, root):
         continue
@@ -124,6 +133,7 @@ contact me on telegram at the nickname @Giadissima1234"""
       """
     for file_name in file_list:
       if self.pause: self.pause.wait_if_paused()
+      if self.is_stop_requested(): return
       file_path = join(folder_path, file_name).replace('\\', '/')
       self.logs.file_name = file_name
       try:
@@ -154,8 +164,10 @@ contact me on telegram at the nickname @Giadissima1234"""
   def finding_duplicates_output_folder(self)->None:
     """checks if there are media files in each subfolder and, if so, reorganizes them."""
     for root, _, files in walk(Config.output_folder):
+      if self.is_stop_requested(): return
       root = root.replace('\\', '/')
       for file_name in files:
+        if self.is_stop_requested(): return
         file_path = join(root, file_name).replace('\\', '/')
         result, msg = self.file.handle_duplicates(file_path, file_name)
         if result:
