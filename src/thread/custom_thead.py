@@ -4,6 +4,8 @@ from src.sort.media_result_calculator import MediaResultCalculator
 from src.sort.sort import Sort
 from src.thread.pause import Pause
 from src.thread.stop import Stop
+from src.logs.logs_helper import LogsHelper
+from src.config.config import Config
 import threading
 import ctypes
 from src.thread.semaphore import SemaphoreManager
@@ -29,12 +31,27 @@ class CustomThread(threading.Thread):
     logs = self.sort.logs
     if logs: logs.log_tkinter('info', 'Sorting resumed', file_name=False)
 
+  def _log_unexpected_crash(self)->str:
+    """Log a traceback for exceptions that escape Sort.start_sort()'s own
+    try/except (e.g. a crash in the pre-checks, before that try even
+    starts), so nothing gets silently lost as a bare traceback in this
+    background thread instead of ending up in error_logs.log."""
+    logs = self.sort.logs
+    if logs is None:
+      logs = LogsHelper(Config.logs_obj)
+      self.sort.logs = logs
+    logs.log_traceback()
+    return "The program crashed unexpectedly. See error_logs.log for details."
+
   def run(self):
     """Starts the thread that will organize the files."""
 
     self.btn.config(state="disabled")
     if self.pause_btn: self.pause_btn.config(state="normal", text="Pause")
-    result, msg = self.sort.start_sort()
+    try:
+      result, msg = self.sort.start_sort()
+    except Exception:
+      result, msg = False, self._log_unexpected_crash()
     if self.stop.is_requested():
       return # the window is closing: don't touch UI that may already be gone
     if result:

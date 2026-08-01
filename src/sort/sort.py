@@ -33,14 +33,14 @@ class Sort():
         str: error's message, if the pricess has completed without errors, str will be None
       """
     # try:
-    #   remove("debug.log")  
+    #   remove("debug.log")
     # except Exception:
     #   print("failed removing debug.log")
-    result, msg = Folder.check_input_output_folders(Config.input_folder, Config.output_folder)
-    if result == False: return result, msg
     try:
       if self.logs is None:
         self.logs = LogsHelper(Config.logs_obj)
+      result, msg = Folder.check_input_output_folders(Config.input_folder, Config.output_folder)
+      if result == False: return result, msg
       Config.logs_obj.delete_logs()
       Config.logs_obj.reset_progress()
       self.img_res_calc.reset_total_results()

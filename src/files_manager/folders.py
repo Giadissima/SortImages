@@ -20,7 +20,12 @@ class Folder():
       bool: true if child_path is a subfolder of parent_path, false otherwise"""
     parent_path = abspath(parent_path)
     child_path = abspath(child_path)
-    return commonpath([parent_path]) == commonpath([parent_path, child_path])
+    try:
+      return commonpath([parent_path]) == commonpath([parent_path, child_path])
+    except ValueError:
+      # commonpath raises on Windows when the paths are on different drives
+      # (e.g. C:\ vs D:\) - they obviously can't be nested in that case
+      return False
   
   @staticmethod
   def create_nested_dir(path_to_create:str)->None:
@@ -60,22 +65,25 @@ class Folder():
   
   @staticmethod
   def check_input_output_folders(input_folder, output_folder)->Union[bool, str]:
-    """Check if the input and output folders are the same, 
-    if the input folder is empty, 
-    and if both are the same folder.
-    
+    """Check if the input and output folders are valid: not empty, existing,
+    not the same folder, and not one nested inside the other.
+
     Returns:
-      Union[bool, str]: 
-        bool: True if the process has completed without errors, False otherwise, 
+      Union[bool, str]:
+        bool: True if the process has completed without errors, False otherwise,
         str: error's message, if the process has completed without errors, str will be None"""
-    if(input_folder == "" or output_folder == "" or input_folder == None or output_folder == None):
-      return False, "The source and destination folders cannot be empty"
-    if(not Folder.if_folder_exists(input_folder) or not Folder.if_folder_exists(output_folder)):
-      return False, "The source or destination folder doesn't not exists anymore"
-    if(input_folder == output_folder):
+    if input_folder == "" or input_folder is None:
+      return False, "The source folder cannot be empty"
+    if output_folder == "" or output_folder is None:
+      return False, "The destination folder cannot be empty"
+    if not Folder.if_folder_exists(input_folder):
+      return False, "The source folder doesn't exist anymore"
+    if not Folder.if_folder_exists(output_folder):
+      return False, "The destination folder doesn't exist anymore"
+    if input_folder == output_folder:
       return False, "The source and destination folders cannot be the same"
     if Folder.is_nested_dir(output_folder, input_folder):
-      return False, "The source folders cannot be a subfolder of the destination source"
+      return False, "The source folder cannot be a subfolder of the destination folder"
     if not Folder.check_if_folder_contains_files(input_folder) :
       return False, "Start folder doesn't contain files. Process aborted."
     return True, None
